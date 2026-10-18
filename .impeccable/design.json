@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T21:10:00.215045Z",
+  "title": "Design System: Savagely Optimized",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Custard Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0428 88.0)",
+          "oklch(26% 0.0428 88.0)",
+          "oklch(38% 0.0428 88.0)",
+          "oklch(50% 0.0428 88.0)",
+          "oklch(62% 0.0428 88.0)",
+          "oklch(74% 0.0428 88.0)",
+          "oklch(85% 0.0428 88.0)",
+          "oklch(95% 0.0428 88.0)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Plum Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0552 307.0)",
+          "oklch(26% 0.0552 307.0)",
+          "oklch(38% 0.0552 307.0)",
+          "oklch(50% 0.0552 307.0)",
+          "oklch(62% 0.0552 307.0)",
+          "oklch(74% 0.0552 307.0)",
+          "oklch(85% 0.0552 307.0)",
+          "oklch(95% 0.0552 307.0)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Plum",
+        "tonalRamp": [
+          "oklch(15% 0.0594 313.4)",
+          "oklch(26% 0.0594 313.4)",
+          "oklch(38% 0.0594 313.4)",
+          "oklch(50% 0.0594 313.4)",
+          "oklch(62% 0.0594 313.4)",
+          "oklch(74% 0.0594 313.4)",
+          "oklch(85% 0.0594 313.4)",
+          "oklch(95% 0.0594 313.4)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Lilac Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0492 326.0)",
+          "oklch(26% 0.0492 326.0)",
+          "oklch(38% 0.0492 326.0)",
+          "oklch(50% 0.0492 326.0)",
+          "oklch(62% 0.0492 326.0)",
+          "oklch(74% 0.0492 326.0)",
+          "oklch(85% 0.0492 326.0)",
+          "oklch(95% 0.0492 326.0)"
+        ]
+      },
+      "rust": {
+        "role": "secondary",
+        "displayName": "Rust",
+        "tonalRamp": [
+          "oklch(15% 0.1289 24.7)",
+          "oklch(26% 0.1289 24.7)",
+          "oklch(38% 0.1289 24.7)",
+          "oklch(50% 0.1289 24.7)",
+          "oklch(62% 0.1289 24.7)",
+          "oklch(74% 0.1289 24.7)",
+          "oklch(85% 0.1289 24.7)",
+          "oklch(95% 0.1289 24.7)"
+        ]
+      },
+      "purple": {
+        "role": "primary",
+        "displayName": "Cartoon Purple",
+        "tonalRamp": [
+          "oklch(15% 0.0984 306.6)",
+          "oklch(26% 0.0984 306.6)",
+          "oklch(38% 0.0984 306.6)",
+          "oklch(50% 0.0984 306.6)",
+          "oklch(62% 0.0984 306.6)",
+          "oklch(74% 0.0984 306.6)",
+          "oklch(85% 0.0984 306.6)",
+          "oklch(95% 0.0984 306.6)"
+        ]
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "Action Gold",
+        "tonalRamp": [
+          "oklch(15% 0.1317 86.6)",
+          "oklch(26% 0.1317 86.6)",
+          "oklch(38% 0.1317 86.6)",
+          "oklch(50% 0.1317 86.6)",
+          "oklch(62% 0.1317 86.6)",
+          "oklch(74% 0.1317 86.6)",
+          "oklch(85% 0.1317 86.6)",
+          "oklch(95% 0.1317 86.6)"
+        ]
+      },
+      "game-surface": {
+        "role": "surface",
+        "displayName": "Deep plum game surface",
+        "value": "#26192f"
+      },
+      "game-text": {
+        "role": "neutral",
+        "displayName": "Game Cream",
+        "tonalRamp": [
+          "oklch(15% 0.0504 89.8)",
+          "oklch(26% 0.0504 89.8)",
+          "oklch(38% 0.0504 89.8)",
+          "oklch(50% 0.0504 89.8)",
+          "oklch(62% 0.0504 89.8)",
+          "oklch(74% 0.0504 89.8)",
+          "oklch(85% 0.0504 89.8)",
+          "oklch(95% 0.0504 89.8)"
+        ]
+      },
+      "action-ink": {
+        "role": "neutral",
+        "displayName": "Action Plum",
+        "tonalRamp": [
+          "oklch(15% 0.0601 320.5)",
+          "oklch(26% 0.0601 320.5)",
+          "oklch(38% 0.0601 320.5)",
+          "oklch(50% 0.0601 320.5)",
+          "oklch(62% 0.0601 320.5)",
+          "oklch(74% 0.0601 320.5)",
+          "oklch(85% 0.0601 320.5)",
+          "oklch(95% 0.0601 320.5)"
+        ]
+      },
+      "terminal-text": {
+        "role": "neutral",
+        "displayName": "Terminal Cream",
+        "tonalRamp": [
+          "oklch(15% 0.0543 89.9)",
+          "oklch(26% 0.0543 89.9)",
+          "oklch(38% 0.0543 89.9)",
+          "oklch(50% 0.0543 89.9)",
+          "oklch(62% 0.0543 89.9)",
+          "oklch(74% 0.0543 89.9)",
+          "oklch(85% 0.0543 89.9)",
+          "oklch(95% 0.0543 89.9)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Purple Hover",
+        "tonalRamp": [
+          "oklch(15% 0.1139 306.6)",
+          "oklch(26% 0.1139 306.6)",
+          "oklch(38% 0.1139 306.6)",
+          "oklch(50% 0.1139 306.6)",
+          "oklch(62% 0.1139 306.6)",
+          "oklch(74% 0.1139 306.6)",
+          "oklch(85% 0.1139 306.6)",
+          "oklch(95% 0.1139 306.6)"
+        ]
+      },
+      "terminal-hover": {
+        "role": "primary",
+        "displayName": "Pale Gold Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0914 89.7)",
+          "oklch(26% 0.0914 89.7)",
+          "oklch(38% 0.0914 89.7)",
+          "oklch(50% 0.0914 89.7)",
+          "oklch(62% 0.0914 89.7)",
+          "oklch(74% 0.0914 89.7)",
+          "oklch(85% 0.0914 89.7)",
+          "oklch(95% 0.0914 89.7)"
+        ]
+      },
+      "verb-text": {
+        "role": "foreground",
+        "displayName": "Lavender verbs",
+        "value": "#c9a3e8"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Reading headline",
+        "purpose": "Chapter-map and biography page headlines."
+      },
+      "title": {
+        "displayName": "Chapter title",
+        "purpose": "Ruled chapter rows."
+      },
+      "body": {
+        "displayName": "Biography body",
+        "purpose": "Biography and reflection reading text."
+      },
+      "label": {
+        "displayName": "UI label",
+        "purpose": "Primary reading action and text button."
+      },
+      "game-command": {
+        "displayName": "Game command",
+        "purpose": "Comic Neue700 contextual action sentence,21px desktop and17px phone."
+      },
+      "terminal-action": {
+        "displayName": "Terminal action",
+        "purpose": "Comic Neue bold full-width terminal action."
+      },
+      "scene-title": {
+        "displayName": "Scene label",
+        "purpose": "Understated place and year above the room, DM Sans14px500."
+      }
+    },
+    "shadows": [
+      {
+        "name": "terminal-overlay",
+        "value": "0 18px 80px #1e0d2c66",
+        "purpose": "Modal separation above plum backdrop."
+      },
+      {
+        "name": "toast",
+        "value": "0 8px 30px #2a173f29",
+        "purpose": "Transient feedback."
+      }
+    ],
+    "motion": [
+      {
+        "name": "walk-position",
+        "value": "150ms\u20131700ms linear",
+        "purpose": "Distance-based left/top movement; removed for reduced motion."
+      },
+      {
+        "name": "walk-sprite",
+        "value": "260ms steps(2, end) infinite",
+        "purpose": "Small walking bob; removed for reduced motion."
+      },
+      {
+        "name": "floor-marker",
+        "value": "900ms ease-out",
+        "purpose": "Footfall fade; removed for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1100px",
+        "condition": "max-width"
+      },
+      {
+        "name": "single-game-column",
+        "value": "880px",
+        "condition": "max-width"
+      },
+      {
+        "name": "touch-stack",
+        "value": "600px",
+        "condition": "max-width"
+      },
+      {
+        "name": "wide-desktop",
+        "value": "1550px",
+        "condition": "min-width"
+      }
+    ],
+    "accessibility": {
+      "keyboardScope": "W/L/U and arrows apply only on adventure with focus inside .game-window, no open terminal, no Alt/Ctrl/Meta, and no form/details target. Native dialog Escape closes the terminal.",
+      "dialogFocus": "Opening focuses Close; closing restores the initiating element.",
+      "reducedMotion": "prefers-reduced-motion: reduce removes every animation/transition and sets scroll-behavior:auto; position changes become instant.",
+      "feedback": "Interaction-only speech, terminal feedback, storage failures and toasts use live status semantics. Hover sentences are not live announcements.",
+      "touch": "Phone hotspots and all verbs have minimum44px dimensions; nine verbs remain beside inventory on phones."
+    },
+    "provenance": {
+      "mode": "scan",
+      "status": "Owner-approved room and character are preserved; owner-requested minimal classic adventure UI replaces repeated coaching.",
+      "sources": [
+        "PRODUCT.md",
+        "docs/design-direction.md",
+        "docs/character.md",
+        "src/style.css",
+        "src/main.ts",
+        "docs/art-provenance.json"
+      ],
+      "primaryReference": "Day of the Tentacle",
+      "backgroundReferences": [
+        "Thimbleweed Park",
+        "Monkey Island",
+        "Space Quest"
+      ],
+      "tonalRamps": "Synthesized OKLCH lightness previews only; not production color scales.",
+      "previewLimits": "Five static HTML/CSS snippets; runtime is in src/main.ts. Fonts are self-hosted by the app; isolated previews may use declared fallbacks.",
+      "toolingLimits": "No Impeccable launcher, comp-spec, or comp-diff score; no separate approved page comp or formal certification claimed.",
+      "review": "Desktop/mobile screenshots reviewed for the minimal scene and terminal. Existing artwork preserved byte-for-byte.",
+      "verification": "Production build and12 desktop/mobile browser checks verify puzzle, inventory, verbs, keyboard access, reset and responsive layout."
+    },
+    "shapeDetails": {
+      "gameFrame": "Square borderless frame, flat deep plum control field.",
+      "terminalFrame": "3px solid #9671ab; radius owned by frontmatter.",
+      "terminalBackdrop": "#1f0e32c9 with blur(3px).",
+      "wordmarkRotation": "-3deg"
+    },
+    "character": {
+      "status": "Owner-approved photo-guided directional sprites; change only display scale for this refinement.",
+      "observedLayout": "30% scene width; 54% scene height; contain and bottom aligned. 50% larger; same artwork, aspect ratio, and floor anchor.",
+      "directionalAssets": [
+        "public/art/adventurer-right.webp",
+        "public/art/adventurer-left.webp"
+      ],
+      "directionRule": "Separate drawings preserve anatomical left-arm sleeve; no CSS mirroring.",
+      "privacy": "Keep raw reference photographs and private share URLs out of published assets and public repository.",
+      "referenceEvidence": "Four unique uploaded photographs have been inspected: face portrait, front full body, side full body/anatomical left sleeve, and chest tattoo. Raw photographs remain outside the checkout and published site.",
+      "observedAppearance": "Higher hairline; short swept brown hair; broad brown tortoiseshell frames; full tapered mostly-brown beard with very little grey; slim fit build; sage V-neck; blue-grey trousers; bold plum contours, enlarged head, compact body, and oversized off-white shoes. Anatomical LEFT sleeve remains on its correct arm; only tiger foreleg/paw and clouds show at the neckline.",
+      "roomPreservation": "The owner-loved room artwork remains byte-for-byte unchanged.",
+      "externalLinkHistory": "External LinkedIn/iCloud access remains affected by the workspace proxy. Inspected local uploads now supply the needed references, so the historical external-link failure no longer blocks drawing.",
+      "futureCorrections": "Preserve approved artwork and enlarged display scale unless the owner requests a further change."
+    },
+    "interactionModel": {
+      "verbs": [
+        "Give",
+        "Pick up",
+        "Use",
+        "Open",
+        "Look at",
+        "Push",
+        "Close",
+        "Talk to",
+        "Pull"
+      ],
+      "initialMode": "walk",
+      "command": "Empty on arrival; hover or focus builds the selected action sentence.",
+      "inventory": "Pictorial; blank when empty.",
+      "speech": "Interaction-only text over the room.",
+      "reflection": "Lorem ipsum until supplied by owner.",
+      "sceneLabel": "McGill University, 2006",
+      "removed": [
+        "marketing headline",
+        "scene slogan",
+        "opening instruction",
+        "objectives",
+        "checklist",
+        "hints",
+        "walkthrough",
+        "duplicate object list",
+        "initial dialogue",
+        "explanatory footer"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary reading action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Observed purple chapter-entry link with inline arrow, brighter hover, and rust focus.",
+      "html": "<a class=\"ds-primary\" href=\"#adventure\">Enter the lab <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h15m-5-5 5 5-5 5\"/></svg></a>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:13px;background:var(--purple,#51336c);color:var(--paper,#fff2d3);font:400 12px \"DM Sans\",sans-serif;text-decoration:none;padding:14px 18px;border-radius:3px;cursor:pointer}.ds-primary svg{width:17px;height:20px}.ds-primary:hover{background:#6a468b}.ds-primary:focus-visible{outline:3px solid var(--rust,#9e3e3b);outline-offset:5px}"
+    },
+    {
+      "name": "Terminal action",
+      "kind": "button",
+      "refersTo": "button-terminal",
+      "description": "Gold hand-lettered Recommendz action on plum, with irregular corners and warm focus.",
+      "html": "<div class=\"ds-terminal-demo\"><button class=\"ds-terminal-action\" type=\"button\">Recommend <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h15m-5-5 5 5-5 5\"/></svg></button></div>",
+      "css": ".ds-terminal-demo{background:#33213f;padding:20px}.ds-terminal-action{display:flex;align-items:center;justify-content:center;gap:20px;width:100%;padding:13px 12px;border:0;border-radius:7px 11px 8px 10px;font:700 21px var(--game-font,\"Comic Neue\",cursive);background:var(--gold,#ffd36b);color:#39213e;cursor:pointer}.ds-terminal-action svg{width:20px;height:20px;flex:0 0 auto}.ds-terminal-action:hover{background:#ffe5a0}.ds-terminal-action:focus-visible{outline:3px solid #f4d397;outline-offset:5px}.ds-terminal-action:disabled{cursor:default;opacity:.6}@media(max-width:600px){.ds-terminal-action{font-size:20px;gap:9px}}"
+    },
+    {
+      "name": "Genre checkbox chips",
+      "kind": "chip",
+      "refersTo": "genre-chip",
+      "description": "Real checkbox labels; selected, hover, and visible focus states match the terminal.",
+      "html": "<fieldset class=\"ds-genres\"><legend>Genres</legend><label><input type=\"checkbox\" name=\"ds-genre\" checked><span>Adventure</span></label><label><input type=\"checkbox\" name=\"ds-genre\"><span>Comedy</span></label><label><input type=\"checkbox\" name=\"ds-genre\"><span>Sci-fi</span></label></fieldset>",
+      "css": ".ds-genres{border:0;margin:0;padding:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:#33213f;color:#fff0c8}.ds-genres legend{background:#33213f;font:700 17px var(--game-font,\"Comic Neue\",cursive);padding:8px 20px}.ds-genres label{position:relative;cursor:pointer}.ds-genres input{position:absolute;opacity:0}.ds-genres span{display:block;border:2px solid #9672a4;border-radius:6px;text-align:center;padding:12px 6px;font:700 19px var(--game-font,\"Comic Neue\",cursive)}.ds-genres input:checked+span{background:var(--gold,#ffd36b);border-color:var(--gold,#ffd36b);color:#39213e}.ds-genres input:focus-visible+span{outline:3px solid #efc286;outline-offset:3px}.ds-genres label:hover span{border-color:#ffde8a}@media(max-width:600px){.ds-genres{gap:8px}.ds-genres span{font-size:18px;padding-left:3px;padding-right:3px}}"
+    },
+    {
+      "name": "Main navigation",
+      "kind": "nav",
+      "refersTo": "navigation-link",
+      "description": "Direct adventure, chapter-map, and biography routes, with rust current-page underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#adventure\" aria-current=\"page\">The adventure</a><a href=\"#chapters\">Chapter map</a><a href=\"#cv\">The short version <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h15m-5-5 5 5-5 5\"/></svg></a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:32px;background:var(--paper,#fff2d3);color:var(--ink,#30213e);font-family:\"DM Sans\",sans-serif}.ds-nav a{font-size:13px;padding:12px 0;text-decoration:none;border-bottom:1px solid transparent;color:inherit;white-space:nowrap}.ds-nav svg{width:15px;height:15px;margin-left:4px;vertical-align:middle}.ds-nav a:hover,.ds-nav a[aria-current]{color:var(--rust,#9e3e3b);border-color:var(--rust,#9e3e3b)}.ds-nav a:focus-visible{outline:3px solid var(--rust,#9e3e3b);outline-offset:5px}@media(max-width:1100px){.ds-nav{gap:24px}}@media(max-width:880px){.ds-nav{gap:18px}.ds-nav a{font-size:12px}}@media(max-width:600px){.ds-nav{width:100%;justify-content:space-between;gap:10px}.ds-nav a{font-size:11px;padding-top:9px;padding-bottom:10px}}"
+    },
+    {
+      "name": "Game command, actions, and inventory",
+      "kind": "custom",
+      "refersTo": "game-window",
+      "description": "Flat classic nine-verb grid with a contextual action sentence and pictorial inventory; no guidance or empty-inventory filler.",
+      "html": "<div class=\"ds-hud\"><div class=\"ds-command\">Use ticket with door</div><div class=\"ds-controls\"><div class=\"ds-verbs\" role=\"group\" aria-label=\"Choose an action\"><button type=\"button\" aria-pressed=\"false\">Give</button><button type=\"button\" aria-pressed=\"false\">Pick up</button><button type=\"button\" aria-pressed=\"true\">Use</button><button type=\"button\" aria-pressed=\"false\">Open</button><button type=\"button\" aria-pressed=\"false\">Look at</button><button type=\"button\" aria-pressed=\"false\">Push</button><button type=\"button\" aria-pressed=\"false\">Close</button><button type=\"button\" aria-pressed=\"false\">Talk to</button><button type=\"button\" aria-pressed=\"false\">Pull</button></div><div class=\"ds-inventory\" role=\"group\" aria-label=\"Inventory\"><button class=\"ds-ticket\" type=\"button\" aria-label=\"Next-chapter ticket\" aria-pressed=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"#e5bd78\" stroke=\"#39213e\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Zm12 0v3m0 3v2m0 2v2\"/></svg></button></div></div></div>",
+      "css": ".ds-hud{background:#26192f;color:#ffd36b;font:700 21px \"Comic Neue\",cursive}.ds-command{text-align:center;min-height:38px;padding:5px 14px}.ds-controls{display:grid;grid-template-columns:1fr 1.25fr;padding:0 12px 12px;min-height:144px}.ds-verbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 6px}.ds-verbs button{background:none;border:0;color:#c9a3e8;font:700 25px \"Comic Neue\",cursive;padding:0 8px;min-height:44px;text-align:left;white-space:nowrap;cursor:pointer}.ds-verbs button:hover,.ds-verbs button[aria-pressed=true]{color:#ffd36b}.ds-inventory{padding:8px 16px}.ds-ticket{width:76px;height:76px;background:none;border:2px solid #c9a3e8;cursor:pointer}.ds-ticket svg{width:62px;height:62px}.ds-hud button:focus-visible{outline:2px solid #fff2d3;outline-offset:-2px}@media(max-width:600px){.ds-command{font-size:17px;min-height:34px}.ds-controls{grid-template-columns:minmax(0,1fr) 76px;padding:0 6px 8px}.ds-verbs{gap:0 2px}.ds-verbs button{font-size:19px;padding:0 4px}.ds-inventory{padding:5px 0 0 6px}.ds-ticket{width:62px;height:62px}.ds-ticket svg{width:50px;height:50px}}@media(max-width:360px){.ds-controls{grid-template-columns:minmax(0,1fr) 56px}.ds-verbs button{font-size:18px}.ds-inventory{padding-left:4px}.ds-ticket{width:48px;height:56px}.ds-ticket svg{width:40px;height:40px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The room leads.",
+    "overview": "**Creative North Star: The room leads.**\n\nAn original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, huge orange floorboards, bold outlines and exaggerated proportions. The owner has approved the room and photo-guided character. Preserve all three artwork files and both anatomical tattoo orientations. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor.\n\nThe owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. The scene has one understated label: **McGill University, 2006**. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar intentionally contains Lorem ipsum until the owner writes each scene's reflection.\n\n",
+    "keyCharacteristics": [
+      "Owner-approved cartoon room and enlarged character.",
+      "Understated place/year scene label.",
+      "Flat classic nine-verb grid and pictorial inventory.",
+      "Exploration without coaching; direct short-version access.",
+      "Owner-written reflections, currently Lorem ipsum."
+    ],
+    "rules": [],
+    "dos": [
+      "Preserve the wordmark, approved artwork and enlarged character scale.",
+      "Keep keyboard focus, labelled hotspots and reduced motion.",
+      "Keep direct short-version navigation and quiet scene framing."
+    ],
+    "donts": [
+      "Do not add onboarding or objectives back into the game.",
+      "Do not publish private photos or share URLs.",
+      "Do not invent biographical claims or imply planned rooms are playable."
+    ]
+  }
+}
