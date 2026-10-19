@@ -27,7 +27,7 @@ For development checks: use the Recommendz computer, choose **Adventure**, **Com
 
 Tab reaches the controls and objects. While focus is inside the game, arrow keys move the character and W / L / U select actions. Escape closes the computer and restores focus. Reduced-motion preferences are respected. Sound starts only after an explicit click and uses an original synthesized ambient chord; no album audio is included.
 
-**The short version** opens a factual career overview without requiring any play. The overview can be printed.
+**The short version** opens a factual career overview without requiring any play, with a direct link to Matthew’s LinkedIn profile.
 
 ## Validate
 
@@ -43,7 +43,7 @@ npm run build
 PLAYWRIGHT_USE_PREVIEW=1 npm test
 ```
 
-The 12 browser checks exercise the full puzzle and exit, wrong and incomplete answers, persistence, CV access, classic verb commands, inventory selection, keyboard controls, dialog focus, reset, sound, unavailable storage, art loading, and mobile overflow. They run at desktop and mobile sizes. By default they use `/usr/bin/chromium`; set `CHROMIUM_PATH` to your installed Chromium executable if needed. Example on macOS:
+The browser checks exercise the full puzzle and exit, wrong and incomplete answers, persistence, CV access, classic verb commands, inventory selection, keyboard controls, dialog focus, reset, sound, unavailable storage, art loading, mobile overflow, and stable control positions as the action sentence changes. They run at desktop and mobile sizes. By default they use `/usr/bin/chromium`; set `CHROMIUM_PATH` to your installed Chromium executable if needed. Example on macOS:
 
 ```sh
 CHROMIUM_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm test

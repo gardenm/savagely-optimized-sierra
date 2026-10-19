@@ -109,7 +109,7 @@ $('#app').innerHTML = `
         <article><h2>Nortel</h2><p>PDH configuration on OME metro equipment.</p></article>
         <article><h2>McGill / CIM</h2><p>Movie-recommendation research with Greg Dudek, including the Recommendz system and several publications. Earned an MSc, then left the PhD after two years to work in industry.</p></article>
         <article><h2>Timney Lab / UWO</h2><p>A few months as a high-school co-op student, then my first programming job while at university, programming vision tests including Gabor patches.</p><p>Dr. Timney offered me the job when he came into Shoppers Drug Mart for cold medicine. I was working there as a stockboy and cashier supervisor.</p></article>
-      </div><aside class="bio-aside"><h2>Outside the job description.</h2><p>Over a decade mentoring students in a high-school computer science class.</p><p class="content-note">This is the first draft. Name, dates, publication links, and contact details are still to come.</p><button class="text-button" id="print-cv">Print this overview ${icon('arrow')}</button></aside></div>
+      </div><aside class="bio-aside"><h2>Outside the job description.</h2><p>Over a decade mentoring students in a high-school computer science class.</p><p class="content-note">This is the first draft. Name, dates, publication links, and contact details are still to come.</p><a class="text-button" href="https://www.linkedin.com/in/matthewgarden/">LinkedIn ${icon('arrow')}</a></aside></div>
     </section>
   </main>
   <footer class="site-footer"><button id="domain-joke" title="Examine the domain">savagelyoptimized.co ${icon('spark')}</button><button id="reset-progress" title="Restart the McGill chapter">Restart</button></footer>
@@ -343,7 +343,6 @@ function showToast(text: string) {
   toastTimer = setTimeout(()=>{$('#toast').hidden=true;},6000);
 }
 $('#domain-joke').addEventListener('click',()=>showToast('Originally .com. The M was deemed nonessential.'));
-$('#print-cv').addEventListener('click',()=>window.print());
 function showRoute() {
   const requested = location.hash.slice(1);
   const next = ['adventure','chapters','cv'].includes(requested) ? requested : 'adventure';

@@ -153,3 +153,31 @@ test('classic verbs give feedback and inventory selection survives switching bet
   await page.getByRole('button', { name: 'Door', exact: true }).click();
   await expect(page).toHaveURL(/#chapters$/);
 });
+
+test('the action sentence keeps the verbs in place when empty, hovered, or focused', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  const verbs = page.locator('.verbs');
+  const command = page.locator('.command-line');
+  const initialVerbs = (await verbs.boundingBox())!;
+  const initialCommand = (await command.boundingBox())!;
+  const expectStableControls = async () => {
+    expect((await verbs.boundingBox())!.y).toBeCloseTo(initialVerbs.y, 3);
+    expect((await command.boundingBox())!.height).toBeCloseTo(initialCommand.height, 3);
+  };
+  await expect(page.locator('#command-text')).toBeEmpty();
+  const computer = page.getByRole('button', { name: 'Computer', exact: true });
+  await computer.hover();
+  await expect(page.locator('#command-text')).toHaveText('Walk to computer');
+  await expectStableControls();
+  await page.mouse.move(0, 0);
+  await expect(page.locator('#command-text')).toBeEmpty();
+  await expectStableControls();
+  await computer.focus();
+  await expect(page.locator('#command-text')).toHaveText('Walk to computer');
+  await expectStableControls();
+  await page.getByRole('button', { name: 'Use', exact: true }).click();
+  await page.getByRole('button', { name: 'Research papers', exact: true }).hover();
+  await expect(page.locator('#command-text')).toHaveText('Use research papers');
+  await expectStableControls();
+});

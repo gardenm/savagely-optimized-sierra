@@ -81,7 +81,8 @@ h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; }
 .floor-marker.visible { animation: footfall .9s ease-out; }
 @keyframes footfall { 0% { opacity: .9; transform: scale(.5); } 100% { opacity: 0; transform: scale(1.5); } }
 .dialogue { position: absolute; z-index: 4; left: 50%; top: 4%; transform: translateX(-50%); width: max-content; max-width: 88%; text-align: center; pointer-events: none; color: #fff2d3; font: 700 20px/1.35 var(--game-font); text-shadow: 1px 2px 2px #21122e, -1px -1px 1px #21122e, 1px -1px 1px #21122e; }
-.command-line { display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 5px 14px; color: #ffd36b; font: 400 28px/1.3 var(--command-font); letter-spacing: .01em; text-align: center; }
+.command-line { display: flex; align-items: center; justify-content: center; height: calc(1.3em + 10px); padding: 5px 14px; color: #ffd36b; font: 400 28px/1.3 var(--command-font); letter-spacing: .01em; text-align: center; }
+.command-line > span { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .game-controls { display: grid; grid-template-columns: 1fr 1.25fr; min-height: 144px; padding: 0 12px 12px; }
 .verbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 6px; }
 .verbs button { padding: 0 8px; min-height: 44px; color: var(--verb-text); font: 400 36px/1.1 var(--command-font); letter-spacing: .01em; text-align: left; white-space: nowrap; }
@@ -176,7 +177,7 @@ fieldset label:hover span { border-color: #ffde8a; }
   .sound-toggle { margin-left: auto; padding-right: 0; border-left: 0; }
   .sound-toggle span { display: block; font-size: 11px; }
   .scene-title { font-size: 13px; padding: 16px 0 12px; }
-  .command-line { min-height: 34px; font-size: 24px; }
+  .command-line { font-size: 24px; }
   .game-controls { grid-template-columns: minmax(0, 1fr) 76px; padding: 0 6px 8px; }
   .verbs { gap: 0 2px; }
   .verbs button { padding: 0 4px; font-size: 26px; }

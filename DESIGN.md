@@ -77,9 +77,9 @@ Lilita One 400 remains the wordmark and reading-route display face. The owner-su
 
 The shell is centred at 1280px with 44px gutters and grows to 1480px at 1550px and above. The game and its scene label are independently centred at a maximum width of 1000px; there is no sidebar. At 1100px and below gutters become 28px; phone gutters are 18px. The 3:2 artwork and approved relative character scale are preserved.
 
-The game frame is square and borderless. A centered action sentence reserves 38px under the room (34px on phone) and starts empty. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 24px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
+The game frame is square and borderless. A centered action sentence starts empty and reserves one full line plus 10px vertical padding (`calc(1.3em + 10px)`). Its height stays constant while empty, hovered, or focused, so the verb grid never shifts. Long text stays on one line and ellipsizes when necessary. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 24px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
 
-Only the career overview prints. Navigation, artwork, game controls and footer are hidden for printing.
+The career overview links directly to the owner’s LinkedIn profile. Only the career overview prints. Navigation, artwork, game controls and footer are hidden for printing.
 
 ## Interaction
 
