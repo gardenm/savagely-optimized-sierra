@@ -22,8 +22,8 @@ typography:
   title: { fontFamily: "Lilita One, sans-serif", fontSize: "26px", fontWeight: 400, letterSpacing: "-0.025em" }
   body: { fontFamily: "DM Sans, sans-serif", fontSize: "14px", fontWeight: 400, lineHeight: 1.9 }
   label: { fontFamily: "DM Sans, sans-serif", fontSize: "12px", fontWeight: 400 }
-  game-command: { fontFamily: "Chicle, Comic Neue, cursive", fontSize: "24px", fontWeight: 400, lineHeight: 1.3, letterSpacing: "0.01em" }
-  game-verb: { fontFamily: "Chicle, Comic Neue, cursive", fontSize: "30px", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.01em" }
+  game-command: { fontFamily: "Day Of The Tentacle, Comic Neue, cursive", fontSize: "28px", fontWeight: 400, lineHeight: 1.3, letterSpacing: "0.01em" }
+  game-verb: { fontFamily: "Day Of The Tentacle, Comic Neue, cursive", fontSize: "36px", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.01em" }
   terminal-action: { fontFamily: "Comic Neue, cursive", fontSize: "21px", fontWeight: 700 }
 rounded:
   action: "3px"
@@ -71,13 +71,13 @@ The owner explicitly wants less exposition and accepts that some visitors may no
 
 Custard paper, plum ink, rust navigation and the existing self-hosted lettering remain. The flat game interface uses deep plum `#26192f`, lavender verbs `#c9a3e8`, and gold `#ffd36b` for hover, selection and action sentences. It has no selected-verb pill or nested panels.
 
-Lilita One 400 remains the wordmark and reading-route display face. Self-hosted Chicle 400 supplies verbs (30px desktop, 22px phone, 20px at 360px and below) and action sentences (24px/20px), with .01em tracking. Comic Neue 700 remains for speech (20px/14px) and terminal controls. DM Sans supplies the 14px medium-weight scene label and biography copy. Biography measures remain 70ch and chapter rows 66ch.
+Lilita One 400 remains the wordmark and reading-route display face. The owner-supplied Day Of The Tentacle 400 supplies verbs (36px desktop, 30px tablet, 26px phone, 24px at 360px and below) and action sentences (28px/24px), with .01em tracking. Comic Neue 700 remains for speech (20px/14px) and terminal controls. DM Sans supplies the 14px medium-weight scene label and biography copy. Biography measures remain 70ch and chapter rows 66ch.
 
 ## Layout
 
 The shell is centred at 1280px with 44px gutters and grows to 1480px at 1550px and above. The game and its scene label are independently centred at a maximum width of 1000px; there is no sidebar. At 1100px and below gutters become 28px; phone gutters are 18px. The 3:2 artwork and approved relative character scale are preserved.
 
-The game frame is square and borderless. A centered action sentence reserves 38px under the room (34px on phone) and starts empty. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 20px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
+The game frame is square and borderless. A centered action sentence reserves 38px under the room (34px on phone) and starts empty. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 24px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
 
 Only the career overview prints. Navigation, artwork, game controls and footer are hidden for printing.
 

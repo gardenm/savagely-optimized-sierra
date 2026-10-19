@@ -1,7 +1,6 @@
 import '@fontsource/lilita-one/latin-400.css';
 import '@fontsource/comic-neue/latin-400.css';
 import '@fontsource/comic-neue/latin-700.css';
-import '@fontsource/chicle/latin-400.css';
 import '@fontsource/dm-sans/latin-400.css';
 import '@fontsource/dm-sans/latin-500.css';
 import '@fontsource/dm-sans/latin-600.css';

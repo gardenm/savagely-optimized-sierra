@@ -15,7 +15,7 @@ The prototype should support:
 - Reach a chapter map, with future chapters explicitly identified as planned.
 - Open a factual career overview without solving the puzzle.
 - Reset progress, turn optional original ambient sound on or off, and use all interactions with a keyboard.
-- Show “McGill University, 2006” above a centred game, without a reflection sidebar or placeholder text. Use Chicle for the game commands.
+- Show “McGill University, 2006” above a centred game, without a reflection sidebar or placeholder text. Use Day Of The Tentacle for the game commands.
 
 The room, puzzle, dialogue, film choices, and props are illustrative fiction. They must not be presented as a reconstruction of the actual lab. The owner-approved character uses inspected uploaded photographs and the owner's appearance corrections. Its display scale has been increased by 50% without changing the artwork. See character.md. No invented dates, awards, contact address, paper links, or employer achievements.
 

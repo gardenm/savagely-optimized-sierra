@@ -202,7 +202,7 @@
       },
       "game-command": {
         "displayName": "Game command",
-        "purpose": "Chicle 400 contextual action sentence, 24px desktop and 20px phone, with .01em tracking."
+        "purpose": "Owner-supplied Day Of The Tentacle 400 contextual action sentence, 28px desktop and 24px phone, with .01em tracking."
       },
       "terminal-action": {
         "displayName": "Terminal action",
@@ -214,7 +214,7 @@
       },
       "game-verb": {
         "displayName": "Adventure verb",
-        "purpose": "Self-hosted Chicle 400, 30px desktop, 22px phone and 20px at 360px and below; Comic Neue fallback."
+        "purpose": "Self-hosted Day Of The Tentacle 400: 36px desktop, 30px tablet, 26px phone, 24px at 360px and below. Comic Neue fallback."
       }
     },
     "shadows": [
@@ -296,8 +296,8 @@
       "tonalRamps": "Synthesized OKLCH lightness previews only; not production color scales.",
       "previewLimits": "Five static HTML/CSS snippets; runtime is in src/main.ts. Fonts are self-hosted by the app; isolated previews may use declared fallbacks.",
       "toolingLimits": "No Impeccable launcher, comp-spec, or comp-diff score; no separate approved page comp or formal certification claimed.",
-      "review": "Desktop/mobile renders cover the centred game, new Chicle command font, chapter map and corrected career overview. The approved artwork is unchanged.",
-      "verification": "Production build and12 desktop/mobile browser checks verify puzzle, inventory, verbs, keyboard access, reset and responsive layout."
+      "review": "Desktop/mobile renders and font-loading checks verify the owner-supplied Day Of The Tentacle font; approved artwork and game layout are preserved.",
+      "verification": "Production build, desktop/mobile layout checks, and browser font-loading/spacing checks at320,390,601,768 and1440px pass."
     },
     "shapeDetails": {
       "gameFrame": "Square borderless frame, flat deep plum control field.",
@@ -353,6 +353,15 @@
         "placeholder prose"
       ],
       "layout": "Game and scene label centred at maximum 1000px, filling narrower containers."
+    },
+    "commandFont": {
+      "family": "Day Of The Tentacle",
+      "creator": "Jenny Barck, 1997 \u00a9",
+      "file": "public/fonts/day-of-the-tentacle.ttf",
+      "usageLabel": "Freeware, Non-Commercial",
+      "notice": "public/fonts/day-of-the-tentacle-license.txt",
+      "provenance": "docs/font-provenance.md",
+      "sha256": "efb68fc249f583c725b8d9f38d25c44b003c65f4100cd10dad331074ad861dab"
     }
   },
   "components": [
@@ -392,9 +401,9 @@
       "name": "Game command, actions, and inventory",
       "kind": "custom",
       "refersTo": "game-window",
-      "description": "Flat classic nine-verb grid with chunky Chicle lettering, a contextual action sentence and pictorial inventory.",
+      "description": "Flat classic nine-verb grid with the owner-supplied Day Of The Tentacle font, a contextual action sentence and pictorial inventory.",
       "html": "<div class=\"ds-hud\"><div class=\"ds-command\">Use ticket with door</div><div class=\"ds-controls\"><div class=\"ds-verbs\" role=\"group\" aria-label=\"Choose an action\"><button type=\"button\" aria-pressed=\"false\">Give</button><button type=\"button\" aria-pressed=\"false\">Pick up</button><button type=\"button\" aria-pressed=\"true\">Use</button><button type=\"button\" aria-pressed=\"false\">Open</button><button type=\"button\" aria-pressed=\"false\">Look at</button><button type=\"button\" aria-pressed=\"false\">Push</button><button type=\"button\" aria-pressed=\"false\">Close</button><button type=\"button\" aria-pressed=\"false\">Talk to</button><button type=\"button\" aria-pressed=\"false\">Pull</button></div><div class=\"ds-inventory\" role=\"group\" aria-label=\"Inventory\"><button class=\"ds-ticket\" type=\"button\" aria-label=\"Next-chapter ticket\" aria-pressed=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"#e5bd78\" stroke=\"#39213e\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Zm12 0v3m0 3v2m0 2v2\"/></svg></button></div></div></div>",
-      "css": ".ds-hud{background:#26192f;color:#ffd36b;font:400 24px \"Chicle\",\"Comic Neue\",cursive;letter-spacing:.01em}.ds-command{text-align:center;min-height:38px;padding:5px 14px}.ds-controls{display:grid;grid-template-columns:1fr 1.25fr;padding:0 12px 12px;min-height:144px}.ds-verbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 6px}.ds-verbs button{background:none;border:0;color:#c9a3e8;font:400 30px \"Chicle\",\"Comic Neue\",cursive;letter-spacing:.01em;padding:0 8px;min-height:44px;text-align:left;white-space:nowrap;cursor:pointer}.ds-verbs button:hover,.ds-verbs button[aria-pressed=true]{color:#ffd36b}.ds-inventory{padding:8px 16px}.ds-ticket{width:76px;height:76px;background:none;border:2px solid #c9a3e8;cursor:pointer}.ds-ticket svg{width:62px;height:62px}.ds-hud button:focus-visible{outline:2px solid #fff2d3;outline-offset:-2px}@media(max-width:600px){.ds-command{font-size:20px;min-height:34px}.ds-controls{grid-template-columns:minmax(0,1fr) 76px;padding:0 6px 8px}.ds-verbs{gap:0 2px}.ds-verbs button{font-size:22px;padding:0 4px}.ds-inventory{padding:5px 0 0 6px}.ds-ticket{width:62px;height:62px}.ds-ticket svg{width:50px;height:50px}}@media(max-width:360px){.ds-controls{grid-template-columns:minmax(0,1fr) 56px}.ds-verbs button{font-size:20px}.ds-inventory{padding-left:4px}.ds-ticket{width:48px;height:56px}.ds-ticket svg{width:40px;height:40px}}"
+      "css": "@font-face{font-family:\"Day Of The Tentacle\";src:url(\"/fonts/day-of-the-tentacle.ttf\") format(\"truetype\");font-weight:400;font-style:normal;font-display:swap}.ds-hud{background:#26192f;color:#ffd36b;font:400 28px \"Day Of The Tentacle\",\"Comic Neue\",cursive;letter-spacing:.01em}.ds-command{text-align:center;min-height:38px;padding:5px 14px}.ds-controls{display:grid;grid-template-columns:1fr 1.25fr;padding:0 12px 12px;min-height:144px}.ds-verbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 6px}.ds-verbs button{background:none;border:0;color:#c9a3e8;font:400 36px \"Day Of The Tentacle\",\"Comic Neue\",cursive;letter-spacing:.01em;padding:0 8px;min-height:44px;text-align:left;white-space:nowrap;cursor:pointer}.ds-verbs button:hover,.ds-verbs button[aria-pressed=true]{color:#ffd36b}.ds-inventory{padding:8px 16px}.ds-ticket{width:76px;height:76px;background:none;border:2px solid #c9a3e8;cursor:pointer}.ds-ticket svg{width:62px;height:62px}.ds-hud button:focus-visible{outline:2px solid #fff2d3;outline-offset:-2px}@media(max-width:880px){.ds-verbs button{font-size:30px}}@media(max-width:600px){.ds-command{font-size:24px;min-height:34px}.ds-controls{grid-template-columns:minmax(0,1fr) 76px;padding:0 6px 8px}.ds-verbs{gap:0 2px}.ds-verbs button{font-size:26px;padding:0 4px}.ds-inventory{padding:5px 0 0 6px}.ds-ticket{width:62px;height:62px}.ds-ticket svg{width:50px;height:50px}}@media(max-width:360px){.ds-controls{grid-template-columns:minmax(0,1fr) 56px}.ds-verbs button{font-size:24px}.ds-inventory{padding-left:4px}.ds-ticket{width:48px;height:56px}.ds-ticket svg{width:40px;height:40px}}"
     }
   ],
   "narrative": {
