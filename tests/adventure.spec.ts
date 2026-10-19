@@ -154,6 +154,27 @@ test('classic verbs give feedback and inventory selection survives switching bet
   await expect(page).toHaveURL(/#chapters$/);
 });
 
+test('inspecting research papers reveals a clickable PDF link and other interactions clear it', async ({ page }, testInfo) => {
+  const paperUrl = 'https://cim.mcgill.ca/~mrl/pubs/mgarden/garden-semantic-eee05.pdf';
+  // Verify navigation without depending on the external PDF host during tests.
+  await page.context().route(paperUrl, route => route.fulfill({ contentType: 'text/html', body: '<title>Research paper destination</title>' }));
+  await page.goto('/');
+  const paperLink = page.getByRole('link', { name: 'Read the paper' });
+  await expect(paperLink).toBeHidden();
+  await page.getByRole('button', { name: 'Look at', exact: true }).click();
+  await page.getByRole('button', { name: 'Research papers', exact: true }).click();
+  await expect(paperLink).toBeVisible();
+  await page.evaluate(() => document.fonts.ready);
+  await mkdir('.impeccable/review', { recursive: true });
+  await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-papers.png`, fullPage: true });
+  const [paper] = await Promise.all([page.waitForEvent('popup'), paperLink.click()]);
+  await expect(paper).toHaveURL(paperUrl);
+  await paper.close();
+  await page.getByRole('button', { name: 'Noticeboard', exact: true }).click();
+  await expect(paperLink).toBeHidden();
+  await expect(page.locator('#dialogue-text')).toContainText('high-school CS class');
+});
+
 test('the action sentence keeps the verbs in place when empty, hovered, or focused', async ({ page }) => {
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);

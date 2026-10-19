@@ -335,7 +335,7 @@
       "initialMode": "walk",
       "command": "Empty on arrival; hover or focus builds the action sentence. Always reserves one line plus 10px padding, including when empty, so verbs remain stationary; long text ellipsizes.",
       "inventory": "Pictorial; blank when empty.",
-      "speech": "Interaction-only text over the room.",
+      "speech": "Interaction-only text over the room. Inspecting research papers reveals a 44px-high gold PDF link below the response; only that link receives pointer events, it opens in a new tab, and the next response hides it.",
       "reflection": "Removed; no placeholder prose. Real reflections may be added when the owner supplies them.",
       "sceneLabel": "McGill University, 2006",
       "removed": [

@@ -29,6 +29,8 @@ Tab reaches the controls and objects. While focus is inside the game, arrow keys
 
 **The short version** opens a factual career overview without requiring any play, with a direct link to Matthew’s LinkedIn profile.
 
+The overview identifies Matthew Garden by name. Looking at the research papers in the lab reveals a link to the owner-supplied McGill PDF, opening in a new tab without leaving the adventure.
+
 ## Validate
 
 ```sh
@@ -76,7 +78,7 @@ The application itself needs no runtime secrets, database, or server process. Th
 
 - Preferred display name. The owner has approved the photo-guided character, with a 50% display-scale increase applied. Four unique attached photographs have been inspected and used; the earlier external links remain blocked, but that no longer prevents reference-based drawing.
 - Real McGill anecdotes, room details, and tone corrections.
-- Career dates beyond the supplied McGill scene label (2006), exact publication titles and links, contact links, and optional downloadable CV.
+- Career dates beyond the supplied McGill scene label (2006), further publications and contact details, and optional downloadable CV. The supplied LinkedIn and research-paper URLs are already linked.
 - Optional art/music references and audio for future rooms.
 - A specific Shopify agentic-engineering story to shape that room's puzzle.
 

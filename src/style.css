@@ -81,6 +81,10 @@ h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; }
 .floor-marker.visible { animation: footfall .9s ease-out; }
 @keyframes footfall { 0% { opacity: .9; transform: scale(.5); } 100% { opacity: 0; transform: scale(1.5); } }
 .dialogue { position: absolute; z-index: 4; left: 50%; top: 4%; transform: translateX(-50%); width: max-content; max-width: 88%; text-align: center; pointer-events: none; color: #fff2d3; font: 700 20px/1.35 var(--game-font); text-shadow: 1px 2px 2px #21122e, -1px -1px 1px #21122e, 1px -1px 1px #21122e; }
+.paper-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; color: #ffd36b; pointer-events: auto; }
+.paper-link:hover { color: #fff2d3; }
+.paper-link:focus-visible { outline-color: #fff2d3; }
+.paper-link .icon { width: 16px; }
 .command-line { display: flex; align-items: center; justify-content: center; height: calc(1.3em + 10px); padding: 5px 14px; color: #ffd36b; font: 400 28px/1.3 var(--command-font); letter-spacing: .01em; text-align: center; }
 .command-line > span { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .game-controls { display: grid; grid-template-columns: 1fr 1.25fr; min-height: 144px; padding: 0 12px 12px; }

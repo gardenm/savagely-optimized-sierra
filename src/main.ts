@@ -82,7 +82,7 @@ $('#app').innerHTML = `
             <button class="hotspot door" data-prop="door" aria-label="Door"></button>
             <div class="character" id="character" role="img" aria-label="Cartoon adventurer with swept brown hair, a full brown beard, tortoiseshell glasses, a sage V-neck shirt, and a left-arm Japanese tattoo sleeve"><img class="character-right" src="/art/adventurer-right.webp" alt="" width="1024" height="1536" draggable="false" /><img class="character-left" src="/art/adventurer-left.webp" alt="" width="1024" height="1536" draggable="false" /></div>
             <div class="floor-marker" id="floor-marker" aria-hidden="true"></div>
-            <p class="dialogue" id="dialogue-text" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="dialogue"><p id="dialogue-text" role="status" aria-live="polite" aria-atomic="true"></p><a class="paper-link" id="research-paper-link" href="https://cim.mcgill.ca/~mrl/pubs/mgarden/garden-semantic-eee05.pdf" target="_blank" rel="noopener" hidden>Read the paper (PDF) ${icon('arrow')}<span class="sr-only"> (opens in a new tab)</span></a></div>
           </div>
           <div class="command-line"><span id="command-text"></span></div>
           <div class="game-controls">
@@ -101,7 +101,7 @@ $('#app').innerHTML = `
       <div class="side-quests"><h2>A few things come along for the ride.</h2><p>More than a decade mentoring high-school CS students. A love of art and music.</p></div>
     </section>
     <section data-view="cv" class="reading-view" hidden aria-labelledby="cv-heading">
-      <a href="#adventure" class="back-link">← Back to the adventure</a><div class="reading-heading"><h1 id="cv-heading">The short version.</h1><p>Software, research, retail, and a long-running interest in helping people learn.</p></div>
+      <a href="#adventure" class="back-link">← Back to the adventure</a><div class="reading-heading"><h1 id="cv-heading">Matthew Garden</h1><p>Software, research, retail, and a long-running interest in helping people learn.</p></div>
       <div class="bio-layout"><div class="bio-timeline">
         <article><h2>Shopify</h2><p>Retail point of sale. Learning agentic engineering is a significant part of the work today.</p></article>
         <article><h2>Lightspeed</h2><p>iOS development for point-of-sale software.</p></article>
@@ -109,7 +109,7 @@ $('#app').innerHTML = `
         <article><h2>Nortel</h2><p>PDH configuration on OME metro equipment.</p></article>
         <article><h2>McGill / CIM</h2><p>Movie-recommendation research with Greg Dudek, including the Recommendz system and several publications. Earned an MSc, then left the PhD after two years to work in industry.</p></article>
         <article><h2>Timney Lab / UWO</h2><p>A few months as a high-school co-op student, then my first programming job while at university, programming vision tests including Gabor patches.</p><p>Dr. Timney offered me the job when he came into Shoppers Drug Mart for cold medicine. I was working there as a stockboy and cashier supervisor.</p></article>
-      </div><aside class="bio-aside"><h2>Outside the job description.</h2><p>Over a decade mentoring students in a high-school computer science class.</p><p class="content-note">This is the first draft. Name, dates, publication links, and contact details are still to come.</p><a class="text-button" href="https://www.linkedin.com/in/matthewgarden/">LinkedIn ${icon('arrow')}</a></aside></div>
+      </div><aside class="bio-aside"><h2>Outside the job description.</h2><p>Over a decade mentoring students in a high-school computer science class.</p><p class="content-note">This is the first draft. Dates and further contact details are still to come.</p><a class="text-button" href="https://www.linkedin.com/in/matthewgarden/">LinkedIn ${icon('arrow')}</a></aside></div>
     </section>
   </main>
   <footer class="site-footer"><button id="domain-joke" title="Examine the domain">savagelyoptimized.co ${icon('spark')}</button><button id="reset-progress" title="Restart the McGill chapter">Restart</button></footer>
@@ -131,6 +131,7 @@ function updateProgress() {
 }
 function tell(text: string) {
   $('#dialogue-text').textContent = text;
+  $('#research-paper-link').hidden = true;
 }
 function updateCommand() {
   const action = mode === 'walk' ? 'Walk to' : verbs[mode];
@@ -217,6 +218,7 @@ function interact(prop: Prop) {
     tell('“Recommendz. Movie research with Greg Dudek, and a computer that has watched none of these films.”');
   } else if (prop === 'papers') {
     tell('“An MSc earned. Papers published. Two years of a PhD. Quite a stack.”');
+    $('#research-paper-link').hidden = false;
   } else if (prop === 'board') {
     tell('“A note from the high-school CS class I mentor. Helping someone figure it out never gets old.”');
   } else if (prop === 'records') {
@@ -235,7 +237,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-prop]').forEach(b => {
   for (const event of ['pointerleave', 'blur']) b.addEventListener(event, () => { activeProp = null; updateCommand(); });
 });
 $('#stage').addEventListener('click', (event) => {
-  if ((event.target as HTMLElement).closest('button')) return;
+  if ((event.target as HTMLElement).closest('button, a')) return;
   const rect = $('#stage').getBoundingClientRect();
   const x = (event.clientX-rect.left)/rect.width*100;
   const y = (event.clientY-rect.top)/rect.height*100;
@@ -351,7 +353,7 @@ function showRoute() {
     if(n.dataset.nav===next)n.setAttribute('aria-current','page');
     else n.removeAttribute('aria-current');
   });
-  document.title = `Savagely Optimized — ${next==='chapters'?'Chapter map':next==='cv'?'The short version':'McGill University, 2006'}`;
+  document.title = `Savagely Optimized — ${next==='chapters'?'Chapter map':next==='cv'?'Matthew Garden':'McGill University, 2006'}`;
   if(route && route!==next){window.scrollTo({top:0,behavior:'instant'});$('#main').focus({preventScroll:true});}
   route=next;
 }
