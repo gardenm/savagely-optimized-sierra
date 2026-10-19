@@ -194,7 +194,7 @@
       },
       "body": {
         "displayName": "Biography body",
-        "purpose": "Biography and reflection reading text."
+        "purpose": "Biography reading text; no reflection sidebar is currently rendered."
       },
       "label": {
         "displayName": "UI label",
@@ -202,7 +202,7 @@
       },
       "game-command": {
         "displayName": "Game command",
-        "purpose": "Comic Neue700 contextual action sentence,21px desktop and17px phone."
+        "purpose": "Chicle 400 contextual action sentence, 24px desktop and 20px phone, with .01em tracking."
       },
       "terminal-action": {
         "displayName": "Terminal action",
@@ -211,6 +211,10 @@
       "scene-title": {
         "displayName": "Scene label",
         "purpose": "Understated place and year above the room, DM Sans14px500."
+      },
+      "game-verb": {
+        "displayName": "Adventure verb",
+        "purpose": "Self-hosted Chicle 400, 30px desktop, 22px phone and 20px at 360px and below; Comic Neue fallback."
       }
     },
     "shadows": [
@@ -280,7 +284,8 @@
         "docs/character.md",
         "src/style.css",
         "src/main.ts",
-        "docs/art-provenance.json"
+        "docs/art-provenance.json",
+        "package.json"
       ],
       "primaryReference": "Day of the Tentacle",
       "backgroundReferences": [
@@ -291,7 +296,7 @@
       "tonalRamps": "Synthesized OKLCH lightness previews only; not production color scales.",
       "previewLimits": "Five static HTML/CSS snippets; runtime is in src/main.ts. Fonts are self-hosted by the app; isolated previews may use declared fallbacks.",
       "toolingLimits": "No Impeccable launcher, comp-spec, or comp-diff score; no separate approved page comp or formal certification claimed.",
-      "review": "Desktop/mobile screenshots reviewed for the minimal scene and terminal. Existing artwork preserved byte-for-byte.",
+      "review": "Desktop/mobile renders cover the centred game, new Chicle command font, chapter map and corrected career overview. The approved artwork is unchanged.",
       "verification": "Production build and12 desktop/mobile browser checks verify puzzle, inventory, verbs, keyboard access, reset and responsive layout."
     },
     "shapeDetails": {
@@ -331,7 +336,7 @@
       "command": "Empty on arrival; hover or focus builds the selected action sentence.",
       "inventory": "Pictorial; blank when empty.",
       "speech": "Interaction-only text over the room.",
-      "reflection": "Lorem ipsum until supplied by owner.",
+      "reflection": "Removed; no placeholder prose. Real reflections may be added when the owner supplies them.",
       "sceneLabel": "McGill University, 2006",
       "removed": [
         "marketing headline",
@@ -343,8 +348,11 @@
         "walkthrough",
         "duplicate object list",
         "initial dialogue",
-        "explanatory footer"
-      ]
+        "explanatory footer",
+        "reflection sidebar",
+        "placeholder prose"
+      ],
+      "layout": "Game and scene label centred at maximum 1000px, filling narrower containers."
     }
   },
   "components": [
@@ -384,20 +392,20 @@
       "name": "Game command, actions, and inventory",
       "kind": "custom",
       "refersTo": "game-window",
-      "description": "Flat classic nine-verb grid with a contextual action sentence and pictorial inventory; no guidance or empty-inventory filler.",
+      "description": "Flat classic nine-verb grid with chunky Chicle lettering, a contextual action sentence and pictorial inventory.",
       "html": "<div class=\"ds-hud\"><div class=\"ds-command\">Use ticket with door</div><div class=\"ds-controls\"><div class=\"ds-verbs\" role=\"group\" aria-label=\"Choose an action\"><button type=\"button\" aria-pressed=\"false\">Give</button><button type=\"button\" aria-pressed=\"false\">Pick up</button><button type=\"button\" aria-pressed=\"true\">Use</button><button type=\"button\" aria-pressed=\"false\">Open</button><button type=\"button\" aria-pressed=\"false\">Look at</button><button type=\"button\" aria-pressed=\"false\">Push</button><button type=\"button\" aria-pressed=\"false\">Close</button><button type=\"button\" aria-pressed=\"false\">Talk to</button><button type=\"button\" aria-pressed=\"false\">Pull</button></div><div class=\"ds-inventory\" role=\"group\" aria-label=\"Inventory\"><button class=\"ds-ticket\" type=\"button\" aria-label=\"Next-chapter ticket\" aria-pressed=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"#e5bd78\" stroke=\"#39213e\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Zm12 0v3m0 3v2m0 2v2\"/></svg></button></div></div></div>",
-      "css": ".ds-hud{background:#26192f;color:#ffd36b;font:700 21px \"Comic Neue\",cursive}.ds-command{text-align:center;min-height:38px;padding:5px 14px}.ds-controls{display:grid;grid-template-columns:1fr 1.25fr;padding:0 12px 12px;min-height:144px}.ds-verbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 6px}.ds-verbs button{background:none;border:0;color:#c9a3e8;font:700 25px \"Comic Neue\",cursive;padding:0 8px;min-height:44px;text-align:left;white-space:nowrap;cursor:pointer}.ds-verbs button:hover,.ds-verbs button[aria-pressed=true]{color:#ffd36b}.ds-inventory{padding:8px 16px}.ds-ticket{width:76px;height:76px;background:none;border:2px solid #c9a3e8;cursor:pointer}.ds-ticket svg{width:62px;height:62px}.ds-hud button:focus-visible{outline:2px solid #fff2d3;outline-offset:-2px}@media(max-width:600px){.ds-command{font-size:17px;min-height:34px}.ds-controls{grid-template-columns:minmax(0,1fr) 76px;padding:0 6px 8px}.ds-verbs{gap:0 2px}.ds-verbs button{font-size:19px;padding:0 4px}.ds-inventory{padding:5px 0 0 6px}.ds-ticket{width:62px;height:62px}.ds-ticket svg{width:50px;height:50px}}@media(max-width:360px){.ds-controls{grid-template-columns:minmax(0,1fr) 56px}.ds-verbs button{font-size:18px}.ds-inventory{padding-left:4px}.ds-ticket{width:48px;height:56px}.ds-ticket svg{width:40px;height:40px}}"
+      "css": ".ds-hud{background:#26192f;color:#ffd36b;font:400 24px \"Chicle\",\"Comic Neue\",cursive;letter-spacing:.01em}.ds-command{text-align:center;min-height:38px;padding:5px 14px}.ds-controls{display:grid;grid-template-columns:1fr 1.25fr;padding:0 12px 12px;min-height:144px}.ds-verbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 6px}.ds-verbs button{background:none;border:0;color:#c9a3e8;font:400 30px \"Chicle\",\"Comic Neue\",cursive;letter-spacing:.01em;padding:0 8px;min-height:44px;text-align:left;white-space:nowrap;cursor:pointer}.ds-verbs button:hover,.ds-verbs button[aria-pressed=true]{color:#ffd36b}.ds-inventory{padding:8px 16px}.ds-ticket{width:76px;height:76px;background:none;border:2px solid #c9a3e8;cursor:pointer}.ds-ticket svg{width:62px;height:62px}.ds-hud button:focus-visible{outline:2px solid #fff2d3;outline-offset:-2px}@media(max-width:600px){.ds-command{font-size:20px;min-height:34px}.ds-controls{grid-template-columns:minmax(0,1fr) 76px;padding:0 6px 8px}.ds-verbs{gap:0 2px}.ds-verbs button{font-size:22px;padding:0 4px}.ds-inventory{padding:5px 0 0 6px}.ds-ticket{width:62px;height:62px}.ds-ticket svg{width:50px;height:50px}}@media(max-width:360px){.ds-controls{grid-template-columns:minmax(0,1fr) 56px}.ds-verbs button{font-size:20px}.ds-inventory{padding-left:4px}.ds-ticket{width:48px;height:56px}.ds-ticket svg{width:40px;height:40px}}"
     }
   ],
   "narrative": {
     "northStar": "The room leads.",
-    "overview": "**Creative North Star: The room leads.**\n\nAn original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, huge orange floorboards, bold outlines and exaggerated proportions. The owner has approved the room and photo-guided character. Preserve all three artwork files and both anatomical tattoo orientations. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor.\n\nThe owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. The scene has one understated label: **McGill University, 2006**. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar intentionally contains Lorem ipsum until the owner writes each scene's reflection.\n\n",
+    "overview": "**Creative North Star: The room leads.**\n\nAn original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, huge orange floorboards, bold outlines and exaggerated proportions. The owner has approved the room and photo-guided character. Preserve all three artwork files and both anatomical tattoo orientations. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor.\n\nThe owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. The scene has one understated label: **McGill University, 2006**. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar and placeholder text are removed; the game is centred.\n\n",
     "keyCharacteristics": [
       "Owner-approved cartoon room and enlarged character.",
       "Understated place/year scene label.",
       "Flat classic nine-verb grid and pictorial inventory.",
       "Exploration without coaching; direct short-version access.",
-      "Owner-written reflections, currently Lorem ipsum."
+      "Centred game with no sidebar or placeholder prose."
     ],
     "rules": [],
     "dos": [

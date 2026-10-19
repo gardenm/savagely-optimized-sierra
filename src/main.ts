@@ -1,6 +1,7 @@
 import '@fontsource/lilita-one/latin-400.css';
 import '@fontsource/comic-neue/latin-400.css';
 import '@fontsource/comic-neue/latin-700.css';
+import '@fontsource/chicle/latin-400.css';
 import '@fontsource/dm-sans/latin-400.css';
 import '@fontsource/dm-sans/latin-500.css';
 import '@fontsource/dm-sans/latin-600.css';
@@ -50,7 +51,7 @@ let route = '';
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 
 const chapters = [
-  { title: 'Timney Lab', place: 'UWO', summary: 'Gabor patches, vision tests, and the first experiments in making code useful.', note: 'Optional prologue', playable: false },
+  { title: 'Timney Lab', place: 'UWO', summary: 'A high-school co-op placement, followed by a first programming job while at university. Vision tests and Gabor patches.', note: 'Optional prologue', playable: false },
   { title: 'McGill University, 2006', place: 'McGill / CIM', summary: 'Movie recommendations, Recommendz, an MSc, and a decision to move into industry.', note: 'Chapter 01 · Playable', playable: true },
   { title: 'Making connections.', place: 'Nortel', summary: 'PDH configuration on OME metro equipment. Somewhere, a cable needs a home.', note: 'Chapter 02 · Planned', playable: false },
   { title: 'A blank canvas.', place: 'SMART Technologies', summary: 'SMART Notebook for Mac. A whiteboard with a few ideas of its own.', note: 'Chapter 03 · Planned', playable: false },
@@ -92,28 +93,24 @@ $('#app').innerHTML = `
             <div class="inventory" role="group" aria-label="Inventory"><button id="ticket" class="ticket-item" aria-label="Next-chapter ticket" aria-pressed="false" hidden>${icon('ticket')}</button></div>
           </div>
         </div>
-        <aside class="reflection" aria-label="McGill reflection">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        </aside>
       </div>
       <span class="sr-only" id="save-status" role="status"></span>
     </section>
     <section data-view="chapters" class="reading-view" hidden aria-labelledby="map-heading">
       <a href="#adventure" class="back-link">← Back to the lab</a><div class="reading-heading"><h1 id="map-heading">Every job.<br />A different room.</h1><p>A career under one slightly improbable roof. The McGill room is playable; the rest of the building is still taking shape.</p></div>
-      <div class="chapter-list">${chapters.map((c, i) => `<article class="chapter-row ${c.playable ? 'is-playable' : ''}"><span class="chapter-number">${i === 0 ? '↳' : String(i).padStart(2, '0')}</span><div><p class="chapter-place">${c.place}</p><h2>${c.title}</h2><p>${c.summary}</p></div><div class="chapter-state">${c.playable ? `<a class="primary-button" href="#adventure">Enter the lab ${icon('arrow')}</a>` : `<span>${c.note}</span>`}</div></article>`).join('')}</div>
-      <div class="side-quests"><h2>A few things come along for the ride.</h2><p>More than a decade mentoring high-school CS students. A love of music. And a record player with a growing pile of possibilities.</p></div>
+      <div class="chapter-list">${chapters.map((c, i) => `<article class="chapter-row ${c.playable ? 'is-playable' : ''}"><span class="chapter-number">${i === 0 ? icon('arrow') : String(i).padStart(2, '0')}</span><div><p class="chapter-place">${c.place}</p><h2>${c.title}</h2><p>${c.summary}</p></div><div class="chapter-state">${c.playable ? `<a class="primary-button" href="#adventure">Enter the lab ${icon('arrow')}</a>` : `<span>${c.note}</span>`}</div></article>`).join('')}</div>
+      <div class="side-quests"><h2>A few things come along for the ride.</h2><p>More than a decade mentoring high-school CS students. A love of art and music.</p></div>
     </section>
     <section data-view="cv" class="reading-view" hidden aria-labelledby="cv-heading">
-      <a href="#adventure" class="back-link">← Back to the adventure</a><div class="reading-heading"><h1 id="cv-heading">The short version.</h1><p>Software, research, retail, and a long-running interest in helping people learn. Here are the real career chapters behind the imagined rooms.</p></div>
+      <a href="#adventure" class="back-link">← Back to the adventure</a><div class="reading-heading"><h1 id="cv-heading">The short version.</h1><p>Software, research, retail, and a long-running interest in helping people learn.</p></div>
       <div class="bio-layout"><div class="bio-timeline">
         <article><h2>Shopify</h2><p>Retail point of sale. Learning agentic engineering is a significant part of the work today.</p></article>
         <article><h2>Lightspeed</h2><p>iOS development for point-of-sale software.</p></article>
         <article><h2>SMART Technologies</h2><p>Developing SMART Notebook for Mac, the software for SMART’s interactive whiteboards.</p></article>
         <article><h2>Nortel</h2><p>PDH configuration on OME metro equipment.</p></article>
         <article><h2>McGill / CIM</h2><p>Movie-recommendation research with Greg Dudek, including the Recommendz system and several publications. Earned an MSc, then left the PhD after two years to work in industry.</p></article>
-        <article><h2>Timney Lab / UWO</h2><p>An internship programming vision tests, including Gabor patches.</p></article>
-      </div><aside class="bio-aside"><h2>Outside the job description.</h2><p>Over a decade mentoring students in a high-school computer science class.</p><p>A love of music, with a Kanto Obi3 Gen2 record player waiting for a few favourite albums.</p><p class="content-note">This is the first draft. Name, dates, publication links, and contact details are still to come.</p><button class="text-button" id="print-cv">Print this overview ${icon('arrow')}</button></aside></div>
+        <article><h2>Timney Lab / UWO</h2><p>A few months as a high-school co-op student, then my first programming job while at university, programming vision tests including Gabor patches.</p><p>Dr. Timney offered me the job when he came into Shoppers Drug Mart for cold medicine. I was working there as a stockboy and cashier supervisor.</p></article>
+      </div><aside class="bio-aside"><h2>Outside the job description.</h2><p>Over a decade mentoring students in a high-school computer science class.</p><p class="content-note">This is the first draft. Name, dates, publication links, and contact details are still to come.</p><button class="text-button" id="print-cv">Print this overview ${icon('arrow')}</button></aside></div>
     </section>
   </main>
   <footer class="site-footer"><button id="domain-joke" title="Examine the domain">savagelyoptimized.co ${icon('spark')}</button><button id="reset-progress" title="Restart the McGill chapter">Restart</button></footer>

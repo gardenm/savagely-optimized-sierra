@@ -23,7 +23,7 @@ npm ci --cache /workspace/.cache/npm
 
 The scene is labelled **McGill University, 2006**. Click the floor to walk, or choose a verb and an object. The nine-verb grid follows the classic adventure layout; object hover or keyboard focus builds the action sentence. The inventory is pictorial. Responses appear as dialogue over the room, only after an interaction. The approved room and character assets are preserved; the character remains at the enlarged display scale.
 
-For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the ticket, then use it with the door. The next view is a chapter map, not a second playable room yet. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site. A quiet **Restart** control remains in the footer. Progress is saved locally when browser storage is available. The reflection sidebar deliberately contains Lorem ipsum until the owner writes the reflection.
+For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the ticket, then use it with the door. The next view is a chapter map, not a second playable room yet. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site. A quiet **Restart** control remains in the footer. Progress is saved locally when browser storage is available. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Chicle face gives verbs and action sentences chunky cartoon lettering; speech remains Comic Neue.
 
 Tab reaches the controls and objects. While focus is inside the game, arrow keys move the character and W / L / U select actions. Escape closes the computer and restores focus. Reduced-motion preferences are respected. Sound starts only after an explicit click and uses an original synthesized ambient chord; no album audio is included.
 
@@ -58,7 +58,7 @@ npm run build
 npm run preview
 ```
 
-`dist/` is the deployable site. Cloudflare Pages, Netlify, Vercel, or another static host can use `npm run build` with output directory `dist`. Hash navigation keeps the adventure, map, and CV working on static hosting without rewrite rules. The production build was validated locally; no public deployment or DNS changes have been made.
+`dist/` is the deployable site. Cloudflare Pages, Netlify, Vercel, or another static host can use `npm run build` with output directory `dist`. Hash navigation keeps the adventure, map, and CV working on static hosting without rewrite rules. The owner has tested the temporary Cloudflare URL; custom-domain activation is in progress.
 
 After selecting a host, connect `savagelyoptimized.co` through that host's custom-domain flow. Use the exact DNS records provided there; domain verification and DNS changes are a separate publishing step.
 
@@ -77,9 +77,9 @@ The application itself needs no runtime secrets, database, or server process. Th
 - Preferred display name. The owner has approved the photo-guided character, with a 50% display-scale increase applied. Four unique attached photographs have been inspected and used; the earlier external links remain blocked, but that no longer prevents reference-based drawing.
 - Real McGill anecdotes, room details, and tone corrections.
 - Career dates beyond the supplied McGill scene label (2006), exact publication titles and links, contact links, and optional downloadable CV.
-- Favourite albums and any audio you want to include with appropriate permission.
+- Optional art/music references and audio for future rooms.
 - A specific Shopify agentic-engineering story to shape that room's puzzle.
 
-All personal facts come from the owner's supplied outline. The room, film puzzle, and dialogue are fictionalized framing. The character now uses actual uploaded face, body/sleeve, and chest-tattoo photographs, with the owner's updated brown tortoiseshell frames and earlier corrections. It has a higher hairline, full mostly brown tapered beard, slim/fit build, sage V-neck shirt, left-arm Japanese-style sleeve, and a small paw/cloud detail at the collar. The two directional drawings are separate assets so tattoos stay on the correct arm. The owner has approved the character; both poses now display 50% larger without changing the artwork. Raw reference photos stay outside this repository and website. The toy puzzle does not reproduce the original Recommendz algorithm. The record-player illustration establishes the music corner; it is not an exact model of the owner's Kanto Obi3 Gen2.
+All personal facts come from the owner's supplied outline. The room, film puzzle, and dialogue are fictionalized framing. The character now uses actual uploaded face, body/sleeve, and chest-tattoo photographs, with the owner's updated brown tortoiseshell frames and earlier corrections. It has a higher hairline, full mostly brown tapered beard, slim/fit build, sage V-neck shirt, left-arm Japanese-style sleeve, and a small paw/cloud detail at the collar. The two directional drawings are separate assets so tattoos stay on the correct arm. The owner has approved the character; both poses now display 50% larger without changing the artwork. Raw reference photos stay outside this repository and website. The toy puzzle does not reproduce the original Recommendz algorithm. The approved room still contains its record-player illustration. The broader personal theme is art and music; a Birch Green Jazzmaster could appear in a later Shopify room.
 
 See [PRODUCT.md](PRODUCT.md) for confirmed product facts and [docs/adventure.md](docs/adventure.md) for the chapter plan.

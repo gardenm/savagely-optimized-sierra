@@ -111,7 +111,7 @@ test('desktop and mobile layouts fit, load artwork, and expose objects', async (
   await expect(page.getByRole('heading', { name: 'McGill University, 2006' })).toBeVisible();
   await expect(page.locator('#command-text')).toBeEmpty();
   await expect(page.locator('#dialogue-text')).toBeEmpty();
-  await expect(page.locator('.reflection')).toContainText('Lorem ipsum');
+  await expect(page.locator('.reflection')).toHaveCount(0);
   await expect(page.locator('[data-mode]')).toHaveCount(9);
   await expect(page.getByText('A change of scene.', { exact: true })).toHaveCount(0);
   await mkdir('.impeccable/review', { recursive: true });
@@ -119,6 +119,7 @@ test('desktop and mobile layouts fit, load artwork, and expose objects', async (
   for (const hash of ['adventure','chapters','cv']) {
     await page.goto(`/#${hash}`);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+    if (hash !== 'adventure') await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-${hash}.png`, fullPage: true });
   }
   await page.goto('/');
   await page.getByRole('button', { name: 'Use', exact: true }).click();

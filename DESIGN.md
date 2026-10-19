@@ -22,7 +22,8 @@ typography:
   title: { fontFamily: "Lilita One, sans-serif", fontSize: "26px", fontWeight: 400, letterSpacing: "-0.025em" }
   body: { fontFamily: "DM Sans, sans-serif", fontSize: "14px", fontWeight: 400, lineHeight: 1.9 }
   label: { fontFamily: "DM Sans, sans-serif", fontSize: "12px", fontWeight: 400 }
-  game-command: { fontFamily: "Comic Neue, cursive", fontSize: "21px", fontWeight: 700 }
+  game-command: { fontFamily: "Chicle, Comic Neue, cursive", fontSize: "24px", fontWeight: 400, lineHeight: 1.3, letterSpacing: "0.01em" }
+  game-verb: { fontFamily: "Chicle, Comic Neue, cursive", fontSize: "30px", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.01em" }
   terminal-action: { fontFamily: "Comic Neue, cursive", fontSize: "21px", fontWeight: 700 }
 rounded:
   action: "3px"
@@ -64,19 +65,19 @@ components:
 
 An original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, huge orange floorboards, bold outlines and exaggerated proportions. The owner has approved the room and photo-guided character. Preserve all three artwork files and both anatomical tattoo orientations. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor.
 
-The owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. The scene has one understated label: **McGill University, 2006**. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar intentionally contains Lorem ipsum until the owner writes each scene's reflection.
+The owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. The scene has one understated label: **McGill University, 2006**. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar and placeholder text are removed; the game is centred.
 
 ## Colors and typography
 
 Custard paper, plum ink, rust navigation and the existing self-hosted lettering remain. The flat game interface uses deep plum `#26192f`, lavender verbs `#c9a3e8`, and gold `#ffd36b` for hover, selection and action sentences. It has no selected-verb pill or nested panels.
 
-Lilita One 400 remains the wordmark and reading-route display face. Comic Neue 700 supplies verbs (25px desktop, 19px phone), action sentences (21px/17px), and speech (20px/14px). DM Sans supplies the 14px medium-weight scene label and 14px reflection text (13px on phone). Biography measures remain 70ch and chapter rows 66ch. Reflection text is deliberately narrower beside the room.
+Lilita One 400 remains the wordmark and reading-route display face. Self-hosted Chicle 400 supplies verbs (30px desktop, 22px phone, 20px at 360px and below) and action sentences (24px/20px), with .01em tracking. Comic Neue 700 remains for speech (20px/14px) and terminal controls. DM Sans supplies the 14px medium-weight scene label and biography copy. Biography measures remain 70ch and chapter rows 66ch.
 
 ## Layout
 
-The shell is centered at 1280px with 44px gutters. Desktop places the 3:2 game beside a 245px reflection with a 34px gap. At 1550px and above the shell grows to 1480px, reflection 265px and gap 42px. At 1100px and below gutters become 28px, reflection 220px and gap 25px. At 880px and below the reflection follows the game, with a 28px gap. Phone gutters are 18px.
+The shell is centred at 1280px with 44px gutters and grows to 1480px at 1550px and above. The game and its scene label are independently centred at a maximum width of 1000px; there is no sidebar. At 1100px and below gutters become 28px; phone gutters are 18px. The 3:2 artwork and approved relative character scale are preserved.
 
-The game frame is square and borderless. A centered action sentence reserves 38px under the room (34px on phone) and starts empty. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 18px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
+The game frame is square and borderless. A centered action sentence reserves 38px under the room (34px on phone) and starts empty. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 20px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
 
 Only the career overview prints. Navigation, artwork, game controls and footer are hidden for printing.
 
@@ -84,7 +85,7 @@ Only the career overview prints. Navigation, artwork, game controls and footer a
 
 The classic verbs are Give / Pick up / Use, Open / Look at / Push, Close / Talk to / Pull. Floor clicks walk directly; walking is the initial mode. Hover or focus on an object builds the selected action sentence. Scene hotspots remain real labelled buttons with visible keyboard focus. There are no floating object-name chips or duplicate object links.
 
-Character speech appears over the room only after an interaction. It is centered warm text with a dark offset outline/shadow for legibility, has live status semantics and does not intercept clicks. Reflections remain separate from dialogue. Selecting a ticket chooses Use, or keeps Give if already selected; switching to another verb clears inventory selection. Contextual responses support the classic verbs. The existing Recommendz puzzle and exit continue to work.
+Character speech appears over the room only after an interaction. It is centered warm text with a dark offset outline/shadow for legibility, has live status semantics and does not intercept clicks. Selecting a ticket chooses Use, or keeps Give if already selected; switching to another verb clears inventory selection. Contextual responses support the classic verbs. The existing Recommendz puzzle and exit continue to work.
 
 W/L/U and arrow keys operate only when focus is within the game on the adventure route, with no open terminal, modifiers, or form/details target. Escape closes the native dialog and restores focus. Mobile hotspots and all verb controls have at least 44px touch dimensions. Reduced motion removes walking transitions, bobbing and the footfall marker animation. Sound requires an explicit action. A quiet Restart button remains in the footer; confirmation resets progress and returns to the room. Browser-storage failures are announced without an on-screen coaching message.
 
@@ -96,8 +97,8 @@ Reading surfaces remain flat and ruled. The terminal retains its offset soft sha
 
 ## Constraints and evidence
 
-All personal facts come from supplied information; the room and puzzle are fictional framing. Raw reference photos remain outside the repository and public site. Both sprite files and the approved room artwork are unchanged. Do not mirror the character, add coaching back into the scene, or invent dates and achievements. The owner's future reflections replace the Lorem ipsum directly.
+All personal facts come from supplied information; the room and puzzle are fictional framing. Raw reference photos remain outside the repository and public site. Both sprite files and the approved room artwork are unchanged. Do not mirror the character, add coaching back into the scene, or invent dates and achievements. Add owner-written reflections only when supplied; do not restore placeholder prose.
 
-The project uses plain TypeScript, HTML and CSS built with Vite. `npm run build` emits the static `dist/` site; no server is required. Cloudflare Pages is the current recommendation, with GitHub builds and a later custom-domain setup. No public deployment or DNS changes have been made.
+The project uses plain TypeScript, HTML and CSS built with Vite. `npm run build` emits the static `dist/` site; no server is required. The owner has tested the temporary Cloudflare URL, with GitHub builds configured and custom-domain activation in progress.
 
 Desktop/mobile renders and production browser tests provide the visual and functional evidence. The Impeccable launcher remains unavailable; no hook score, comp score or formal certification is claimed. Sidecar snippets represent components only, not the application runtime.
