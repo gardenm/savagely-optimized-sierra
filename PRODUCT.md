@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Implementation: plain TypeScript, HTML, and CSS, built with Vite. The result is a static site with no backend. The owner has tested the site on its temporary Cloudflare URL. Custom-domain activation is still in progress.
+Implementation: plain TypeScript, HTML, and CSS, built with Vite. A pure reducer handles shared adventure state, room modules own puzzle rules and scene data, DOM views render state, and browser services perform effects. The result is a static site with no backend. Unit tests run with Vitest and browser tests with Playwright; GitHub Actions checks pull requests and pushes to main. See docs/architecture.md. The owner has tested the site on its temporary Cloudflare URL. Custom-domain activation is still in progress.
 
 ## Product Purpose
 

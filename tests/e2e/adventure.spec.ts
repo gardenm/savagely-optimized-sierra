@@ -202,3 +202,49 @@ test('the action sentence keeps the verbs in place when empty, hovered, or focus
   await expect(page.locator('#command-text')).toHaveText('Use research papers');
   await expectStableControls();
 });
+
+test('existing deployed saves restore progress without restoring temporary UI state', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('savagely-optimized:mcgill:v1', JSON.stringify({ ticket: true, completed: true, x: 65, y: 90 }));
+  });
+  await page.goto('/');
+  await expect(page.locator('#ticket')).toBeVisible();
+  await expect(page.locator('#ticket')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('#command-text')).toBeEmpty();
+  await expect(page.getByRole('dialog')).toBeHidden();
+  expect(await page.locator('#character').evaluate(element => [element.style.left, element.style.top])).toEqual(['65%', '90%']);
+  await page.getByRole('button', { name: 'Use', exact: true }).click();
+  await page.getByRole('button', { name: 'Computer', exact: true }).click();
+  await expect(page.locator('#terminal-feedback')).toHaveText('Ticket printed.');
+  await expect(page.getByRole('button', { name: 'Back to the lab' })).toBeVisible();
+});
+
+test('game keyboard shortcuts stay inside the active room and outside dialogs', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'The short version' }).click();
+  await page.keyboard.press('u');
+  await page.getByRole('link', { name: 'The adventure', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Use', exact: true })).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: 'Use', exact: true }).click();
+  await page.getByRole('button', { name: 'Computer', exact: true }).click();
+  const position = await page.locator('#character').evaluate(element => element.getAttribute('style'));
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('l');
+  expect(await page.locator('#character').getAttribute('style')).toBe(position);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Use', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'Computer', exact: true })).toBeFocused();
+});
+
+test('audio failure leaves the sound control accurate and the room playable', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'AudioContext', { value: class { constructor() { throw new Error('Audio unavailable'); } } });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Turn on ambient sound' }).click();
+  await expect(page.locator('#toast')).toContainText('Audio could not start');
+  await expect(page.getByRole('button', { name: 'Turn on ambient sound' })).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: 'Look at', exact: true }).click();
+  await page.getByRole('button', { name: 'Research papers', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'Read the paper' })).toBeVisible();
+});

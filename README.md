@@ -38,6 +38,8 @@ npm run build
 npm test
 ```
 
+`npm test` runs Vitest unit tests followed by Playwright browser tests. Run either suite separately with `npm run test:unit` or `npm run test:e2e`. `npm run typecheck` checks the application, tests, and configuration, plus the game modules in isolation without DOM types. The build includes these checks.
+
 To run the same checks against the deployable bundle instead of the development server:
 
 ```sh
@@ -45,13 +47,19 @@ npm run build
 PLAYWRIGHT_USE_PREVIEW=1 npm test
 ```
 
-The browser checks exercise the full puzzle and exit, wrong and incomplete answers, persistence, CV access, classic verb commands, inventory selection, keyboard controls, dialog focus, reset, sound, unavailable storage, art loading, mobile overflow, and stable control positions as the action sentence changes. They run at desktop and mobile sizes. By default they use `/usr/bin/chromium`; set `CHROMIUM_PATH` to your installed Chromium executable if needed. Example on macOS:
+The unit tests cover immutable reducer transitions, movement, inventory, puzzle rules, legacy saves, storage failures, and the audio lifecycle. Browser checks exercise the full puzzle, navigation, keyboard scoping, focus, persistence, sound failure, artwork, layout, and stable verb positions. They run at desktop and mobile sizes, using `CHROMIUM_PATH` when supplied, otherwise `/usr/bin/chromium` if installed, otherwise Playwright's managed Chromium. Example with a local Chrome installation:
 
 ```sh
-CHROMIUM_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm test
+CHROMIUM_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm run test:e2e
 ```
 
-For a standard Playwright-managed browser, run `npx playwright install chromium` and set `CHROMIUM_PATH` to that executable. Visual checks are written to `.impeccable/review/` and are not committed.
+For a standard Playwright-managed browser, run `npx playwright install chromium`. Visual checks are written to `.impeccable/review/` and are not committed. GitHub Actions runs unit tests, the production build, and browser checks against the deployable bundle on pull requests and pushes to `main`.
+
+## Architecture
+
+The entry point starts a small application coordinator. Pure game rules live in `src/game`, with McGill's puzzle and scene data in its room module. DOM views live in `src/ui`, browser services in `src/browser`, and biography content in `src/content`. Actions produce the next state and explicit effects; browser operations happen outside the reducer. The existing McGill save format is preserved.
+
+See [the architecture guide](docs/architecture.md) for data flow, module boundaries, testing, and adding another chapter.
 
 ## Build and deploy
 
@@ -76,7 +84,6 @@ The application itself needs no runtime secrets, database, or server process. Th
 
 ## Content still needed
 
-- Preferred display name. The owner has approved the photo-guided character, with a 50% display-scale increase applied. Four unique attached photographs have been inspected and used; the earlier external links remain blocked, but that no longer prevents reference-based drawing.
 - Real McGill anecdotes, room details, and tone corrections.
 - Career dates beyond the supplied McGill scene label (2006), further publications and contact details, and optional downloadable CV. The supplied LinkedIn and research-paper URLs are already linked.
 - Optional art/music references and audio for future rooms.

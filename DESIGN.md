@@ -99,6 +99,6 @@ Reading surfaces remain flat and ruled. The terminal retains its offset soft sha
 
 All personal facts come from supplied information; the room and puzzle are fictional framing. Raw reference photos remain outside the repository and public site. Both sprite files and the approved room artwork are unchanged. Do not mirror the character, add coaching back into the scene, or invent dates and achievements. Add owner-written reflections only when supplied; do not restore placeholder prose.
 
-The project uses plain TypeScript, HTML and CSS built with Vite. `npm run build` emits the static `dist/` site; no server is required. The owner has tested the temporary Cloudflare URL, with GitHub builds configured and custom-domain activation in progress.
+The project uses plain TypeScript, HTML and CSS built with Vite. A pure reducer and room modules own rules; mounted views patch existing DOM nodes and browser services perform effects. Hotspot geometry lives in the room definition. See docs/architecture.md for boundaries and tests. `npm run build` emits the static `dist/` site; no server is required. The owner has tested the temporary Cloudflare URL, with GitHub builds configured and custom-domain activation in progress.
 
 Desktop/mobile renders and production browser tests provide the visual and functional evidence. The Impeccable launcher remains unavailable; no hook score, comp score or formal certification is claimed. Sidecar snippets represent components only, not the application runtime.

@@ -1,16 +1,20 @@
 import { defineConfig } from '@playwright/test';
+import { existsSync } from 'node:fs';
 
 const usePreview = process.env.PLAYWRIGHT_USE_PREVIEW === '1';
 const baseURL = `http://127.0.0.1:${usePreview ? 4173 : 5173}`;
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/e2e',
   fullyParallel: true,
   workers: 2,
   retries: 0,
   use: {
     baseURL,
-    launchOptions: { executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] },
+    launchOptions: {
+      executablePath: process.env.CHROMIUM_PATH || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined),
+      args: ['--no-sandbox'],
+    },
     trace: 'retain-on-failure',
   },
   projects: [
