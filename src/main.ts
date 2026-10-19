@@ -101,7 +101,7 @@ $('#app').innerHTML = `
       <div class="side-quests"><h2>A few things come along for the ride.</h2><p>More than a decade mentoring high-school CS students. A love of art and music.</p></div>
     </section>
     <section data-view="cv" class="reading-view" hidden aria-labelledby="cv-heading">
-      <a href="#adventure" class="back-link">← Back to the adventure</a><div class="reading-heading"><h1 id="cv-heading">Matthew Garden</h1><p>Software, research, retail, and a long-running interest in helping people learn.</p></div>
+      <a href="#adventure" class="back-link">← Back to the adventure</a><div class="reading-heading"><h1 id="cv-heading">Matt Garden</h1><p>Software, research, retail, and a long-running interest in helping people learn.</p></div>
       <div class="bio-layout"><div class="bio-timeline">
         <article><h2>Shopify</h2><p>Retail point of sale. Learning agentic engineering is a significant part of the work today.</p></article>
         <article><h2>Lightspeed</h2><p>iOS development for point-of-sale software.</p></article>
@@ -353,7 +353,7 @@ function showRoute() {
     if(n.dataset.nav===next)n.setAttribute('aria-current','page');
     else n.removeAttribute('aria-current');
   });
-  document.title = `Savagely Optimized — ${next==='chapters'?'Chapter map':next==='cv'?'Matthew Garden':'McGill University, 2006'}`;
+  document.title = `Savagely Optimized — ${next==='chapters'?'Chapter map':next==='cv'?'Matt Garden':'McGill University, 2006'}`;
   if(route && route!==next){window.scrollTo({top:0,behavior:'instant'});$('#main').focus({preventScroll:true});}
   route=next;
 }

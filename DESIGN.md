@@ -79,7 +79,7 @@ The shell is centred at 1280px with 44px gutters and grows to 1480px at 1550px a
 
 The game frame is square and borderless. A centered action sentence starts empty and reserves one full line plus 10px vertical padding (`calc(1.3em + 10px)`). Its height stays constant while empty, hovered, or focused, so the verb grid never shifts. Long text stays on one line and ellipsizes when necessary. Below it, a three-column, three-row verb grid sits on the left and a pictorial inventory on the right. Desktop columns are 1:1.25. On phones the inventory gets 76px and the verbs use the remaining width; they stay beside one another. At 360px and below, inventory narrows to 56px and verbs use 24px type to retain word spacing. Each verb has a minimum 44px height. Empty inventory is simply empty space.
 
-The career overview uses Matthew Garden as its main heading and links directly to the owner’s LinkedIn profile. Only the career overview prints. Navigation, artwork, game controls and footer are hidden for printing.
+The career overview uses Matt Garden as its main heading and links directly to the owner’s LinkedIn profile. Only the career overview prints. Navigation, artwork, game controls and footer are hidden for printing.
 
 ## Interaction
 
