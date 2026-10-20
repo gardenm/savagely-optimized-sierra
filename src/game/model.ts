@@ -56,7 +56,10 @@ export type PropDefinition = Readonly<{
   destination: Point;
 }>;
 
-export type ItemDefinition = Readonly<{ id: string; name: string; label: string; icon: string }>;
+export type ItemDefinition = Readonly<{
+  id: string; name: string; label: string; icon: string;
+  worn?: Readonly<{ flag: string; label: string }>;
+}>;
 
 export interface RoomDefinition<RoomState, RoomAction> {
   readonly id: string;

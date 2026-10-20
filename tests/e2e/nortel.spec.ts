@@ -21,8 +21,8 @@ test('Nortel needs only a grounded strap and one loose cable, and remembers prog
   await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-nortel.png`, fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await touch(page, 'Door', 'Open');
-  await expect(page).toHaveURL(/#nortel$/);
-  await expect(page.locator('#dialogue-text')).toContainText('alarm');
+  await expect(page).toHaveURL(/#chapters$/);
+  await page.getByRole('link', { name: 'Enter Nortel' }).click();
   await touch(page, 'OME A', 'Look at');
   await expect(page.locator('#stage')).not.toHaveClass(/is-tripped/);
   await expect(page.getByRole('dialog')).toHaveCount(0);
@@ -52,7 +52,7 @@ test('a static shock jolts the character and the equipment recovers automaticall
   await page.goto('/#nortel');
   await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(image => image.decode())); });
   await page.clock.install();
-  await page.clock.pauseAt(new Date());
+  await page.clock.pauseAt(new Date(Date.now() + 60_000));
   await touch(page, 'Loose cable');
   await expect(page.locator('#stage')).toHaveClass(/is-tripped/);
   await expect(page.locator('#character')).toHaveClass(/is-shocked/);
@@ -75,7 +75,7 @@ test('manual reset, reduced motion, reload and restart all recover safely from a
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#nortel');
   await page.clock.install();
-  await page.clock.pauseAt(new Date());
+  await page.clock.pauseAt(new Date(Date.now() + 60_000));
   await touch(page, 'OME A');
   await expect(page.locator('.static-spark')).toBeVisible();
   await expect(page.locator('#character .character-left')).toHaveCSS('animation-name', 'none');
@@ -95,7 +95,8 @@ test('manual reset, reduced motion, reload and restart all recover safely from a
   await expect(page.locator('#dialogue-text')).toBeEmpty();
 });
 
-test('legacy saves migrate, reading pages resume the room, and restart affects only that chapter', async ({ page }) => {
+test('legacy saves migrate, reading pages resume the room, and restart clears the whole adventure', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() => {
     localStorage.setItem('savagely-optimized:mcgill:v1', JSON.stringify({ ticket: true, completed: true, x: 65, y: 90 }));
     localStorage.setItem('savagely-optimized:nortel:v1', JSON.stringify({ version: 1, linkRestored: true, configured: true, completed: true, x: 60, y: 85 }));
@@ -116,7 +117,9 @@ test('legacy saves migrate, reading pages resume the room, and restart affects o
   expect(mcgill).toMatchObject({ ticket: true, completed: true });
   await page.getByRole('link', { name: 'Chapter map' }).click();
   await page.getByRole('link', { name: 'Enter the lab' }).click();
-  await expect(page.locator('#ticket')).toBeVisible();
+  await expect(page.locator('#ticket')).toBeHidden();
+  const world = await page.evaluate(() => JSON.parse(localStorage.getItem('savagely-optimized:adventure:v1')!));
+  expect(world.inventory).toEqual([]);
   await page.getByRole('link', { name: 'Chapter map' }).click();
   await page.getByRole('link', { name: 'Enter Nortel' }).click();
   await page.getByRole('group', { name: 'Playable Nortel room' }).focus();

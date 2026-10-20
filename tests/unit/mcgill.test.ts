@@ -48,19 +48,19 @@ describe('McGill puzzle', () => {
     expect(act(reopened, roomAction({ type: 'take-ticket' })).progress.inventory).toEqual([]);
   });
 
-  it.each(['use', 'open'] as const)('keeps the exit unavailable using %s until the ticket is claimed', mode => {
+  it.each(['use', 'open'] as const)('allows free exit using %s before earning a ticket', mode => {
     const state = act(initial(), { type: 'select-mode', mode });
     const result = update(state, { type: 'interact', prop: 'door' }, mcgill);
     expect(result.state.progress.completed).toBe(false);
-    expect(result.effects.some(effect => effect.type === 'leave-room')).toBe(false);
+    expect(result.effects).toContainEqual({ type: 'leave-room' });
   });
 
-  it.each(['use', 'give', 'open'] as const)('completes the chapter using %s after the ticket is claimed', mode => {
-    const state = act(claim(), { type: 'select-mode', mode });
-    const result = update(state, { type: 'interact', prop: 'door' }, mcgill);
-    expect(result.state.progress.completed).toBe(true);
+  it.each(['use', 'give', 'open'] as const)('retains the earned ticket when leaving using %s', mode => {
+    const result = update(act(claim(), { type: 'select-mode', mode }), { type: 'interact', prop: 'door' }, mcgill);
+    expect(result.state.progress.inventory).toEqual(['ticket']);
+    expect(result.state.progress.completed).toBe(false);
     expect(result.state.selectedItem).toBeNull();
-    expect(result.effects).toContainEqual({ type: 'leave-room', nextRoom: 'nortel' });
+    expect(result.effects).toContainEqual({ type: 'leave-room' });
   });
 
   it('does not duplicate tickets when reopening the completed computer', () => {

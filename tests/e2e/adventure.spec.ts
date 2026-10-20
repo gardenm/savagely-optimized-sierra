@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 
-test('the recommendation puzzle gates the exit, awards a usable ticket, and remembers completion', async ({ page }) => {
+test('the recommendation puzzle awards a shared ticket and remembers it across free room travel', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', e => errors.push(e.message));
   await page.goto('/');
   await page.getByRole('button', { name: 'Open', exact: true }).click();
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page.locator('#dialogue-text')).toContainText('unlocked door');
-  await expect(page.locator('[data-view=chapters]')).toBeHidden();
+  await expect(page).toHaveURL(/#chapters$/);
+  await page.getByRole('link', { name: 'Enter the lab' }).click();
   await page.getByRole('button', { name: 'Use', exact: true }).click();
   await page.getByRole('button', { name: 'Computer', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
@@ -27,8 +27,10 @@ test('the recommendation puzzle gates the exit, awards a usable ticket, and reme
   await expect(page.locator('#ticket')).toBeVisible();
   await expect(page.locator('#ticket')).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page).toHaveURL(/#nortel$/);
+  await expect(page).toHaveURL(/#chapters$/);
+  await page.getByRole('link', { name: 'Enter Nortel' }).click();
   await expect(page.getByRole('heading', { name: 'Nortel', exact: true })).toBeVisible();
+  await expect(page.locator('#ticket')).toBeVisible();
   await page.getByRole('link', { name: 'Chapter map' }).click();
   await expect(page.getByRole('heading', { name: 'A little more agency.' })).toBeVisible();
   await expect(page.locator('.chapter-row').last()).toContainText('learning agentic engineering');
@@ -38,7 +40,7 @@ test('the recommendation puzzle gates the exit, awards a usable ticket, and reme
   await expect(page.locator('#ticket')).toBeVisible();
   await page.getByRole('button', { name: 'Open', exact: true }).click();
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page).toHaveURL(/#nortel$/);
+  await expect(page).toHaveURL(/#chapters$/);
   expect(errors).toEqual([]);
 });
 
@@ -153,7 +155,7 @@ test('classic verbs give feedback and inventory selection survives switching bet
   await page.locator('#ticket').click();
   await expect(page.getByRole('button', { name: 'Use', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page).toHaveURL(/#nortel$/);
+  await expect(page).toHaveURL(/#chapters$/);
 });
 
 test('inspecting research papers reveals a clickable PDF link and other interactions clear it', async ({ page }, testInfo) => {

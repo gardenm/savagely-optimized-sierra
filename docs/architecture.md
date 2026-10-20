@@ -1,79 +1,76 @@
 # Application architecture
 
-Savagely Optimized is a static TypeScript application built with Vite. A pure reducer owns adventure state; small DOM views and browser adapters carry out its results. There is no runtime state-management dependency or backend.
+Savagely Optimized is a static TypeScript application built with Vite. Pure reducers and progress functions own the game rules; mounted DOM views and browser adapters carry out effects. There is no runtime state-management dependency or backend.
 
-## Data flow
+## One adventure, mounted room views
+
+`src/app.ts` owns one `AdventureProgress` value for the application lifetime. It loads the whole-adventure save, remembers the active room and mounts one typed room session at a time. Reading routes retain that room session. Room switching disposes its listeners and timers, then mounts the next room from shared progress.
+
+`src/game/adventure.ts` defines the shared item catalogue, playable room definitions and readonly persistent model: inventory, milestones, completion, current room and positions keyed by room. `roomProgress` projects the shared inventory/flags and the active position into a room reducer. `applyRoomProgress` merges its immutable result without replacing other rooms' positions. `enterRoom` records navigation. None accesses the DOM or browser storage.
+
+`src/chapters.ts` is the typed composition registry. It supplies both rooms with the same inventory catalogue, so an item remains visible, named and selectable outside its source room. `src/chapter.ts` owns transient typed room state and executes effects. It receives progress from the adventure owner, reports changed progress, coalesces persistence to one request per dispatch, and never opens its own save store. Hover and speech changes do not write saves.
+
+There is no exported mutable singleton, event bus, subscription framework or generic story scripting engine.
 
 ```mermaid
 flowchart LR
-  Input[Pointer or keyboard input] --> Dispatch[app dispatch]
-  Dispatch --> Reducer[update state, action, room]
-  Room[Room rules] --> Reducer
-  Reducer --> State[Next immutable state]
-  State --> Views[Patch mounted DOM views]
-  Reducer --> Effects[Explicit effects]
-  Effects --> Browser[Save, animate, navigate, or toggle audio]
+  Input[Pointer or keyboard] --> RoomReducer[Pure room update]
+  World[Shared adventure progress] --> Projection[Active room projection]
+  Projection --> RoomReducer
+  RoomReducer --> Result[Next state and explicit effects]
+  Result --> Merge[Pure progress merge]
+  Merge --> World
+  Result --> Browser[Render, save, walk, audio or navigate]
 ```
-
-`src/main.ts` imports fonts and styles and starts the app. `src/app.ts` owns persistent site services and room navigation. `src/chapters.ts` registers each room with its typed puzzle view and save codec. `src/chapter.ts` loads progress and runs a reducer session, mounted views and effects for one room. State is local to that session. There is no exported mutable singleton, event bus, or subscription framework.
 
 ## Game rules
 
-- `src/game/model.ts` defines readonly state, typed actions and effects, and the room contract.
-- `src/game/update.ts` handles movement, verbs, inventory selection, contextual action sentences, and restart. Room-specific actions and prop interactions are delegated to the supplied room.
-- `src/game/rooms/mcgill.ts` owns the lab artwork metadata, hotspot geometry, destinations, dialogue, paper link, ticket, Recommendz rules, and save codec.
-- `src/game/rooms/nortel.ts` owns the optical lab, grounded-strap requirement, recoverable static fault, cable reconnection, dialogue, and its independent save codec.
+- `src/game/model.ts` defines readonly room state, typed actions/effects and the room contract. Inventory metadata can declare a worn-state flag and label, rendered consistently in every room.
+- `src/game/update.ts` handles movement, verbs, inventory selection, contextual action sentences and pure reset transitions. Room-specific interactions remain delegated to the supplied room.
+- `src/game/rooms/mcgill.ts` owns Recommendz, the cinema ticket, contextual dialogue and the research-paper link. The ticket remains a collectible during the transition to the full puzzle web; it no longer locks the exit.
+- `src/game/rooms/nortel.ts` owns grounding, the cable, recoverable static fault and contextual dialogue. Collecting/wearing the strap preserves other inventory. Foreign items receive feedback without accidentally reconnecting a cable or opening McGill's computer.
 
-The shared reducer is parameterized by a room's state and actions. An optional `useInventoryItem` room hook runs after ownership validation when Use is selected; Nortel uses it to wear a collected strap. Rooms without the hook retain normal item selection. McGill uses that extension for the computer's open state and recommendation result. Future rooms can have different puzzles without adding their cases to the shared reducer. Unit tests exercise a separate workshop fixture to check this boundary.
+Doors return freely to the chapter map, including during a temporary fault. Solving a local puzzle changes its item/milestone, without completing the whole adventure. Only implemented rooms are registered and marked playable.
 
-Browser input produces an action, for example `dispatch({ type: 'interact', prop: 'papers' })`. The application evaluates `update(state, action, mcgill)`, receiving `{ state, effects }`.
+The reducer never reads storage, accesses the DOM, changes location, starts a timer or creates audio. Its result depends only on its inputs. The build separately checks `src/game` with ES2022 and no DOM or Node ambient types. The independent workshop fixture continues to test the generic reducer boundary.
 
-The reducer never reads storage, accesses the DOM, changes location, starts a timer, or creates audio. Its result depends only on its inputs. Movement includes the destination and duration as an effect; the view animates the existing character node. Persistence is coalesced to one write per dispatch.
+## Persistence and migration
 
-The build checks `src/game` separately with the ES2022 library and no DOM or Node ambient types. Accidentally introducing browser APIs into game rules fails typechecking.
+`src/browser/adventure-saves.ts` reads/writes only `savagely-optimized:adventure:v1`. The payload has an explicit version, the last room, shared inventory and milestones, both positions and whole-adventure completion. Coordinates are clamped; duplicate valid items are deduplicated; inconsistent grounding/link flags are repaired. Unknown items or unsupported/malformed structures return a protected load result.
 
-## Progress and temporary state
+If the new key is absent, the adapter uses the existing pure McGill and Nortel legacy decoders, merges their inventory/milestones/coordinates, and immediately attempts to save the imported adventure. The legacy keys remain byte-for-byte unchanged. Legacy chapter completion never becomes whole-adventure completion. A valid new save takes precedence even when legacy keys still contain completed chapters.
 
-Only `Progress` is persisted: inventory, chapter completion, character position and optional room milestone flags. Selected verbs/items, hovered props, dialogue and open puzzle state are temporary and reset on reload. The room's initial-state factory receives validated progress; views derive persistent visual changes from it without restoring transient faults or reopening dialogs. Restart creates fresh progress for only the current room.
+If a new save exists but cannot be read, its bytes remain untouched. Play continues in memory, with the save-status announcement explaining recovery mode. Normal writes are blocked until the player explicitly restarts the entire adventure. Failed storage reads similarly cannot authorize replacement of an unseen save. Quota or access failures retain the in-memory state; they do not prevent room travel or collecting items.
 
-The McGill save adapter retains the existing `savagely-optimized:mcgill:v1` key and `{ ticket, completed, x, y }` payload. Its codec translates that wire format into the internal model. Existing visitors need no migration. Decoding validates booleans, bounds coordinates, and prevents completion without the ticket. A new save format should use an explicit version and compatibility strategy.
+Restart confirms that it clears items and progress in every room. It creates fresh adventure progress, writes through the explicit restart path, clears mounted puzzle/walk timers and transient state, and stays at the current room's spawn. All room positions reset. The resulting valid new save prevents old completed chapters from being re-imported after reload. A dismissed confirmation changes nothing.
 
-Nortel keeps the storage key `savagely-optimized:nortel:v1` and writes payload version 2: collected strap, worn/grounded strap, restored link, completion and position. The decoder enforces ownership before grounding and grounding before link/completion. Version 1 linked saves migrate to a worn strap and restored link, preserving existing completion. The obsolete fibre/configuration fields are no longer required. Unlinked legacy saves start the simpler puzzle. No inventory is transferred between chapters, and transient faults never persist.
+The original room codecs remain in their room modules as legacy wire-format compatibility code. The former independent browser save adapter has been removed. The planned power-lead, printout and clip migrations belong to the later full-web cutover; current saves still contain the current ticket/strap rules.
 
-`src/browser/saves.ts` catches malformed JSON, denied storage access, and quota errors. Loading falls back to fresh progress; saving reports failure so the shell can announce it. It never clears unrelated browser storage.
+## Views, navigation and effects
 
-## Views and browser services
+- `src/main.ts` imports fonts/styles and starts/disposes the app for HMR.
+- `src/ui/adventure.ts` mounts scenery, labelled hotspots, shared inventory and the nine verbs. It translates input to actions and patches existing nodes, preserving focus and the original walking jiggle.
+- `src/ui/recommendz.ts` owns the protected-focus McGill terminal. Cancellation updates state before native focus restoration; reset clears form selections.
+- `src/ui/nortel.ts` owns scene overlays, shock/spark feedback and the 1.8-second self-test timer. Recovery dispatches a room action. Timed room actions may finish while a delayed exit is pending, so cancelling an exit cannot strand the fault. Restart and disposal cancel timers. The worn inventory marker is now part of the shared inventory view.
+- `src/ui/shell.ts` owns navigation chrome, sound indicators, toasts and save announcements. Its footer describes a whole-adventure restart.
+- `src/ui/pages.ts` renders the factual career overview and chapter map from `src/content/career.ts`.
+- `src/browser/navigation.ts` handles routes, titles, active links and focus. It remembers the current adventure link on reading pages, including a direct reload of the CV/map. Visiting the root URL resumes the last room; explicit room hashes take precedence.
+- `src/browser/audio.ts` owns the optional audio graph, serialized toggles, hidden-tab suspension and disposal.
 
-- `src/ui/adventure.ts` mounts the generic room, translates input into actions, patches controls and dialogue, and animates movement.
-- `src/ui/recommendz.ts` owns the McGill computer's markup, checkbox input, native dialog, and focus handling. The reducer validates the puzzle and authorizes ticket awards. Checkbox selection stays local to the form until submitted.
-- `src/ui/nortel.ts` owns the scene's transparent strap/cable props, worn inventory marker, static-shock feedback and 1.8-second recovery timer. Recovery dispatches a room action; the reducer decides the reset. Manual reset, restart and disposal cancel timers. Reduced motion suppresses the jolt while retaining the still spark.
-- `src/ui/pages.ts` renders the career overview and chapter map from `src/content/career.ts`.
-- `src/ui/shell.ts` renders the site shell and handles sound indicators, toasts, and save announcements. Puzzle markup is supplied by the composition root.
-- `src/browser/navigation.ts` handles hash routes, titles, active links, scrolling, and navigation focus.
-- `src/browser/audio.ts` lazily creates and owns the Web Audio graph, serializes toggles, suspends hidden-tab audio, and releases resources on disposal.
+Open dialogs, selected verbs/items, hover, dialogue, walk timers and temporary electrical faults are not saved. Per-room position and shared items/milestones survive switching rooms and reload. Keyboard commands remain scoped to the active game and inactive while a puzzle is open.
 
-Views mount once and update existing nodes. Hovering does not replace the room or form and does not rewrite unchanged live-region text. Native dialog cancellation dispatches the close action before focus restoration, keeping reducer state and the browser synchronized. Keyboard commands are scoped to the active game and are inactive while the computer is open.
+The exit waits for its walking effect, skips that delay under reduced motion, and cancels if the visitor leaves for a reading route. Animation and all listeners/timers are disposed when a room is replaced. The approved art, scale, fonts and stable action-sentence space remain unchanged.
 
-Each mounted view/service exposes disposal for its listeners, timers, or audio resources. The entry point registers app disposal with Vite hot-module replacement. The existing stylesheet and artwork are retained. Hotspot percentages now live in the room definition and are rendered as inline geometry, avoiding separate coordinates in TypeScript and CSS.
+## Next implementation
 
-`#adventure` selects McGill and `#nortel` selects Nortel. Reading routes keep the current room session mounted and the adventure navigation link returns to it. Switching rooms disposes the old session before mounting the next, retaining the shell and audio service. The `leave-room` effect can supply a next-room id; otherwise it opens the chapter map. The session waits for the exit walk unless reduced motion is preferred, and cancels a delayed transition if the visitor navigates to a reading page. Timers are also cancelled on restart and disposal.
+[The puzzle web](puzzle-web.md) defines the remaining interlocking story. The shared-state foundation is implemented; item transformations, the power-lead/gum/plane graph and SMART/Lightspeed/Shopify scenes are next.
 
-## Planned shared adventure
-
-[The puzzle web](puzzle-web.md) is the design for the next implementation. Cross-room inventory is now a requirement; the current per-room sessions, save codecs and restart behavior above describe the deployed prototype.
-
-The next version should own one adventure state and one versioned save above the mounted room view: shared item locations/forms and milestones, per-room positions and the current room. Room definitions continue to supply scenery and typed interactions. Keep rules pure and effects explicit; there is no need for a generic story scripting engine or a new state-management dependency.
-
-The blueprint identifies the current boundaries that need to change before rooms are connected: `room.items` cannot limit shared inventory rendering, Nortel's strap actions cannot replace unrelated items, navigation cannot require chapter completion, and per-room resets cannot safely reset shared dependencies. It also specifies legacy-save import and one whole-adventure restart. Adding the future rooms should follow that model rather than creating more independent inventories and save keys.
-
-Implementation remains a separate next step. The current room definitions, codecs and behavior are unchanged by documenting this design.
+Add new items to the shared catalogue and validation, define their lifecycle and explicit reducer actions, and implement room rules against shared progress. Evolve the versioned save contract and migration when introducing the full graph. Preserve the pure functions and typed composition instead of adding independent inventories or save keys. Publish the full story when all its required item destinations exist.
 
 ## Validation and delivery
 
-`npm run test:unit` runs Vitest under Node. Tests cover deterministic and immutable transitions, movement bounds, inventory, puzzle validation and completion, save compatibility and failures, and the audio lifecycle. Small fakes stand in for browser storage and audio; reducer tests need no DOM environment.
+`npm run test:unit` covers immutable reducers, cross-room progress, item preservation, foreign-item rejection, codec validation, legacy import, protected saves, storage failures and reset semantics. Reducer tests run under Node with no DOM environment.
 
-`npm run test:e2e` runs Playwright at desktop and mobile sizes. It exercises the full puzzle, navigation, focus, input scoping, persistence including legacy saves, sound failure, links, artwork, layout overflow, and stable verb positions. The external PDF destination is intercepted in its navigation test; that checks the outgoing link, not remote PDF availability. Screenshots are generated for inspection, not stored as snapshot assertions.
+`npm run test:e2e` runs desktop/mobile journeys for free exits, shared inventory/worn markers, independent positions, reload/root resume, legacy migration, whole-adventure reset, protected saves, unavailable storage and fault recovery during a cancelled exit. Existing browser checks still cover Recommendz, keyboard/focus boundaries, audio failure, links, artwork/layout and stable verb positions. Screenshots are inspection evidence rather than pixel snapshot assertions. External PDF navigation is intercepted; the test checks the outgoing link, not remote PDF availability.
 
-`npm test` runs both suites. `npm run build` typechecks application code, tests, and configuration, checks the isolated game modules, and emits `dist/`.
-
-`.github/workflows/check.yml` runs unit tests, the production build, and browser tests against `dist/` on pull requests and pushes to `main`. Cloudflare continues to build `npm run build` and publish `dist/`; no runtime services or deployment-setting changes are required. The workflow provides checks; deployment gating depends on repository and Cloudflare settings.
+`npm run build` typechecks application/tests/configuration and isolated game modules, then emits `dist/`. `npm test` runs both suites. GitHub Actions checks unit tests, build and production browser journeys on PRs and pushes. Cloudflare still builds `npm run build` and publishes `dist/`; no runtime services or deployment changes are required.

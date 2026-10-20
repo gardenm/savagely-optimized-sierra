@@ -18,7 +18,7 @@ export function renderShell(chapterMarkup: string): string {
     ${renderPages()}
     <span class="sr-only" id="save-status" role="status"></span>
   </main>
-  <footer class="site-footer"><button id="domain-joke" title="Examine the domain">savagelyoptimized.co ${icon('spark')}</button><button id="reset-progress" title="Restart the McGill chapter">Restart</button></footer>
+  <footer class="site-footer"><button id="domain-joke" title="Examine the domain">savagelyoptimized.co ${icon('spark')}</button><button id="reset-progress" title="Restart the entire adventure">Restart</button></footer>
   <div class="toast" id="toast" role="status" hidden></div>
   `;
 }
@@ -42,7 +42,6 @@ export function createShellView(root: HTMLElement, onSound: () => void, onRestar
   required(root, '#domain-joke').addEventListener('click', () => showToast('Originally .com. The M was deemed nonessential.'), options);
 
   return {
-    chapter(name: string) { required(root, '#reset-progress').setAttribute('title', `Restart the ${name} chapter`); },
     sound(enabled: boolean) {
       soundButtons.forEach(button => {
         button.innerHTML = `${icon(enabled ? 'sound' : 'muted')}<span>Sound ${enabled ? 'on' : 'off'}</span>`;
@@ -50,7 +49,7 @@ export function createShellView(root: HTMLElement, onSound: () => void, onRestar
         button.setAttribute('aria-label', `Turn ${enabled ? 'off' : 'on'} ambient sound`);
       });
     },
-    saveFailed() { setText(saveStatus, 'Browser storage is unavailable. Progress will not be saved.'); },
+    saveStatus(message: string) { setText(saveStatus, message); },
     showToast,
     dispose() { events.abort(); clearTimeout(toastTimer); },
   };

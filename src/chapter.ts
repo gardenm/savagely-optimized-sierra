@@ -1,5 +1,4 @@
-import { createSaveStore, type SaveCodec } from './browser/saves';
-import type { Action, Dispatch, GameState, RoomDefinition } from './game/model';
+import type { Action, Dispatch, GameState, Progress, RoomDefinition } from './game/model';
 import { assertNever } from './game/model';
 import { createInitialState, update } from './game/update';
 import { createAdventureView } from './ui/adventure';
@@ -14,15 +13,15 @@ export interface ChapterServices {
   isActive(): boolean;
   leave(nextRoom?: string): void;
   toggleSound(): void;
-  saveFailed(): void;
+  progress(): Progress;
+  changed(progress: Progress, persist: boolean): void;
 }
 export interface ChapterSession { restart(): void; cancelExit(): void; dispose(): void }
 
-/** One reducer session per mounted room. Room-specific puzzle state stays typed. */
-export function mountChapter<S, A>(root: HTMLElement, room: RoomDefinition<S, A>, codec: SaveCodec,
+/** One mounted room projection of shared adventure progress; puzzle state stays typed. */
+export function mountChapter<S, A>(root: HTMLElement, room: RoomDefinition<S, A>,
   mountPuzzle: (root: HTMLElement, dispatch: Dispatch<A>) => PuzzleView<S>, services: ChapterServices): ChapterSession {
-  const saves = createSaveStore(codec);
-  let state = createInitialState(room, saves.load());
+  let state = createInitialState(room, services.progress());
   let disposed = false;
   let leaving = false;
   let exitTimer: ReturnType<typeof setTimeout> | undefined;
@@ -37,14 +36,16 @@ export function mountChapter<S, A>(root: HTMLElement, room: RoomDefinition<S, A>
   }
 
   function dispatch(action: Action<A>) {
-    if (disposed || leaving) return;
+    if (disposed || (leaving && action.type !== 'room')) return;
+    const before = state.progress;
     const result = update(state, action, room);
     state = result.state;
     for (const effect of result.effects) if (effect.type === 'walk') adventure.walk(effect);
     if (action.type === 'restart') puzzle.reset();
     adventure.render(state);
     puzzle.render(state);
-    if (result.effects.some(effect => effect.type === 'persist') && !saves.save(state.progress)) services.saveFailed();
+    const shouldSave = result.effects.some(effect => effect.type === 'persist');
+    if (state.progress !== before || shouldSave) services.changed(state.progress, shouldSave);
     for (const effect of result.effects) {
       switch (effect.type) {
         case 'leave-room': {
@@ -71,7 +72,14 @@ export function mountChapter<S, A>(root: HTMLElement, room: RoomDefinition<S, A>
   puzzle.render(state);
   return {
     cancelExit: stopExit,
-    restart() { stopExit(); dispatch({ type: 'restart' }); },
+    restart() {
+      stopExit();
+      state = createInitialState(room, services.progress());
+      puzzle.reset();
+      adventure.reset();
+      adventure.render(state);
+      puzzle.render(state);
+    },
     dispose() {
       disposed = true;
       stopExit();

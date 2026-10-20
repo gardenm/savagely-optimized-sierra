@@ -21,7 +21,7 @@ export function renderAdventure<S, A>(room: RoomDefinition<S, A>): string {
             <div class="verbs" role="group" aria-label="Choose an action">
               ${Object.entries(verbs).map(([key, label]) => `<button data-mode="${key}" aria-pressed="false"${key === 'look' ? ' aria-keyshortcuts="L"' : key === 'use' ? ' aria-keyshortcuts="U"' : ''}>${label}</button>`).join('')}
             </div>
-            <div class="inventory" role="group" aria-label="Inventory">${room.items.map(item => `<button id="${escapeHtml(item.id)}" class="ticket-item" data-item="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.label)}" aria-pressed="false" hidden>${icon(item.icon as Parameters<typeof icon>[0])}</button>`).join('')}</div>
+            <div class="inventory" role="group" aria-label="Inventory">${room.items.map(item => `<button id="${escapeHtml(item.id)}" class="ticket-item" data-item="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.label)}" aria-pressed="false" hidden>${icon(item.icon as Parameters<typeof icon>[0])}${item.worn ? `<span class="worn-marker" data-worn-marker aria-hidden="true" hidden>${icon('check')}</span>` : ''}</button>`).join('')}</div>
           </div>
         </div>
       </div>
@@ -86,6 +86,11 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
       }
       verbButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)));
       items.forEach(button => {
+        const item = room.items.find(item => item.id === button.dataset.item)!;
+        const worn = !!item.worn && state.progress.flags?.[item.worn.flag] === true;
+        button.setAttribute('aria-label', worn ? item.worn!.label : item.label);
+        const marker = button.querySelector<HTMLElement>('[data-worn-marker]');
+        if (marker) marker.hidden = !worn;
         button.hidden = !state.progress.inventory.includes(button.dataset.item!);
         button.setAttribute('aria-pressed', String(button.dataset.item === state.selectedItem));
       });
@@ -105,6 +110,12 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
         void marker.offsetWidth;
         marker.classList.add('visible');
       }
+    },
+    reset() {
+      clearTimeout(motionTimer);
+      character.classList.remove('walking');
+      character.style.setProperty('--walk-duration', '0s');
+      marker.classList.remove('visible');
     },
     dispose() {
       events.abort();

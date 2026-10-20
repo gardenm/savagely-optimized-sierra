@@ -12,7 +12,7 @@ function wearStrap(state: State): Transition<NortelState> {
   return {
     state: {
       ...state, selectedItem: null,
-      progress: { ...state.progress, inventory: ['strap'], flags: { ...state.progress.flags, strapWorn: true } },
+      progress: { ...state.progress, inventory: state.progress.inventory.includes('strap') ? state.progress.inventory : [...state.progress.inventory, 'strap'], flags: { ...state.progress.flags, strapWorn: true } },
       dialogue: { text: '“Strapped in. Grounded. Fashionable.”' },
     },
     effects: [{ type: 'persist' }],
@@ -29,12 +29,13 @@ function resetEquipment(state: State): Transition<NortelState> {
 
 function interact(state: State, prop: string): Transition<NortelState> {
   const { mode } = state;
+  if (state.selectedItem && state.selectedItem !== 'strap' && (mode === 'use' || mode === 'give')) return say(state, '“That won’t help with this.”');
   if (prop === 'strap') {
     if (mode === 'use') return wearStrap(state);
     if (mode === 'pickup') {
       if (state.progress.inventory.includes('strap')) return say(state, '“I’ve got it.”');
       return {
-        state: { ...state, progress: { ...state.progress, inventory: ['strap'] }, dialogue: { text: '“An anti-static wrist strap.”' } },
+        state: { ...state, progress: { ...state.progress, inventory: [...state.progress.inventory, 'strap'] }, dialogue: { text: '“An anti-static wrist strap.”' } },
         effects: [{ type: 'persist' }],
       };
     }
@@ -63,11 +64,9 @@ function interact(state: State, prop: string): Transition<NortelState> {
     return say(state, prop === 'cable' ? '“The other end is already connected.”' : '“Cards seated. Best leave them there.”');
   }
   if (prop === 'door' && (mode === 'open' || mode === 'use')) {
-    if (state.room.tripped) return say(state, '“I’ll let the self-test finish.”');
-    if (!linkRestored(state.progress)) return say(state, '“Still an alarm behind me. That would bother me.”');
     return {
-      state: { ...state, progress: { ...state.progress, completed: true }, selectedItem: null, dialogue: { text: '“Connected. On to the next thing.”' } },
-      effects: [{ type: 'persist' }, { type: 'leave-room' }],
+      state: { ...state, selectedItem: null, dialogue: { text: linkRestored(state.progress) ? '“Connected. On to the next thing.”' : '“A change of scene.”' } },
+      effects: [{ type: 'leave-room' }],
     };
   }
   if (mode === 'talk') return say(state, '“The fans are doing most of the talking.”');
@@ -98,7 +97,7 @@ export const nortel: RoomDefinition<NortelState, NortelAction> = {
     { id: 'circuit', name: 'circuit sheet', label: 'Circuit sheet', area: { left: 73, top: 15, width: 12, height: 28 }, destination: { x: 76, y: 78 } },
     { id: 'door', name: 'door', label: 'Door', area: { left: 86, top: 10, width: 14, height: 57 }, destination: { x: 84, y: 77 } },
   ],
-  items: [{ id: 'strap', name: 'anti-static strap', label: 'Anti-static strap in inventory', icon: 'strap' }],
+  items: [{ id: 'strap', name: 'anti-static strap', label: 'Anti-static strap in inventory', icon: 'strap', worn: { flag: 'strapWorn', label: 'Anti-static strap, worn and grounded' } }],
   initialState: () => ({ tripped: false }),
   interact,
   useInventoryItem: (state, item) => item === 'strap' ? wearStrap(state) : undefined,

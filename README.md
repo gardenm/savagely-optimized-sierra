@@ -1,10 +1,10 @@
 # Savagely Optimized
 
-A personal point-and-click career adventure for **savagelyoptimized.co**. Two playable chapters take place in imagined McGill / CIM and Nortel labs, drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
+A personal point-and-click career adventure for **savagelyoptimized.co**. Two playable rooms share inventory and a save, and take place in imagined McGill / CIM and Nortel labs, drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
 
 ## Connected adventure blueprint
 
-The next design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. This is the blueprint; the current two-room prototype is described below.
+The next design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. Shared inventory and saving now underpin the two existing rooms; the full item web and other three scenes remain planned. The current playable puzzles are described below.
 
 ## Run locally
 
@@ -27,11 +27,11 @@ npm ci --cache /workspace/.cache/npm
 
 The scene is labelled **McGill University, 2006**. Click the floor to walk, or choose a verb and an object. The nine-verb grid follows the classic adventure layout; object hover or keyboard focus builds the action sentence. The inventory is pictorial. Responses appear as dialogue over the room, only after an interaction. The approved room and character assets are preserved; the character remains at the enlarged display scale.
 
-For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the ticket, then use it with the door. The character walks to the exit and the next scene is Nortel. Reduced motion makes the transition immediate.
+For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the cinema ticket, then open the door to return to the map. Both rooms can be visited before solving either puzzle. Reduced motion makes the transition immediate.
 
 Nortel (`#nortel`) contains OME racks, an anti-static strap, a loose cable, a lab console, and an exit. Use the strap to wear and ground it, then use the loose cable to reconnect it and leave for the chapter map. Picking up the strap alone does not ground it: choose Use and click its inventory icon to wear it. Touching electronics without it gives the character a brief static shock and trips the equipment. A self-test recovers after 1.8 seconds; using the console resets it immediately. No port-selection or configuration step is required. This is an illustrative puzzle, not a reconstruction of actual OME hardware or a real lab incident. Nortel's year is intentionally omitted until the owner supplies it.
 
-Both rooms are directly accessible from the chapter map. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site; these developer instructions do not appear in the game. A quiet **Restart** control resets only the current chapter. Each chapter saves independently, with the original McGill save format preserved. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Day Of The Tentacle face supplies the command lettering; speech remains Comic Neue.
+Both rooms are directly accessible from the chapter map. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site; these developer instructions do not appear in the game. A quiet **Restart** control resets the whole adventure after confirmation and stays in the current room. One adventure save holds both rooms’ inventory, milestones and positions. Old McGill/Nortel saves are imported once without modifying their keys. Corrupt, future-version or unknown-item adventure saves are preserved until an explicit Restart. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Day Of The Tentacle face supplies the command lettering; speech remains Comic Neue.
 
 Tab reaches the controls and objects. While focus is inside the game, arrow keys move the character and W / L / U select actions. Escape closes the current puzzle and restores focus. Reduced-motion preferences are respected. Sound starts only after an explicit click and uses an original synthesized ambient chord; no album audio is included.
 
@@ -65,7 +65,7 @@ For a standard Playwright-managed browser, run `npx playwright install chromium`
 
 ## Architecture
 
-The entry point starts a small application coordinator. `src/chapters.ts` registers typed room definitions and puzzle views; `src/chapter.ts` runs one reducer session and performs its effects. Pure game rules live in `src/game`, with each chapter's puzzle and scene data in its own room module. DOM views live in `src/ui`, browser services in `src/browser`, and biography content in `src/content`. The existing McGill save format is preserved.
+The entry point starts a small application coordinator. `src/chapters.ts` registers typed room definitions and puzzle views; `src/chapter.ts` runs one reducer session and performs its effects. Pure game rules live in `src/game`, with each chapter's puzzle and scene data in its own room module. DOM views live in `src/ui`, browser services in `src/browser`, and biography content in `src/content`. Shared persistent progress lives in `src/game/adventure.ts`; its browser save adapter imports the old room formats and protects unreadable saves.
 
 See [the architecture guide](docs/architecture.md) for data flow, module boundaries, testing, and adding another chapter.
 

@@ -37,6 +37,9 @@ export function createNavigation(root: HTMLElement, titles: Record<Route, string
   return {
     get route(): Route { return current!; },
     navigate(route: Route) { location.hash = route; },
+    rememberRoom(route: 'adventure' | 'nortel') {
+      links.forEach(link => { if (link.dataset.nav === 'adventure') link.href = `#${route}`; });
+    },
     dispose() { events.abort(); },
   };
 }

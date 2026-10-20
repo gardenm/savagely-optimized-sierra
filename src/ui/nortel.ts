@@ -12,7 +12,6 @@ export function createNortelView(root: HTMLElement, dispatch: Dispatch<NortelAct
   const characterLabel = character.getAttribute('aria-label')!;
   const strapHotspot = required<HTMLButtonElement>(root, '[data-prop="strap"]');
   const cableHotspot = required<HTMLButtonElement>(root, '[data-prop="cable"]');
-  const strapItem = required<HTMLButtonElement>(root, '[data-item="strap"]');
   const props = document.createElement('div');
   props.className = 'nortel-props';
   props.setAttribute('aria-hidden', 'true');
@@ -29,11 +28,6 @@ export function createNortelView(root: HTMLElement, dispatch: Dispatch<NortelAct
   shock.innerHTML = icon('spark');
   shock.hidden = true;
   character.append(shock);
-  const wornMarker = document.createElement('span');
-  wornMarker.className = 'worn-marker';
-  wornMarker.innerHTML = icon('check');
-  wornMarker.setAttribute('aria-hidden', 'true');
-  strapItem.append(wornMarker);
   let tripped = false;
   let recoveryTimer: ReturnType<typeof setTimeout> | undefined;
   let shockTimer: ReturnType<typeof setTimeout> | undefined;
@@ -58,8 +52,6 @@ export function createNortelView(root: HTMLElement, dispatch: Dispatch<NortelAct
       strapHotspot.hidden = owned;
       cable.hidden = linked;
       cableHotspot.setAttribute('aria-label', linked ? 'Connected cable' : 'Loose cable');
-      wornMarker.hidden = !worn;
-      strapItem.setAttribute('aria-label', worn ? 'Anti-static strap, worn and grounded' : 'Anti-static strap in inventory');
       character.setAttribute('aria-label', characterLabel + (worn ? ', wearing a grounded anti-static wrist strap' : ''));
       lamp.classList.toggle('is-connected', linked && !state.room.tripped);
       if (state.room.tripped && !tripped) {
@@ -75,6 +67,6 @@ export function createNortelView(root: HTMLElement, dispatch: Dispatch<NortelAct
       } else if (!state.room.tripped && tripped) clearFault();
     },
     reset: clearFault,
-    dispose() { clearFault(); props.remove(); shock.remove(); wornMarker.remove(); },
+    dispose() { clearFault(); props.remove(); shock.remove(); },
   };
 }

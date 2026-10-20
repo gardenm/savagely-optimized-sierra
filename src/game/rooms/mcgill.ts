@@ -29,17 +29,17 @@ function openComputer(state: GameState<McGillState>): Transition<McGillState> {
 }
 
 function leaveRoom(state: GameState<McGillState>): Transition<McGillState> {
-  if (!hasTicket(state)) return say(state, '“An unlocked door. A very big decision.”');
   return {
-    state: { ...state, progress: { ...state.progress, completed: true }, selectedItem: null, dialogue: { text: '“Time for a change of scene.”' } },
-    effects: [{ type: 'persist' }, { type: 'leave-room', nextRoom: 'nortel' }],
+    state: { ...state, selectedItem: null, dialogue: { text: '“Time for a change of scene.”' } },
+    effects: [{ type: 'leave-room' }],
   };
 }
 
 function interact(state: GameState<McGillState>, prop: string): Transition<McGillState> {
   const { mode } = state;
-  if ((mode === 'use' || mode === 'give') && state.selectedItem === 'ticket') {
-    return prop === 'door' ? leaveRoom(state) : say(state, '“That doesn’t look like a ticket reader.”');
+  if ((mode === 'use' || mode === 'give') && state.selectedItem) {
+    if (state.selectedItem === 'ticket') return prop === 'door' ? leaveRoom(state) : say(state, '“That doesn’t look like a ticket reader.”');
+    return say(state, '“That won’t help with this.”');
   }
   if (mode === 'pickup') return say(state, prop === 'papers' ? '“I’m travelling light.”' : '“That can stay here.”');
   if (mode === 'push' || mode === 'pull') return say(state, prop === 'papers' ? '“Peer pressure won’t improve them.”' : '“It’s fine where it is.”');
@@ -62,7 +62,7 @@ function interact(state: GameState<McGillState>, prop: string): Transition<McGil
       return mode === 'use' ? { ...result, effects: [{ type: 'toggle-sound' }] } : result;
     }
     case 'door':
-      return mode === 'use' && hasTicket(state) ? leaveRoom(state) : say(state, '“An unlocked door. A very big decision.”');
+      return mode === 'use' ? leaveRoom(state) : say(state, '“An unlocked door. A very big decision.”');
     default:
       return { state, effects: [] };
   }
@@ -110,7 +110,7 @@ export const mcgill: RoomDefinition<McGillState, McGillAction> = {
     { id: 'records', name: 'record player', label: 'Record player', area: { left: 86, top: 33, width: 14, height: 20 }, destination: { x: 79, y: 88 } },
     { id: 'door', name: 'door', label: 'Door', area: { left: 74, top: 4, width: 15, height: 57 }, destination: { x: 76, y: 75 } },
   ],
-  items: [{ id: 'ticket', name: 'ticket', label: 'Next-chapter ticket', icon: 'ticket' }],
+  items: [{ id: 'ticket', name: 'ticket', label: 'Cinema ticket', icon: 'ticket' }],
   initialState: () => ({ computerOpen: false, recommendation: 'initial' }),
   interact, update,
 };

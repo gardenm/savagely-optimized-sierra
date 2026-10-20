@@ -1,6 +1,6 @@
 # One adventure across five rooms
 
-Status: design blueprint for the next implementation. The live prototype still has two independently saved chapters. This document defines the connected adventure; it is not an in-game walkthrough or a claim that the other rooms exist yet.
+Status: design blueprint for the next implementation. The live prototype has two rooms with shared inventory, one adventure save, free exits and a whole-adventure restart. Its original local puzzles are retained during the transition. This document defines the connected adventure; it is not an in-game walkthrough or a claim that the other rooms exist yet.
 
 The five main rooms are McGill, Nortel, SMART Technologies, Lightspeed and Shopify. Their arrangement tells the career chronologically. Their puzzles cross that arrangement in both directions. Timney Lab remains an optional prologue outside the required path.
 
@@ -162,26 +162,26 @@ Keep the current supplied McGill year; do not invent dates for later rooms. Ment
 
 The existing reducer remains pure TypeScript. This design requires one adventure session with shared inventory, persistent world milestones, a position for each room and the current room. Individual rooms continue to own scenery and local interactions. Open dialogs, hover, speech, walk timers and the static fault remain transient. No general story scripting engine, backend or runtime dependency is needed.
 
-Before wiring the graph:
+The shared-state foundation below is implemented for the two existing rooms. Item transformations and the full graph remain next:
 
-1. Move inventory and save ownership above the mounted room session. Room switching must not reload an independent inventory or start a new adventure.
-2. Render inventory from a shared item registry in every room. Currently `renderAdventure` only renders `room.items`, so a Nortel item would otherwise vanish from McGill's controls.
-3. Make item pickup/use preserve unrelated inventory. Nortel currently assigns `inventory: ['strap']`; that must become a safe collection/transformation before items can travel between rooms.
-4. Keep scene travel separate from completion. Remove the ticket and carrier gates on room exits; reserve final completion for the verified Shopify result.
-5. Implement item-on-item use as an explicit reducer action, with atomic recipes and source/form tracking. Paper folding and gum chewing use the same item lifecycle, with no DOM-owned puzzle progress.
-6. Introduce one versioned whole-adventure save and one whole-adventure restart. Preserve legacy saves during migration and retain per-room coordinates.
+1. **Implemented:** move inventory and save ownership above the mounted room session. Room switching must not reload an independent inventory or start a new adventure.
+2. **Implemented:** render inventory from a shared item registry in every room. The composition registry now supplies the same item catalogue to both views.
+3. **Implemented:** make item pickup/use preserve unrelated inventory. Collecting or wearing the strap now preserves every unrelated carried item.
+4. **Implemented:** keep scene travel separate from completion. Existing room exits no longer require their local puzzle; future exits follow the same policy. Reserve final completion for the verified Shopify result.
+5. **Next:** implement item-on-item use as an explicit reducer action, with atomic recipes and source/form tracking. Paper folding and gum chewing use the same item lifecycle, with no DOM-owned puzzle progress.
+6. **Implemented:** introduce one versioned whole-adventure save and one whole-adventure restart. Preserve legacy saves during migration and retain per-room coordinates.
 
 ### Save compatibility
 
 Use a new `savagely-optimized:adventure:v1` save key with an explicit payload version. A valid new save takes precedence; only an absent new save is eligible to import the old McGill/Nortel saves. Preserve the old keys as recovery data. A deliberate Restart writes a valid fresh adventure save so it cannot re-import completed legacy chapters.
 
-A legacy McGill ticket means the computer was already used successfully: import a powered computer and a foldable printed recommendation, with its power lead already installed. Do not require the old genre puzzle again. A legacy restored Nortel link imports the repaired mount, connected fibre and owned/worn strap; its new clip/gum branch is already satisfied. Sources for those installed items are marked resolved so they cannot mint extra copies. Other free items remain available. Unfinished Nortel saves keep any owned strap and its worn state. Reuse the existing legacy decoders to validate versions, flags and room coordinates. Neither old chapter-completed flag implies that the new whole adventure is finished.
+For the future full-web cutover, a legacy McGill ticket means the computer was already used successfully: import a powered computer and a foldable printed recommendation, with its power lead already installed. Do not require the old genre puzzle again. A legacy restored Nortel link imports the repaired mount, connected fibre and owned/worn strap; its new clip/gum branch is already satisfied. Sources for those installed items are marked resolved so they cannot mint extra copies. Other free items remain available. Unfinished Nortel saves keep any owned strap and its worn state. Reuse the existing legacy decoders to validate versions, flags and room coordinates. Neither old chapter-completed flag implies that the new whole adventure is finished.
 
-An invalid or unsupported adventure save is preserved byte-for-byte. Start a temporary in-memory visit, announce the load problem through the existing save-status area, and suppress writes over that save until the player deliberately uses Restart. Do not fall back to legacy import on every load. Denied or failed storage still permits an in-memory adventure and uses the existing save-failure announcement. Migration, protected recovery and reset behavior need tests at implementation time.
+An invalid or unsupported adventure save is preserved byte-for-byte. Start a temporary in-memory visit, announce the load problem through the existing save-status area, and suppress writes over that save until the player deliberately uses Restart. Do not fall back to legacy import on every load. Denied or failed storage still permits an in-memory adventure and uses the existing save-failure announcement. The foundation currently imports the existing ticket, strap, Nortel milestones and both positions; it does not create the unimplemented power-lead/printout/clip states yet. Import, protected recovery and whole-adventure reset have unit and browser coverage. A deliberate reset keeps the current room, resets all positions to their spawns, and clears shared progress.
 
 ### Implementation order
 
-1. Implement shared state, inventory, travel and legacy migration with fixture rooms and tests. Keep the deployed puzzles working during the transition.
+1. **Foundation complete:** shared state, inventory, free travel and legacy migration have been implemented and tested with the existing rooms and reducer fixtures. Keep the deployed puzzles working during the transition.
 2. Implement the complete dependency graph in the reducer using fixtures, including consumption, repeat actions and failed uses. Exercise multiple legal orders before coupling it to artwork.
 3. Build SMART, Lightspeed and Shopify as actual room scenes and connect their props to those rules. Preserve the existing visual world. Mark each public room playable only when it exists.
 4. Publish the interconnected story once all its required destinations work. The first McGill–Nortel changes are infrastructure and the opening threads of this graph. Do not invent a temporary Nortel payoff for the plane or silently collapse the design back into paired rooms.

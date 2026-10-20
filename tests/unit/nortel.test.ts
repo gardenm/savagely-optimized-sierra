@@ -74,14 +74,14 @@ describe('Nortel static and loose cable puzzle', () => {
     expect(linkRestored(state.progress)).toBe(true);
     expect(state.room.tripped).toBe(false);
     const result = update(act(state, { type: 'select-mode', mode: 'open' }), { type: 'interact', prop: 'door' }, nortel);
-    expect(result.state.progress.completed).toBe(true);
+    expect(result.state.progress.completed).toBe(false);
     expect(result.effects).toContainEqual({ type: 'leave-room' });
     expect(act(state, ...touch('cable')).progress).toEqual(state.progress);
   });
 
-  it('keeps the door closed until connected and clears transient faults on reload', () => {
+  it('allows free exit even during a fault, and clears transient faults on reload', () => {
     for (const state of [initial(), act(initial(), ...touch('ome-a'))]) {
-      expect(update(act(state, { type: 'select-mode', mode: 'open' }), { type: 'interact', prop: 'door' }, nortel).effects).not.toContainEqual({ type: 'leave-room' });
+      expect(update(act(state, { type: 'select-mode', mode: 'open' }), { type: 'interact', prop: 'door' }, nortel).effects).toContainEqual({ type: 'leave-room' });
     }
     const fault = act(initial(), ...touch('cable'));
     const loaded = createInitialState(nortel, nortelSave.decode(nortelSave.encode(fault.progress)));
