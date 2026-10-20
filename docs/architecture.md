@@ -29,6 +29,7 @@ flowchart LR
 - `src/game/update.ts` handles movement, verbs, inventory selection, contextual action sentences and pure reset transitions. Room-specific interactions remain delegated to the supplied room.
 - `src/game/rooms/mcgill.ts` owns Recommendz, the cinema ticket, contextual dialogue and the research-paper link. The ticket remains a collectible during the transition to the full puzzle web; it no longer locks the exit.
 - `src/game/rooms/nortel.ts` owns grounding, the cable, recoverable static fault and contextual dialogue. Collecting/wearing the strap preserves other inventory. Foreign items receive feedback without accidentally reconnecting a cable or opening McGill's computer.
+- `src/game/rooms/smart.ts` supplies real office geometry, contextual computer/office responses and an adapter to `story/smart.ts`. It adds no substitute item sources: the cross-room sequence waits for the unfinished scenes and cutover. Its browser tests seed future items to exercise the real scene.
 
 Doors return freely to the chapter map, including during a temporary fault. Solving a local puzzle changes its item/milestone, without completing the whole adventure. Only implemented rooms are registered and marked playable.
 
@@ -36,7 +37,7 @@ The reducer never reads storage, accesses the DOM, changes location, starts a ti
 
 ## Persistence and migration
 
-`src/browser/adventure-saves.ts` reads/writes only `savagely-optimized:adventure:v1`. The payload has an explicit version, the last room, shared inventory and milestones, both positions and whole-adventure completion. Coordinates are clamped; duplicate valid items are deduplicated; inconsistent grounding/link flags are repaired. Unknown items or unsupported/malformed structures return a protected load result.
+`src/browser/adventure-saves.ts` reads/writes only `savagely-optimized:adventure:v1`. That deployed key stays fixed; the payload is now version 2, so an older cached client protects a newer save rather than dropping SMART state. Version 1 two-room saves remain readable, with SMART's spawn added, and upgrade on the next write. The payload stores the last room, shared inventory/milestones, three positions and whole-adventure completion. Coordinates are clamped; duplicate valid items are deduplicated; inconsistent grounding/link flags are repaired. Version 2 preserves the known SMART flags and four related inventory items. Impossible stylus/plane/receipt/sketch combinations, unknown flags/items or unsupported structures return a protected load result.
 
 If the new key is absent, the adapter uses the existing pure McGill and Nortel legacy decoders, merges their inventory/milestones/coordinates, and immediately attempts to save the imported adventure. The legacy keys remain byte-for-byte unchanged. Legacy chapter completion never becomes whole-adventure completion. A valid new save takes precedence even when legacy keys still contain completed chapters.
 
@@ -44,7 +45,7 @@ If a new save exists but cannot be read, its bytes remain untouched. Play contin
 
 Restart confirms that it clears items and progress in every room. It creates fresh adventure progress, writes through the explicit restart path, clears mounted puzzle/walk timers and transient state, and stays at the current room's spawn. All room positions reset. The resulting valid new save prevents old completed chapters from being re-imported after reload. A dismissed confirmation changes nothing.
 
-The original room codecs remain in their room modules as legacy wire-format compatibility code. The former independent browser save adapter has been removed. The planned power-lead, printout and clip migrations belong to the later full-web cutover; current saves still contain the current ticket/strap rules.
+The original room codecs remain in their room modules as legacy wire-format compatibility code. The former independent browser save adapter has been removed. The planned power-lead, printout and clip migrations belong to the later full-web cutover; current saves retain the current ticket/strap rules alongside SMART's compatible scene state.
 
 ## Views, navigation and effects
 
@@ -52,6 +53,7 @@ The original room codecs remain in their room modules as legacy wire-format comp
 - `src/ui/adventure.ts` mounts scenery, labelled hotspots, shared inventory and the nine verbs. It translates input to actions and patches existing nodes, preserving focus and the original walking jiggle.
 - `src/ui/recommendz.ts` owns the protected-focus McGill terminal. Cancellation updates state before native focus restoration; reset clears form selections.
 - `src/ui/nortel.ts` owns scene overlays, shock/spark feedback and the 1.8-second self-test timer. Recovery dispatches a room action. Timed room actions may finish while a delayed exit is pending, so cancelling an exit cannot strand the fault. Restart and disposal cancel timers. The worn inventory marker is now part of the shared inventory view.
+- `src/ui/smart.ts` projects the high/fallen/collected stylus and the copied transaction/sketch onto the original office artwork. Only a fresh hit animates the fall; restored state is placed immediately and reduced motion removes the transition. The view owns no persistent puzzle rules or timers.
 - `src/ui/shell.ts` owns navigation chrome, sound indicators, toasts and save announcements. Its footer describes a whole-adventure restart.
 - `src/ui/pages.ts` renders the factual career overview and chapter map from `src/content/career.ts`.
 - `src/browser/navigation.ts` handles routes, titles, active links and focus. It remembers the current adventure link on reading pages, including a direct reload of the CV/map. Visiting the root URL resumes the last room; explicit room hashes take precedence.
@@ -63,7 +65,7 @@ The exit waits for its walking effect, skips that delay under reduced motion, an
 
 ## Connected puzzle rules
 
-`src/game/story` implements [the five-room puzzle web](puzzle-web.md), independently of scene geometry and DOM views. It is not imported by the public chapter registry yet. Each room has a small rule module; `rules.ts` handles common free exits, ownership checks and room-scoped events. `inventory.ts` handles unary transformations, the commutative gum/clip recipe and inspectable receipts. `progress.ts` owns immutable collection/replacement helpers. There is no recipe DSL, script interpreter or second browser application.
+`src/game/story` implements [the five-room puzzle web](puzzle-web.md), independently of scene geometry and DOM views. SMART now imports its tested rules through a real scene adapter; the other public rooms retain their current local rules until the full cutover. Each story room has a small rule module; `rules.ts` handles common free exits, ownership checks and room-scoped events. `inventory.ts` handles unary transformations, the commutative gum/clip recipe and inspectable receipts. `progress.ts` owns immutable collection/replacement helpers. There is no recipe DSL, script interpreter or second browser application.
 
 The rules use the existing `GameState`, `Transition`, `RoomDefinition` hooks and reducer. Test-only fixtures supply artificial geometry and item pictograms to exercise real interactions, actions and effects without presenting unfinished rooms on the site. Timers and terminal visibility remain transient; the future Nortel view can observe the same tripped-state contract. Movement and navigation stay with the established room/adventure coordinator.
 
@@ -71,11 +73,11 @@ Source flags distinguish an object that remains available from one that has been
 
 Agent context, delegation, independent testing and review are distinct transitions. The candidate has a stable identity; repeated delegation does not invalidate it. Nortel's link gates running the candidate at Lightspeed, not preparing it. The till computes a different three-item sale and records its result against the candidate actually tested. Review requires that exact candidate and test arithmetic. A stale or unsuitable receipt is retained until a new test replaces it. This is deterministic fictional puzzle logic with no AI service or claimed employer implementation.
 
-`story/save.ts` validates the future v2 persistent slice and converts validated prototype progress without taking away earned outcomes. It rejects inconsistent source/forms and invalid completion evidence. Its payload excludes positions, which remain the adventure owner's responsibility. These helpers are tested but are not connected to `adventure-saves.ts`: the browser continues writing the current v1 format until all scene destinations work.
+`story/save.ts` validates the future connected-story slice (its own version 2) and converts validated prototype progress without taking away earned outcomes. This is separate from the three-room world payload revision. It rejects inconsistent source/forms and invalid completion evidence. Its payload excludes positions, which remain the adventure owner's responsibility. These helpers are tested but the full story migration is not activated in `adventure-saves.ts` yet.
 
 ## Next implementation
 
-Build SMART, Lightspeed and Shopify scenes, their inventory illustrations and the new film-rating view, then register their geometry and typed rules. Wire pointer/keyboard/touch inventory targeting to `use-item`, project the connected progress and evidence through the adventure owner, and activate the v2 world-save migration. Keep current puzzles working until that complete graph can ship. Preserve the pure rules and typed composition instead of introducing independent inventories or save keys.
+Build Lightspeed and Shopify scenes and the new film-rating view, then register their geometry and typed rules. SMART's scene and related inventory pictograms are implemented. Wire pointer/keyboard/touch inventory targeting to `use-item`, project full connected progress and evidence through the adventure owner, and activate the story migration under the next world payload revision. Keep current puzzles working until that complete graph can ship. Preserve the pure rules and typed composition instead of introducing independent inventories or save keys.
 
 ## Validation and delivery
 

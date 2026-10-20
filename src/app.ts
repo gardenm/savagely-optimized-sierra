@@ -1,6 +1,6 @@
 import { createAmbientAudio } from './browser/audio';
 import { createAdventureSaveStore } from './browser/adventure-saves';
-import { createNavigation, parseRoute, type Route } from './browser/navigation';
+import { createNavigation, isRoomRoute, parseRoute, type Route } from './browser/navigation';
 import type { ChapterSession } from './chapter';
 import { isChapterId, playableChapters, type ChapterId } from './chapters';
 import { applyRoomProgress, enterRoom, freshAdventure, roomProgress } from './game/adventure';
@@ -8,7 +8,7 @@ import { profile } from './content/career';
 import { required } from './ui/dom';
 import { createShellView, renderShell } from './ui/shell';
 
-const roomRoute = (room: ChapterId) => room === 'nortel' ? 'nortel' : 'adventure';
+const roomRoute = (room: ChapterId) => room === 'mcgill' ? 'adventure' : room;
 
 /** One adventure owns progress; mounted room sessions only project it into their views. */
 export function startApp(root: HTMLElement): () => void {
@@ -17,9 +17,9 @@ export function startApp(root: HTMLElement): () => void {
   let progress = loaded.progress;
   let protectedSave = loaded.status === 'protected';
   const requested = parseRoute(location.hash);
-  let currentId: ChapterId = requested === 'nortel' ? 'nortel'
+  let currentId: ChapterId = requested === 'nortel' || requested === 'smart' ? requested
     : requested === 'adventure' && location.hash ? 'mcgill' : progress.currentRoom;
-  if (!location.hash && currentId === 'nortel') history.replaceState(null, '', '#nortel');
+  if (!location.hash && currentId !== 'mcgill') history.replaceState(null, '', `#${roomRoute(currentId)}`);
   root.innerHTML = renderShell(playableChapters[currentId].render());
   const host = required<HTMLElement>(root, '#room-host');
   const events = new AbortController();
@@ -38,6 +38,7 @@ export function startApp(root: HTMLElement): () => void {
   });
   const navigation = createNavigation(root, {
     adventure: playableChapters.mcgill.title, nortel: playableChapters.nortel.title,
+    smart: playableChapters.smart.title,
     chapters: 'Chapter map', cv: profile.name,
   }, changeRoute);
 
@@ -67,8 +68,8 @@ export function startApp(root: HTMLElement): () => void {
   }
 
   function changeRoute(route: Route) {
-    if (route !== 'adventure' && route !== 'nortel') { session.cancelExit(); return; }
-    const nextId: ChapterId = route === 'nortel' ? 'nortel' : 'mcgill';
+    if (!isRoomRoute(route)) { session.cancelExit(); return; }
+    const nextId: ChapterId = route === 'adventure' ? 'mcgill' : route;
     if (nextId === currentId) return;
     session.dispose();
     currentId = nextId;

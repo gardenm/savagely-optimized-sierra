@@ -7,6 +7,7 @@ type State = GameState<StoryRoomState>;
 export function inspectSmart(state: State, prop: string): Transition<StoryRoomState> {
   if (prop === 'stylus' || prop === 'ledge') return say(state, owns(state.progress, 'stylus') ? '“The ledge looks less smug now.”'
     : fact(state.progress, 'stylusDown') ? '“The stylus is on the floor.”' : '“A stylus on a high ledge. Well out of reach.”');
+  if (owns(state.progress, 'checkout-plan')) return say(state, '“SMART Notebook. Quantity times unit price: two coffees at $3, total $6.”');
   return say(state, fact(state.progress, 'exampleOnBoard') ? '“SMART Notebook. Two coffees, unit price $3.00. An unfinished checkout flow.”'
     : '“SMART Notebook on a Mac. An unfinished checkout flow on the whiteboard.”');
 }

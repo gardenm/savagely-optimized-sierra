@@ -1,10 +1,12 @@
 import { required } from '../ui/dom';
 
-export type Route = 'adventure' | 'nortel' | 'chapters' | 'cv';
+export type RoomRoute = 'adventure' | 'nortel' | 'smart';
+export type Route = RoomRoute | 'chapters' | 'cv';
+export const isRoomRoute = (route: Route): route is RoomRoute => route !== 'chapters' && route !== 'cv';
 
 export function parseRoute(hash: string): Route {
   const requested = hash.replace(/^#/, '');
-  return requested === 'nortel' || requested === 'chapters' || requested === 'cv' ? requested : 'adventure';
+  return requested === 'nortel' || requested === 'smart' || requested === 'chapters' || requested === 'cv' ? requested : 'adventure';
 }
 
 export function createNavigation(root: HTMLElement, titles: Record<Route, string>, onChange: (route: Route) => void = () => undefined) {
@@ -17,7 +19,7 @@ export function createNavigation(root: HTMLElement, titles: Record<Route, string
   function render() {
     const next = parseRoute(location.hash);
     if (current && current !== next) onChange(next);
-    const view = next === 'nortel' ? 'adventure' : next;
+    const view = isRoomRoute(next) ? 'adventure' : next;
     views.forEach(element => { element.hidden = element.dataset.view !== view; });
     links.forEach(link => {
       if (link.dataset.nav === view) link.setAttribute('aria-current', 'page');
@@ -37,8 +39,9 @@ export function createNavigation(root: HTMLElement, titles: Record<Route, string
   return {
     get route(): Route { return current!; },
     navigate(route: Route) { location.hash = route; },
-    rememberRoom(route: 'adventure' | 'nortel') {
+    rememberRoom(route: RoomRoute) {
       links.forEach(link => { if (link.dataset.nav === 'adventure') link.href = `#${route}`; });
+      root.querySelectorAll<HTMLAnchorElement>('[data-return-adventure]').forEach(link => { link.href = `#${route}`; });
     },
     dispose() { events.abort(); },
   };

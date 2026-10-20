@@ -4,6 +4,7 @@ import { adventureRooms } from './game/adventure';
 import { renderAdventure } from './ui/adventure';
 import { createNortelView, renderNortel } from './ui/nortel';
 import { createRecommendzView, renderRecommendz } from './ui/recommendz';
+import { createSmartView, renderSmart } from './ui/smart';
 
 export interface PlayableChapter {
   readonly title: string;
@@ -24,6 +25,7 @@ function chapter<S, A>(name: string, room: RoomDefinition<S, A>, renderPuzzle: (
 export const playableChapters = {
   mcgill: chapter('McGill', adventureRooms.mcgill, renderRecommendz, createRecommendzView),
   nortel: chapter('Nortel', adventureRooms.nortel, renderNortel, createNortelView),
+  smart: chapter('SMART', adventureRooms.smart, renderSmart, createSmartView),
 };
 export type ChapterId = keyof typeof playableChapters;
 export const isChapterId = (id: string): id is ChapterId => Object.hasOwn(playableChapters, id);

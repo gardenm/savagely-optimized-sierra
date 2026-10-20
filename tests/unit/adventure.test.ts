@@ -58,7 +58,7 @@ describe('shared adventure progress', () => {
   });
 
   it('round-trips world progress without transient UI or static-fault state', () => {
-    const world = { ...freshAdventure('nortel'), inventory: ['ticket', 'strap'], flags: { strapWorn: true, linkRestored: true }, positions: { mcgill: { x: 65, y: 90 }, nortel: { x: 60, y: 85 } } };
+    const world = { ...freshAdventure('nortel'), inventory: ['ticket', 'strap'], flags: { strapWorn: true, linkRestored: true }, positions: { ...freshAdventure().positions, mcgill: { x: 65, y: 90 }, nortel: { x: 60, y: 85 } } };
     const encoded = adventureSave.encode(world);
     expect(adventureSave.decode(encoded)).toEqual(world);
     expect(Object.keys(encoded).sort()).toEqual(['completed', 'currentRoom', 'flags', 'inventory', 'positions', 'version']);

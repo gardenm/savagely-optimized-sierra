@@ -241,6 +241,14 @@ fieldset label:hover span { border-color: #ffde8a; }
 
 /* Nortel props sit inside the scene; the original room and character stay intact. */
 .nortel-props { position: absolute; inset: 0; pointer-events: none; }
+.smart-props { position: absolute; inset: 0; pointer-events: none; }
+.smart-stylus { position: absolute; left: 67%; top: 11%; width: 12%; height: auto; transform: rotate(10deg); }
+.stylus-down .smart-stylus { left: 68%; top: 77%; transform: rotate(22deg); }
+.stylus-falling .smart-stylus { transition: left .5s ease-out, top .5s cubic-bezier(.55,0,.85,.4), transform .5s ease-out; }
+.smart-board-content { position: absolute; left: 59.5%; top: 27%; width: 21%; height: 12%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8%; color: #30213e; font: 700 clamp(5px, 1.1vw, 15px)/1.2 'Comic Neue', cursive; transform: rotate(-1deg); }
+.smart-board-equation { padding: 4% 8%; border: 2px solid #51336c; }
+.ticket-item[data-item=stylus] > .icon { fill: #fff0c8; }
+@media (prefers-reduced-motion: reduce) { .stylus-falling .smart-stylus { transition: none; } }
 .nortel-strap { position: absolute; left: 6%; top: 53%; width: 13%; height: 13%; object-fit: contain; }
 .nortel-cable { position: absolute; left: 43%; top: 25%; width: 12%; height: 34%; object-fit: contain; }
 .is-tripped .room-art, .is-tripped .nortel-props { filter: saturate(.25) brightness(.65); }
