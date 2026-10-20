@@ -58,14 +58,15 @@ Each mounted view/service exposes disposal for its listeners, timers, or audio r
 
 `#adventure` selects McGill and `#nortel` selects Nortel. Reading routes keep the current room session mounted and the adventure navigation link returns to it. Switching rooms disposes the old session before mounting the next, retaining the shell and audio service. The `leave-room` effect can supply a next-room id; otherwise it opens the chapter map. The session waits for the exit walk unless reduced motion is preferred, and cancels a delayed transition if the visitor navigates to a reading page. Timers are also cancelled on restart and disposal.
 
-## Adding the next chapter
+## Planned shared adventure
 
-1. Add a room module with its own state/actions, props, inventory items, initial state, and pure puzzle rules.
-2. Provide a save codec and a distinct save key for that room.
-3. Reuse the adventure view and supply a puzzle view. Add the typed chapter to `src/chapters.ts` and its route to navigation; the generic reducer/session and existing puzzles do not need new room-specific cases.
-4. Add rule tests and a complete browser journey for the new puzzle. Update the career chapter's playable status only once the room exists.
+[The puzzle web](puzzle-web.md) is the design for the next implementation. Cross-room inventory is now a requirement; the current per-room sessions, save codecs and restart behavior above describe the deployed prototype.
 
-McGill and Nortel are registered explicitly. Cross-chapter inventory and a generic story scripting system have no current requirement; chapter state and save validation remain in ordinary typed functions.
+The next version should own one adventure state and one versioned save above the mounted room view: shared item locations/forms and milestones, per-room positions and the current room. Room definitions continue to supply scenery and typed interactions. Keep rules pure and effects explicit; there is no need for a generic story scripting engine or a new state-management dependency.
+
+The blueprint identifies the current boundaries that need to change before rooms are connected: `room.items` cannot limit shared inventory rendering, Nortel's strap actions cannot replace unrelated items, navigation cannot require chapter completion, and per-room resets cannot safely reset shared dependencies. It also specifies legacy-save import and one whole-adventure restart. Adding the future rooms should follow that model rather than creating more independent inventories and save keys.
+
+Implementation remains a separate next step. The current room definitions, codecs and behavior are unchanged by documenting this design.
 
 ## Validation and delivery
 

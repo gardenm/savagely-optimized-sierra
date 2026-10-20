@@ -2,6 +2,10 @@
 
 A personal point-and-click career adventure for **savagelyoptimized.co**. Two playable chapters take place in imagined McGill / CIM and Nortel labs, drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
 
+## Connected adventure blueprint
+
+The next design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. This is the blueprint; the current two-room prototype is described below.
+
 ## Run locally
 
 Use Node **22.12+** (Node 24 was used to build this prototype).

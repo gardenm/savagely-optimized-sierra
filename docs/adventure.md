@@ -2,6 +2,10 @@
 
 A personal career adventure for savagelyoptimized.co, inspired by the point-and-click worlds of Day of the Tentacle, Thimbleweed Park, Monkey Island, and Space Quest. The opening is an original McGill lab scene, not a reproduction of any game's characters or artwork.
 
+## Planned connected adventure
+
+[The five-room puzzle web](puzzle-web.md) defines the next design: one shared inventory, freely accessible rooms, overlapping paths and a final plan/delegate/test/review sequence across Shopify and Lightspeed. It supersedes independent chapter-completion gates for the future implementation. The current two-room prototype still works as described below; the other rooms and shared state are not yet implemented.
+
 ## First playable chapter
 
 Start in a McGill / CIM research lab. The protagonist has earned an MSc, spent two years in a PhD, and is deciding to move into industry. Recommendz, movie-recommendation research with Greg Dudek, and the publications are the real anchors. The owner supplied the 2006 scene label and a research-paper URL; further dates, publications and personal anecdotes remain open. The dialogue is fictional framing.
@@ -27,7 +31,7 @@ An imagined telecom lab with multiple OME racks, yellow fibre loops, a patch ben
 
 For developer verification: use the anti-static strap on the bench to wear and ground it, then use the loose cable and leave to the chapter map. Alternatively pick up the strap, choose Use, and click its inventory icon to wear it. Touching racks or the cable while ungrounded produces a brief character jolt and spark, and temporarily trips the equipment. The equipment self-test recovers after 1.8 seconds, or the lab console resets it immediately. Reduced motion keeps the spark without the jolt. There are no port choices or configuration step. The worn strap and restored link persist; the temporary fault does not. Both chapters can be entered from the map without solving either puzzle. Restart affects only the current chapter.
 
-The scene uses the existing verbs, inventory and approved character. It opens without dialogue or directions. The patch-bay closeup has native dialog focus, keyboard-accessible port buttons, an actual state-driven cable diagram and carrier feedback. There are no task lists or hints in the room.
+The scene uses the existing verbs, inventory and approved character. It opens without dialogue or directions. The strap and loose cable are visible scene props, with a grounded inventory marker and recoverable static-shock feedback. There are no task lists or hints in the room.
 
 ## Career chapters
 
