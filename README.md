@@ -21,7 +21,7 @@ npm ci --cache /workspace/.cache/npm
 
 ## Play the chapters
 
-The scene is labelled **McGill University, 2006**. Click the floor to walk, or choose a verb and an object. The nine-verb grid follows the classic adventure layout; object hover or keyboard focus builds the action sentence. The inventory is pictorial. Responses appear as dialogue over the room, only after an interaction. The approved room and character assets are preserved; the character remains at the enlarged display scale.
+The scene is labelled **McGill University, 2006**. Click the floor to walk, or choose a verb and an object. The nine-verb grid follows the classic adventure layout; object hover or keyboard focus builds the action sentence. The inventory is pictorial. Responses appear as dialogue over the room, only after an interaction. The approved room and character assets are preserved; the character remains at the enlarged display scale. Walking uses two separately drawn eight-frame cycles with alternating feet and arm swings, then returns to the approved idle pose.
 
 For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the ticket, then use it with the door. The character walks to the exit and the next scene is Nortel. Reduced motion makes the transition immediate.
 

@@ -237,8 +237,8 @@
       },
       {
         "name": "walk-sprite",
-        "value": "260ms steps(2, end) infinite",
-        "purpose": "Small walking bob; removed for reduced motion."
+        "value": "800ms step-end infinite",
+        "purpose": "Eight discrete drawn frames at 10fps while moving; original idle pose on arrival and for reduced motion."
       },
       {
         "name": "floor-marker",
@@ -408,9 +408,9 @@
   ],
   "narrative": {
     "northStar": "The room leads.",
-    "overview": "**Creative North Star: The room leads.**\n\nAn original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, bold outlines and exaggerated proportions. McGill's orange floorboards extend into Nortel's crooked raised-floor tiles, teal OME racks and looping yellow fibre. The owner-approved McGill room is the style authority for the original Nortel artwork and its transparent scene props. Preserve both room backgrounds, both photo-guided character sprites and both anatomical tattoo orientations. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor in both rooms.\n\nThe owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. Each scene has one understated label: **McGill University, 2006** or **Nortel**. No Nortel year has been supplied. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar and placeholder text are removed; the game is centred.\n\n",
+    "overview": "**Creative North Star: The room leads.**\n\nAn original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, bold outlines and exaggerated proportions. McGill's orange floorboards extend into Nortel's crooked raised-floor tiles, teal OME racks and looping yellow fibre. The owner-approved McGill room is the style authority for the original Nortel artwork and its transparent scene props. Preserve both room backgrounds and both approved photo-guided idle sprites. Separate directional walk cycles carry the same identity, sage outfit, tortoiseshell glasses and anatomical left-arm sleeve without mirroring. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor in both rooms.\n\nThe owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. Each scene has one understated label: **McGill University, 2006** or **Nortel**. No Nortel year has been supplied. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar and placeholder text are removed; the game is centred.\n\n",
     "keyCharacteristics": [
-      "Owner-approved McGill room and enlarged character; original Nortel extension.",
+      "Owner-approved McGill room and enlarged idle character; original Nortel and directional walk-cycle extensions.",
       "Understated scene labels; only McGill has a supplied year.",
       "Flat classic nine-verb grid and pictorial inventory.",
       "Exploration without coaching; direct short-version access.",
@@ -418,7 +418,7 @@
     ],
     "rules": [],
     "dos": [
-      "Preserve the wordmark, approved artwork and enlarged character scale.",
+      "Preserve the wordmark, approved idle artwork and enlarged character scale; keep separate directional walk drawings anatomically consistent.",
       "Keep keyboard focus, labelled hotspots and reduced motion.",
       "Keep direct short-version navigation and quiet scene framing."
     ],

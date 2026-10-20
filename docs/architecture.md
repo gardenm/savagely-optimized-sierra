@@ -44,7 +44,8 @@ Nortel keeps the storage key `savagely-optimized:nortel:v1` and writes payload v
 
 ## Views and browser services
 
-- `src/ui/adventure.ts` mounts the generic room, translates input into actions, patches controls and dialogue, and animates movement.
+- `src/ui/adventure.ts` mounts the generic room, translates input into actions, and patches controls and dialogue.
+- `src/ui/character.ts` owns the character markup, direction, sprite readiness and movement presentation. Two independent eight-frame atlases play at 10 frames per second while moving, then return to the approved idle art. Repeated destinations retain gait phase; vertical movement retains facing. Reduced motion, restart, hidden tabs and disposal stop playback. Failed atlas loading retains visible idle artwork. No animation state enters saves or game rules.
 - `src/ui/recommendz.ts` owns the McGill computer's markup, checkbox input, native dialog, and focus handling. The reducer validates the puzzle and authorizes ticket awards. Checkbox selection stays local to the form until submitted.
 - `src/ui/nortel.ts` owns the scene's transparent strap/cable props, worn inventory marker, static-shock feedback and 1.8-second recovery timer. Recovery dispatches a room action; the reducer decides the reset. Manual reset, restart and disposal cancel timers. Reduced motion suppresses the jolt while retaining the still spark.
 - `src/ui/pages.ts` renders the career overview and chapter map from `src/content/career.ts`.

@@ -58,6 +58,38 @@
         "approved Nortel room artwork, for style only"
       ],
       "prompt": "Create ONE isolated game prop on native TRANSPARENT ALPHA: a single loose YELLOW FIBRE PATCH CABLE hanging vertically in a gentle long crooked J curve, with one oversized green rectangular optical connector at its lower free end. The cable starts at top center and sweeps down then left, connector points left and is clearly unplugged; one cable only, no coils or many strands. Tall narrow overall silhouette. Match the supplied cartoon telecom room's original goofy early-1990s adventure illustration style: thick dark plum ink outlines, warm yellow-orange cable, dark green connector with pale cream tip, simple flat cel colours, one shadow tone, no texture or 3D. No rack, wall, room, socket, labels, lettering, watermark, cast shadow or backdrop. Whole object centered with narrow transparent margins, space around and inside the J truly transparent. This sprite will hang over the existing OME rack; reference is visual style only, do not reproduce the room."
+    },
+    {
+      "file": "public/art/adventurer-walk-right.webp",
+      "source": "/workspace/generated_images/exec-faaf6523-4d08-499b-bce3-d345a15c1b9d.png",
+      "transparent": true,
+      "reference_kinds": [
+        "approved right-facing character artwork"
+      ],
+      "layout": {
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 384,
+        "frameHeight": 512,
+        "frames": 8
+      },
+      "prompt": "Create an ANIMATION SPRITE SHEET for this EXACT approved original cartoon adventure-game character, using the supplied image as the character identity, outfit, proportions, linework and colour authority. Draw EIGHT different sequential WALK-CYCLE poses in a perfectly regular FOUR-COLUMN, TWO-ROW grid. Canvas landscape 1536x1024; each cell exactly384x512. Read order left-to-right top row frames1-4, then left-to-right bottom row frames5-8. EACH CELL contains ONE complete full-body character, no overlapping cells, no cropping, no labels or numbers, no grid lines. Real native TRANSPARENT ALPHA everywhere outside the characters, no ground, no cast shadows, no colour haze. Same fixed camera and same figure scale in every cell: head crown around y20 of each cell, planted shoe sole around y495, pelvis centered horizontally x192, entire pose fits within cell with margin. Keep head size, face, torso length and clothing scale IDENTICAL across all eight frames and to the reference; he must not grow, shrink or morph. His facial expression stays the same calm amused expression. Keep high forehead/receding short swept brown hair, big brown tortoiseshell glasses, full brown beard with very little grey, light skin, sage short-sleeve V-neck shirt with a tiny tiger paw/cloud at collar, muted blue-grey trousers, large cream trainers. NO new clothes or accessories. Natural slim everyday fit build and oversized caricature head. Exactly the approved chunky goofy early-1990s Day of the Tentacle-inspired inked cel style, dark plum contours, flat simple shadow planes. Do not turn him into a realistic figure or a different person.\n\nThis is a genuine fluid gait: distinct alternating footfalls, bending knees, rolling heel-to-toe, one foot passing/lifting while the other supports weight, gentle counter-swing of arms with hands OUT of pockets. Torso/head stay steady, only a tiny natural rise/fall, no whole-body shaking or bouncing. Eight phases: 1 contact left leg leading/right trailing; 2 down/compression; 3 passing right knee forward; 4 up/right leg forward; 5 opposite contact right leading/left trailing; 6 down/compression; 7 passing left knee forward; 8 up/left forward into frame1. Make the phases visibly distinct and cyclic, especially feet/arms, not eight identical idle poses. Preserve anatomical LEFT-arm full Japanese teal wave/whale/squid/anchor tattoo sleeve, right arm is bare. Do NOT mirror tattoo to opposite arm. All eight poses face the SAME direction.\n\nDIRECTION: the character walks toward RIGHT, nose and shoes point right. Keep a three-quarter view close to the supplied right-facing approved character, with chest somewhat facing the viewer so the anatomical LEFT sleeve can remain visible. Output only this RIGHT-facing eight-frame atlas."
+    },
+    {
+      "file": "public/art/adventurer-walk-left.webp",
+      "source": "/workspace/generated_images/exec-e9e157d4-9546-4b10-b672-dba62818ebcc.png",
+      "transparent": true,
+      "reference_kinds": [
+        "approved left-facing character artwork"
+      ],
+      "layout": {
+        "columns": 4,
+        "rows": 2,
+        "frameWidth": 384,
+        "frameHeight": 512,
+        "frames": 8
+      },
+      "prompt": "Create an ANIMATION SPRITE SHEET for this EXACT approved original cartoon adventure-game character, using the supplied image as the character identity, outfit, proportions, linework and colour authority. Draw EIGHT different sequential WALK-CYCLE poses in a perfectly regular FOUR-COLUMN, TWO-ROW grid. Canvas landscape 1536x1024; each cell exactly384x512. Read order left-to-right top row frames1-4, then left-to-right bottom row frames5-8. EACH CELL contains ONE complete full-body character, no overlapping cells, no cropping, no labels or numbers, no grid lines. Real native TRANSPARENT ALPHA everywhere outside the characters, no ground, no cast shadows, no colour haze. Same fixed camera and same figure scale in every cell: head crown around y20 of each cell, planted shoe sole around y495, pelvis centered horizontally x192, entire pose fits within cell with margin. Keep head size, face, torso length and clothing scale IDENTICAL across all eight frames and to the reference; he must not grow, shrink or morph. His facial expression stays the same calm amused expression. Keep high forehead/receding short swept brown hair, big brown tortoiseshell glasses, full brown beard with very little grey, light skin, sage short-sleeve V-neck shirt with a tiny tiger paw/cloud at collar, muted blue-grey trousers, large cream trainers. NO new clothes or accessories. Natural slim everyday fit build and oversized caricature head. Exactly the approved chunky goofy early-1990s Day of the Tentacle-inspired inked cel style, dark plum contours, flat simple shadow planes. Do not turn him into a realistic figure or a different person.\n\nThis is a genuine fluid gait: distinct alternating footfalls, bending knees, rolling heel-to-toe, one foot passing/lifting while the other supports weight, gentle counter-swing of arms with hands OUT of pockets. Torso/head stay steady, only a tiny natural rise/fall, no whole-body shaking or bouncing. Eight phases: 1 contact left leg leading/right trailing; 2 down/compression; 3 passing right knee forward; 4 up/right leg forward; 5 opposite contact right leading/left trailing; 6 down/compression; 7 passing left knee forward; 8 up/left forward into frame1. Make the phases visibly distinct and cyclic, especially feet/arms, not eight identical idle poses. Preserve anatomical LEFT-arm full Japanese teal wave/whale/squid/anchor tattoo sleeve, right arm is bare. Do NOT mirror tattoo to opposite arm. All eight poses face the SAME direction.\n\nDIRECTION: the character walks toward LEFT, nose and shoes point left. Keep a three-quarter view close to the supplied left-facing approved character, with chest somewhat facing the viewer so the anatomical LEFT sleeve can remain visible. Output only this LEFT-facing eight-frame atlas."
     }
   ]
 }

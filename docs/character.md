@@ -2,7 +2,7 @@
 
 The owner has successfully attached photographs. Eight local attachment files contain four unique images: front full body, side full body/left sleeve, face portrait, and chest tattoo. All four have been inspected. Private working copies are retained at `/workspace/.private-photo-references`, outside the checkout and published site. Do not copy raw photographs or private share URLs into the public repository or website.
 
-The new directional character artwork is photo-guided and replaces the rejected description-only study. The owner approved this character, saying “Amazing, I love it” and explicitly requesting no change to the artwork, only a larger display scale. The supplied profile suggests Matthew Garden; the preferred display name is not separately confirmed.
+The new directional character artwork is photo-guided and replaces the rejected description-only study. The owner approved this character, saying “Amazing, I love it” and explicitly requesting no change to the artwork, only a larger display scale. The owner’s preferred display name is Matt Garden.
 
 Historical access issue: external LinkedIn/iCloud fetching was rejected by the workspace proxy even after the owner published the correct allowed hosts. Attachments now provide the required references, so that network failure no longer blocks character work. The cause of the earlier desktop attachment error has not been established; successful receipt of these files does not prove every attachment format/path is fixed. Do not request duplicate host permissions.
 
@@ -38,3 +38,9 @@ Use the inspected private photographs for future corrections. The new pass refer
 The sage short-sleeved V-neck reveals the left sleeve and a little chest tattoo. The artwork has native alpha transparency. Tattoos remain simplified Japanese-style illustrated motifs suited to game scale, not a claim of a precise reproduction of every ink line.
 
 Preserve anatomical tattoo placement when changing direction. Do not mirror the right-facing sprite to fake a left-facing one; use separate directional art so the left-arm sleeve does not migrate to the right arm.
+
+## Walking animation
+
+The owner requested a walk cycle in place of moving the idle sprite with a bobbing transform. The approved idle drawings remain unchanged. `adventurer-walk-right.webp` and `adventurer-walk-left.webp` add separately drawn eight-pose cycles, each arranged as four columns and two rows of 384×512 cells on a transparent 1536×1024 atlas. The poses keep the approved character’s features and outfit, with alternating footfalls, bent knees and arms out of the pockets. The left-arm sleeve stays on the anatomical left arm in both directions; neither atlas is mirrored.
+
+The character keeps the existing 30%×54% scene box. CSS displays discrete frames at 10 fps only during movement; arrival returns to the original idle drawing. The view preloads and decodes both atlases, retaining the idle art if loading fails. Reduced motion keeps the original idle pose and instant relocation. The Nortel shock temporarily takes precedence over walking. Exact generation prompts and sources are in `art-provenance.json` and embedded in the atlas XMP metadata; the private photographs were not added to the site.
