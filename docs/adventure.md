@@ -35,7 +35,7 @@ The scene uses the existing verbs, inventory and approved character. It opens wi
 
 ## Career chapters
 
-1. Optional prologue: Timney Lab at UWO. A few months as a high-school co-op student, then the first programming job while at university, writing vision tests including Gabor patches. Dr. Timney offered the job after coming into Shoppers Drug Mart for cold medicine, where the owner worked as a stockboy and cashier supervisor. This was not an internship.
+1. Optional prologue: Timney Lab at Western University in London, Ontario. A few months as a high-school co-op student, then the first programming job while at university, writing vision tests including Gabor patches. Dr. Timney offered the job after coming into Shoppers Drug Mart for cold medicine, where the owner worked as a stockboy and cashier supervisor. This was not an internship.
 2. McGill / CIM: movie recommendations and Recommendz; MSc completed, followed by leaving a PhD after two years.
 3. Nortel: PDH configuration on OME metro equipment; a cable-patching puzzle.
 4. SMART Technologies: SMART Notebook for Mac and interactive whiteboards.

@@ -7,8 +7,8 @@ import { interactStory, updateStoryRoom } from '../story/rules';
 export const smart: RoomDefinition<StoryRoomState, StoryAction> = {
   id: 'smart', title: 'SMART Technologies', label: 'SMART office', gameLabel: 'Playable SMART room',
   art: {
-    src: '/art/smart-office.webp', width: 1536, height: 1024,
-    alt: 'A cartoon cubicle farm with beige fabric partitions, a silver and black iMac, a PC monitor and tower, fluorescent ceiling lights, a large interactive whiteboard and a crooked purple door.',
+    src: '/art/smart-office-ottawa.webp', width: 1536, height: 1024,
+    alt: 'A cartoon Ottawa cubicle office with beige fabric partitions, an iMac, a PC workstation, a SMART Board, and Parliament’s Peace Tower visible through the window.',
   },
   spawn: { x: 57, y: 88 }, bounds: { left: 43, right: 86, top: 71, bottom: 96 },
   props: [

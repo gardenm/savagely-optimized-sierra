@@ -4,6 +4,8 @@ Mode: Experience. A third freely explorable room, extending the existing game su
 
 The owner describes a traditional cubicle farm with a SMART Board, iMacs and PCs from roughly 2009–2013. This is the visual-era reference, not an assertion of exact employment dates. No new dates or employer project claims are needed.
 
+Location: Ottawa, Ontario, as with all career stages after McGill. The window shows an imagined Ottawa skyline with Parliament's Peace Tower. Timney Lab belongs to Western University in London, Ontario; McGill alone uses the Montréal view.
+
 ## Direction contract
 
 THESIS: a thoroughly ordinary cubicle farm drawn with the game's extraordinary crooked perspective; the interactive whiteboard anchors the room.

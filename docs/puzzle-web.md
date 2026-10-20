@@ -4,6 +4,8 @@ Status: the shared foundation and five-room puzzle rules are implemented. The co
 
 The five main rooms are McGill, Nortel, SMART Technologies, Lightspeed and Shopify. Their arrangement tells the career chronologically. Their puzzles cross that arrangement in both directions. Timney Lab remains an optional prologue outside the required path.
 
+Locations supplied by the owner: Timney Lab is at Western University in London, Ontario; McGill is in Montréal; Nortel, SMART, Lightspeed and Shopify are all in Ottawa. Use these locations for future scene artwork and factual copy.
+
 All scenes, props, transactions and incidents below are fictional framing around the owner's supplied career facts. The Shopify sequence illustrates directing and checking an agent's work; it does not describe a particular real project or employer system.
 
 ## The room map
