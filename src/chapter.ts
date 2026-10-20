@@ -41,7 +41,7 @@ export function mountChapter<S, A>(root: HTMLElement, room: RoomDefinition<S, A>
     const result = update(state, action, room);
     state = result.state;
     for (const effect of result.effects) if (effect.type === 'walk') adventure.walk(effect);
-    if (action.type === 'restart') { adventure.stop(); puzzle.reset(); }
+    if (action.type === 'restart') puzzle.reset();
     adventure.render(state);
     puzzle.render(state);
     if (result.effects.some(effect => effect.type === 'persist') && !saves.save(state.progress)) services.saveFailed();

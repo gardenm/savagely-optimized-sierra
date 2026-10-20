@@ -70,20 +70,8 @@ h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; }
 .character img.character-left { display: none; }
 .character.facing-left img.character-right { display: none; }
 .character.facing-left img.character-left { display: block; }
-.character-walk { display: none; position: absolute; left: 5%; bottom: 0; width: 90%; height: 100%; background-image: url('/art/adventurer-walk-right.webp'); background-size: 400% 200%; background-repeat: no-repeat; }
-.character.facing-left .character-walk { background-image: url('/art/adventurer-walk-left.webp'); }
-.character.walk-ready.walking:not(.is-shocked) .character-idle { visibility: hidden; }
-.character.walk-ready.walking:not(.is-shocked) .character-walk { display: block; animation: walk-cycle .8s step-end infinite; }
-@keyframes walk-cycle {
-  0%, 100% { background-position: 0 0; }
-  12.5% { background-position: 33.333333% 0; }
-  25% { background-position: 66.666667% 0; }
-  37.5% { background-position: 100% 0; }
-  50% { background-position: 0 100%; }
-  62.5% { background-position: 33.333333% 100%; }
-  75% { background-position: 66.666667% 100%; }
-  87.5% { background-position: 100% 100%; }
-}
+.character.walking img { animation: walk .26s steps(2, end) infinite; }
+@keyframes walk { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-3px) rotate(1deg); } }
 .floor-marker { position: absolute; pointer-events: none; width: 18px; height: 8px; margin: -4px 0 0 -9px; border: 1px solid #f2d697; border-radius: 50%; opacity: 0; }
 .floor-marker.visible { animation: footfall .9s ease-out; }
 @keyframes footfall { 0% { opacity: .9; transform: scale(.5); } 100% { opacity: 0; transform: scale(1.5); } }
@@ -234,8 +222,6 @@ fieldset label:hover span { border-color: #ffde8a; }
 }
 @media (prefers-reduced-motion: reduce) {
   :root { scroll-behavior: auto; }
-  .character.walk-ready.walking:not(.is-shocked) .character-idle { visibility: visible; }
-  .character.walk-ready.walking:not(.is-shocked) .character-walk { display: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 @media print {

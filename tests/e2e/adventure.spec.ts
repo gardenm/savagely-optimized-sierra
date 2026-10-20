@@ -67,10 +67,8 @@ test('keyboard actions, close focus, movement, and restart work without tutorial
   await expect(computer).toBeFocused();
   await page.keyboard.press('ArrowRight');
   await expect.poll(async()=>Number(await page.locator('#character').evaluate(el=>parseFloat(el.style.left)))).toBeGreaterThan(43);
-  await expect(page.locator('#character')).not.toHaveClass(/walking/);
   await expect(page.locator('.character-right')).toBeVisible();
   await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('#character')).not.toHaveClass(/walking/);
   await expect(page.locator('.character-left')).toBeVisible();
   await expect(page.locator('.character-right')).toBeHidden();
   expect(await page.locator('.character-left').evaluate(el=>getComputedStyle(el).scale)).not.toBe('-1 1');

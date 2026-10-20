@@ -1,8 +1,7 @@
-import { verbs, type Dispatch, type GameState, type Mode, type RoomDefinition } from '../game/model';
+import { verbs, type Dispatch, type Effect, type GameState, type Mode, type RoomDefinition } from '../game/model';
 import { commandText } from '../game/update';
 import { escapeHtml, required, setText } from './dom';
 import { icon } from './icons';
-import { createCharacterView, renderCharacter } from './character';
 
 export function renderAdventure<S, A>(room: RoomDefinition<S, A>): string {
   return `
@@ -13,7 +12,7 @@ export function renderAdventure<S, A>(room: RoomDefinition<S, A>): string {
           <div class="stage" id="stage" aria-label="${escapeHtml(room.label)}">
             <img class="room-art" src="${escapeHtml(room.art.src)}" alt="${escapeHtml(room.art.alt)}" width="${room.art.width}" height="${room.art.height}" fetchpriority="high" draggable="false" />
             ${room.props.map(prop => `<button class="hotspot ${escapeHtml(prop.id)}" data-prop="${escapeHtml(prop.id)}" aria-label="${escapeHtml(prop.label)}" style="left:${prop.area.left}%;top:${prop.area.top}%;width:${prop.area.width}%;height:${prop.area.height}%"></button>`).join('')}
-            ${renderCharacter()}
+            <div class="character" id="character" role="img" aria-label="Cartoon adventurer with swept brown hair, a full brown beard, tortoiseshell glasses, a sage V-neck shirt, and a left-arm Japanese tattoo sleeve"><img class="character-right" src="/art/adventurer-right.webp" alt="" width="1024" height="1536" draggable="false" /><img class="character-left" src="/art/adventurer-left.webp" alt="" width="1024" height="1536" draggable="false" /></div>
             <div class="floor-marker" id="floor-marker" aria-hidden="true"></div>
             <div class="dialogue"><p id="dialogue-text" role="status" aria-live="polite" aria-atomic="true"></p><a class="paper-link" id="dialogue-link" target="_blank" rel="noopener" hidden><span class="paper-link-label"></span> ${icon('arrow')}<span class="sr-only"> (opens in a new tab)</span></a></div>
           </div>
@@ -35,13 +34,15 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
   const options = { signal: events.signal };
   const game = required<HTMLElement>(root, '.game-window');
   const stage = required<HTMLElement>(root, '#stage');
-  const character = createCharacterView(root);
+  const character = required<HTMLElement>(root, '#character');
+  const marker = required<HTMLElement>(root, '#floor-marker');
   const command = required(root, '#command-text');
   const speech = required(root, '#dialogue-text');
   const link = required<HTMLAnchorElement>(root, '#dialogue-link');
   const linkLabel = required(link, '.paper-link-label');
   const verbButtons = game.querySelectorAll<HTMLButtonElement>('[data-mode]');
   const items = game.querySelectorAll<HTMLButtonElement>('[data-item]');
+  let motionTimer: ReturnType<typeof setTimeout> | undefined;
 
   verbButtons.forEach(button => button.addEventListener('click', () => {
     dispatch({ type: 'select-mode', mode: button.dataset.mode as Mode });
@@ -88,13 +89,26 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
         button.hidden = !state.progress.inventory.includes(button.dataset.item!);
         button.setAttribute('aria-pressed', String(button.dataset.item === state.selectedItem));
       });
-      character.position(state.progress.position);
+      character.style.left = `${state.progress.position.x}%`;
+      character.style.top = `${state.progress.position.y}%`;
     },
-    walk: character.walk,
-    stop: character.stop,
+    walk(effect: Extract<Effect, { type: 'walk' }>) {
+      character.classList.toggle('facing-left', effect.to.x < effect.from.x);
+      character.style.setProperty('--walk-duration', `${effect.duration}s`);
+      character.classList.add('walking');
+      clearTimeout(motionTimer);
+      motionTimer = setTimeout(() => character.classList.remove('walking'), effect.duration * 1000);
+      if (effect.marker) {
+        marker.style.left = `${effect.to.x}%`;
+        marker.style.top = `${effect.to.y}%`;
+        marker.classList.remove('visible');
+        void marker.offsetWidth;
+        marker.classList.add('visible');
+      }
+    },
     dispose() {
       events.abort();
-      character.dispose();
+      clearTimeout(motionTimer);
     },
   };
 }
