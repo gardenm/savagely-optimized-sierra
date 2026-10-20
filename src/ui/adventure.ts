@@ -5,7 +5,7 @@ import { icon } from './icons';
 
 export function renderAdventure<S, A>(room: RoomDefinition<S, A>): string {
   return `
-    <section id="adventure-view" data-view="adventure" aria-labelledby="adventure-heading">
+    <section id="adventure-view" data-room="${escapeHtml(room.id)}" aria-labelledby="adventure-heading">
       <h1 class="scene-title" id="adventure-heading">${escapeHtml(room.title)}</h1>
       <div class="adventure-layout">
         <div class="game-window" tabindex="0" role="group" aria-label="${escapeHtml(room.gameLabel)}" aria-keyshortcuts="W L U">
@@ -25,7 +25,6 @@ export function renderAdventure<S, A>(room: RoomDefinition<S, A>): string {
           </div>
         </div>
       </div>
-      <span class="sr-only" id="save-status" role="status"></span>
     </section>`;
 }
 

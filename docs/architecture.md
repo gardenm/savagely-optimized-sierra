@@ -15,13 +15,14 @@ flowchart LR
   Effects --> Browser[Save, animate, navigate, or toggle audio]
 ```
 
-`src/main.ts` imports fonts and styles and starts the app. `src/app.ts` is the composition root: it selects the room, loads progress, mounts views, and connects dispatch to the reducer and effects. State is local to that application instance. There is no exported mutable singleton, event bus, or subscription framework.
+`src/main.ts` imports fonts and styles and starts the app. `src/app.ts` owns persistent site services and room navigation. `src/chapters.ts` registers each room with its typed puzzle view and save codec. `src/chapter.ts` loads progress and runs a reducer session, mounted views and effects for one room. State is local to that session. There is no exported mutable singleton, event bus, or subscription framework.
 
 ## Game rules
 
 - `src/game/model.ts` defines readonly state, typed actions and effects, and the room contract.
 - `src/game/update.ts` handles movement, verbs, inventory selection, contextual action sentences, and restart. Room-specific actions and prop interactions are delegated to the supplied room.
 - `src/game/rooms/mcgill.ts` owns the lab artwork metadata, hotspot geometry, destinations, dialogue, paper link, ticket, Recommendz rules, and save codec.
+- `src/game/rooms/nortel.ts` owns the optical lab, patch endpoints, carrier and PDH configuration rules, dialogue, and its independent save codec.
 
 The shared reducer is parameterized by a room's state and actions. McGill uses that extension for the computer's open state and recommendation result. Future rooms can have different puzzles without adding their cases to the shared reducer. Unit tests exercise a separate workshop fixture to check this boundary.
 
@@ -33,9 +34,11 @@ The build checks `src/game` separately with the ES2022 library and no DOM or Nod
 
 ## Progress and temporary state
 
-Only `Progress` is persisted: inventory, chapter completion, and character position. Selected verbs/items, hovered props, dialogue, and computer state are temporary and reset on reload. The room's initial-state factory gives restart and separate app instances fresh state.
+Only `Progress` is persisted: inventory, chapter completion, character position and optional room milestone flags. Selected verbs/items, hovered props, dialogue and open puzzle state are temporary and reset on reload. The room's initial-state factory receives validated progress so it can restore a completed patch diagram without reopening the dialog. Restart creates fresh progress for only the current room.
 
 The McGill save adapter retains the existing `savagely-optimized:mcgill:v1` key and `{ ticket, completed, x, y }` payload. Its codec translates that wire format into the internal model. Existing visitors need no migration. Decoding validates booleans, bounds coordinates, and prevents completion without the ticket. A new save format should use an explicit version and compatibility strategy.
+
+Nortel uses `savagely-optimized:nortel:v1`, with an explicit version, collected fibre, restored link, configured service, completion and position. Its decoder prevents service configuration without a link and completion without configuration. Solving the patch consumes the lead. No inventory is transferred between chapters.
 
 `src/browser/saves.ts` catches malformed JSON, denied storage access, and quota errors. Loading falls back to fresh progress; saving reports failure so the shell can announce it. It never clears unrelated browser storage.
 
@@ -43,6 +46,7 @@ The McGill save adapter retains the existing `savagely-optimized:mcgill:v1` key 
 
 - `src/ui/adventure.ts` mounts the generic room, translates input into actions, patches controls and dialogue, and animates movement.
 - `src/ui/recommendz.ts` owns the McGill computer's markup, checkbox input, native dialog, and focus handling. The reducer validates the puzzle and authorizes ticket awards. Checkbox selection stays local to the form until submitted.
+- `src/ui/patchbay.ts` owns Nortel's optical-shelf closeup, native dialog focus, port controls and cable diagram. Port selection and successful connection are reducer decisions; SVG path geometry comes from the mounted port positions.
 - `src/ui/pages.ts` renders the career overview and chapter map from `src/content/career.ts`.
 - `src/ui/shell.ts` renders the site shell and handles sound indicators, toasts, and save announcements. Puzzle markup is supplied by the composition root.
 - `src/browser/navigation.ts` handles hash routes, titles, active links, scrolling, and navigation focus.
@@ -52,14 +56,16 @@ Views mount once and update existing nodes. Hovering does not replace the room o
 
 Each mounted view/service exposes disposal for its listeners, timers, or audio resources. The entry point registers app disposal with Vite hot-module replacement. The existing stylesheet and artwork are retained. Hotspot percentages now live in the room definition and are rendered as inline geometry, avoiding separate coordinates in TypeScript and CSS.
 
+`#adventure` selects McGill and `#nortel` selects Nortel. Reading routes keep the current room session mounted and the adventure navigation link returns to it. Switching rooms disposes the old session before mounting the next, retaining the shell and audio service. The `leave-room` effect can supply a next-room id; otherwise it opens the chapter map. The session waits for the exit walk unless reduced motion is preferred, and cancels a delayed transition if the visitor navigates to a reading page. Timers are also cancelled on restart and disposal.
+
 ## Adding the next chapter
 
 1. Add a room module with its own state/actions, props, inventory items, initial state, and pure puzzle rules.
 2. Provide a save codec and a distinct save key for that room.
-3. Reuse the adventure view and supply a puzzle view if needed. Register the room and its view/codec in the composition root when enabling navigation to it.
+3. Reuse the adventure view and supply a puzzle view. Add the typed chapter to `src/chapters.ts` and its route to navigation; the generic reducer/session and existing puzzles do not need new room-specific cases.
 4. Add rule tests and a complete browser journey for the new puzzle. Update the career chapter's playable status only once the room exists.
 
-There is currently one playable room, so selection is explicit in `app.ts`. A room registry, multi-room routing, cross-chapter inventory, and asset loading should be introduced when the second playable room establishes their requirements.
+McGill and Nortel are registered explicitly. Cross-chapter inventory and a generic story scripting system have no current requirement; chapter state and save validation remain in ordinary typed functions.
 
 ## Validation and delivery
 

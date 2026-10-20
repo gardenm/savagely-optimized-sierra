@@ -31,8 +31,8 @@ function openComputer(state: GameState<McGillState>): Transition<McGillState> {
 function leaveRoom(state: GameState<McGillState>): Transition<McGillState> {
   if (!hasTicket(state)) return say(state, '“An unlocked door. A very big decision.”');
   return {
-    state: { ...state, progress: { ...state.progress, completed: true }, selectedItem: null, dialogue: { text: '' } },
-    effects: [{ type: 'persist' }, { type: 'leave-room' }],
+    state: { ...state, progress: { ...state.progress, completed: true }, selectedItem: null, dialogue: { text: '“Time for a change of scene.”' } },
+    effects: [{ type: 'persist' }, { type: 'leave-room', nextRoom: 'nortel' }],
   };
 }
 

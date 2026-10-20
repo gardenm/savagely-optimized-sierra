@@ -1,74 +1,72 @@
 import { createAmbientAudio } from './browser/audio';
-import { createNavigation } from './browser/navigation';
-import { createSaveStore } from './browser/saves';
+import { createNavigation, parseRoute, type Route } from './browser/navigation';
+import type { ChapterSession } from './chapter';
+import { isChapterId, playableChapters, type ChapterId } from './chapters';
 import { profile } from './content/career';
-import { assertNever, type Action } from './game/model';
-import { mcgill, mcgillSave, type McGillAction } from './game/rooms/mcgill';
-import { createInitialState, update } from './game/update';
-import { createAdventureView } from './ui/adventure';
-import { createRecommendzView, renderRecommendz } from './ui/recommendz';
+import { required } from './ui/dom';
 import { createShellView, renderShell } from './ui/shell';
 
-/** Composition root: reducer state, mounted views, and explicit browser effects. */
+/** Composition root for persistent site services and one typed room session. */
 export function startApp(root: HTMLElement): () => void {
-  root.innerHTML = renderShell(mcgill, renderRecommendz());
+  let currentId: ChapterId = parseRoute(location.hash) === 'nortel' ? 'nortel' : 'mcgill';
+  root.innerHTML = renderShell(playableChapters[currentId].render());
+  const host = required<HTMLElement>(root, '#room-host');
   const events = new AbortController();
-  const saves = createSaveStore(mcgillSave);
   const audio = createAmbientAudio();
-  const navigation = createNavigation(root, { adventure: mcgill.title, chapters: 'Chapter map', cv: profile.name });
-  let state = createInitialState(mcgill, saves.load());
   let disposed = false;
+  let session: ChapterSession;
 
   const shell = createShellView(root, toggleSound, () => {
-    if (window.confirm('Restart the McGill chapter? This only resets your adventure progress in this browser.')) {
-      dispatch({ type: 'restart' });
-      navigation.navigate('adventure');
+    if (window.confirm(`Restart the ${playableChapters[currentId].name} chapter? This only resets this chapter’s progress in this browser.`)) {
+      session.restart();
+      navigation.navigate(currentId === 'nortel' ? 'nortel' : 'adventure');
     }
   });
-  const computer = createRecommendzView(root, dispatch);
-  const adventure = createAdventureView(root, mcgill, dispatch, () => navigation.route === 'adventure' && !computer.isOpen);
+  const navigation = createNavigation(root, {
+    adventure: playableChapters.mcgill.title, nortel: playableChapters.nortel.title,
+    chapters: 'Chapter map', cv: profile.name,
+  }, changeRoute);
+
+  function mountCurrent() {
+    shell.chapter(playableChapters[currentId].name);
+    session = playableChapters[currentId].mount(host, {
+      isActive: () => navigation.route === (currentId === 'nortel' ? 'nortel' : 'adventure'),
+      leave: nextRoom => {
+        if (nextRoom && isChapterId(nextRoom)) navigation.navigate(nextRoom === 'mcgill' ? 'adventure' : nextRoom);
+        else navigation.navigate('chapters');
+      },
+      toggleSound, saveFailed: shell.saveFailed,
+    });
+  }
+
+  function changeRoute(route: Route) {
+    if (route !== 'adventure' && route !== 'nortel') { session.cancelExit(); return; }
+    const nextId: ChapterId = route === 'nortel' ? 'nortel' : 'mcgill';
+    if (nextId === currentId) return;
+    session.dispose();
+    currentId = nextId;
+    host.innerHTML = playableChapters[currentId].render();
+    host.classList.add('room-entering');
+    mountCurrent();
+  }
 
   function audioFailed() {
     if (disposed) return;
     shell.sound(false);
     shell.showToast('Audio could not start in this browser. The adventure works without it.');
   }
-
   function toggleSound() {
     void audio.toggle().then(enabled => { if (!disposed) shell.sound(enabled); }).catch(audioFailed);
   }
-
-  function dispatch(action: Action<McGillAction>) {
-    if (disposed) return;
-    const result = update(state, action, mcgill);
-    state = result.state;
-    // Set duration before moving the existing character node to its new position.
-    for (const effect of result.effects) if (effect.type === 'walk') adventure.walk(effect);
-    if (action.type === 'restart') computer.reset();
-    adventure.render(state);
-    computer.render(state);
-    if (result.effects.some(effect => effect.type === 'persist') && !saves.save(state.progress)) shell.saveFailed();
-    for (const effect of result.effects) {
-      switch (effect.type) {
-        case 'leave-room': navigation.navigate('chapters'); break;
-        case 'toggle-sound': toggleSound(); break;
-        case 'persist': case 'walk': break;
-        default: assertNever(effect);
-      }
-    }
-  }
-
   document.addEventListener('visibilitychange', () => {
     void audio.setHidden(document.hidden).catch(audioFailed);
   }, { signal: events.signal });
-  adventure.render(state);
-  computer.render(state);
+  mountCurrent();
 
   return () => {
     disposed = true;
     events.abort();
-    adventure.dispose();
-    computer.dispose();
+    session.dispose();
     shell.dispose();
     navigation.dispose();
     audio.dispose();

@@ -4,7 +4,7 @@ A personal career adventure for savagelyoptimized.co, inspired by the point-and-
 
 ## First playable chapter
 
-Start in a McGill / CIM research lab. The protagonist has earned an MSc, spent two years in a PhD, and is deciding to move into industry. Recommendz, movie-recommendation research with Greg Dudek, and the publications are the real anchors. Dates, publication titles, URLs, dialogue, and personal anecdotes remain unconfirmed.
+Start in a McGill / CIM research lab. The protagonist has earned an MSc, spent two years in a PhD, and is deciding to move into industry. Recommendz, movie-recommendation research with Greg Dudek, and the publications are the real anchors. The owner supplied the 2006 scene label and a research-paper URL; further dates, publications and personal anecdotes remain open. The dialogue is fictional framing.
 
 The prototype should support:
 
@@ -12,7 +12,7 @@ The prototype should support:
 - Use a classic nine-verb grid to interact with the workstation, papers, noticeboard, records and exit. Hover/focus supplies object names in the action sentence.
 - Complete one short movie-recommendation puzzle without hints, a walkthrough or repeated coaching; the short version is always directly accessible.
 - Pick up a symbolic cinema ticket from Recommendz and use it at the exit.
-- Reach a chapter map, with future chapters explicitly identified as planned.
+- Walk through the completed lab's exit into the Nortel chapter; the chapter map remains directly accessible.
 - Open a factual career overview without solving the puzzle.
 - Reset progress, turn optional original ambient sound on or off, and use all interactions with a keyboard.
 - Show “McGill University, 2006” above a centred game, without a reflection sidebar or placeholder text. Use Day Of The Tentacle for the game commands.
@@ -20,6 +20,14 @@ The prototype should support:
 The room, puzzle, dialogue, film choices, and props are illustrative fiction. They must not be presented as a reconstruction of the actual lab. The owner-approved character uses inspected uploaded photographs and the owner's appearance corrections. Its display scale has been increased by 50% without changing the artwork. See character.md. No invented dates, awards, contact address, paper links, or employer achievements.
 
 The owner has now pinned the visual direction more specifically: chunky, caricatured, slightly goofy original cartoon art inspired by Day of the Tentacle. Replace the first detailed pixel-like treatment with bold contours, simplified cel shading, and exaggerated architecture and character proportions.
+
+## Second playable chapter: Nortel
+
+An imagined telecom lab with multiple OME racks, yellow fibre loops, a patch bench, a circuit sheet, a configuration CRT and an exit. The room label is simply “Nortel”; no year has been supplied. The owner requested this setting and worked on PDH configuration on OME metro equipment. The hardware layout, endpoint numbers and puzzle are fictional framing, not an actual configuration procedure or a biographical incident.
+
+For developer verification: inspect the circuit sheet; pick up a spare fibre; use a rack and patch OME A / shelf 2 / port 3 to OME B / shelf 1 / port 2; use the configuration console; leave to the chapter map. Wrong endpoints show no carrier and can be changed freely. The optical link and configured service persist independently of leaving the room. Both chapters can be entered from the map without solving either puzzle. Restart affects only the current chapter.
+
+The scene uses the existing verbs, inventory and approved character. It opens without dialogue or directions. The patch-bay closeup has native dialog focus, keyboard-accessible port buttons, an actual state-driven cable diagram and carrier feedback. There are no task lists or hints in the room.
 
 ## Career chapters
 
@@ -36,4 +44,4 @@ Mentoring high-school CS students for over a decade, art, and listening to music
 
 Warm, observant, lightly absurd. Jokes can target the fictional room and adventure-game conventions. Treat career decisions with agency and care. The missing M in .com is a recurring joke: “The M was deemed nonessential.”
 
-The adventure should take roughly five to ten minutes when complete. No compulsory audio, tiny inaccessible targets, or mandatory puzzles to read the biography. The owner explicitly accepts that some visitors may not solve the game; avoid coaching them through it. Ship a static site first; no backend or credentials are needed for the prototype. The owner has tested the temporary Cloudflare URL; custom-domain activation is in progress.
+The adventure should take roughly five to ten minutes when complete. No compulsory audio, tiny inaccessible targets, or mandatory puzzles to read the biography. The owner explicitly accepts that some visitors may not solve the game; avoid coaching them through it. The site is static; no backend or credentials are needed. The owner has confirmed HTTPS works on the custom domain after enabling Cloudflare's redirect.

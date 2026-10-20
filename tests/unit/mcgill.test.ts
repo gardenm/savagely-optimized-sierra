@@ -52,7 +52,7 @@ describe('McGill puzzle', () => {
     const state = act(initial(), { type: 'select-mode', mode });
     const result = update(state, { type: 'interact', prop: 'door' }, mcgill);
     expect(result.state.progress.completed).toBe(false);
-    expect(result.effects).not.toContainEqual({ type: 'leave-room' });
+    expect(result.effects.some(effect => effect.type === 'leave-room')).toBe(false);
   });
 
   it.each(['use', 'give', 'open'] as const)('completes the chapter using %s after the ticket is claimed', mode => {
@@ -60,7 +60,7 @@ describe('McGill puzzle', () => {
     const result = update(state, { type: 'interact', prop: 'door' }, mcgill);
     expect(result.state.progress.completed).toBe(true);
     expect(result.state.selectedItem).toBeNull();
-    expect(result.effects).toContainEqual({ type: 'leave-room' });
+    expect(result.effects).toContainEqual({ type: 'leave-room', nextRoom: 'nortel' });
   });
 
   it('does not duplicate tickets when reopening the completed computer', () => {

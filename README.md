@@ -1,6 +1,6 @@
 # Savagely Optimized
 
-A personal point-and-click career adventure for **savagelyoptimized.co**. The first playable prototype takes place in a fictionalized McGill / CIM lab, now drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
+A personal point-and-click career adventure for **savagelyoptimized.co**. Two playable chapters take place in imagined McGill / CIM and Nortel labs, drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
 
 ## Run locally
 
@@ -19,13 +19,17 @@ In the Codex cloud environment, use a writable cache if the default home directo
 npm ci --cache /workspace/.cache/npm
 ```
 
-## Play the first chapter
+## Play the chapters
 
 The scene is labelled **McGill University, 2006**. Click the floor to walk, or choose a verb and an object. The nine-verb grid follows the classic adventure layout; object hover or keyboard focus builds the action sentence. The inventory is pictorial. Responses appear as dialogue over the room, only after an interaction. The approved room and character assets are preserved; the character remains at the enlarged display scale.
 
-For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the ticket, then use it with the door. The next view is a chapter map, not a second playable room yet. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site. A quiet **Restart** control remains in the footer. Progress is saved locally when browser storage is available. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Day Of The Tentacle face gives verbs and action sentences the supplied adventure-game lettering; speech remains Comic Neue.
+For development checks: use the Recommendz computer, choose **Adventure**, **Comedy**, and **Sci-fi**, take the ticket, then use it with the door. The character walks to the exit and the next scene is Nortel. Reduced motion makes the transition immediate.
 
-Tab reaches the controls and objects. While focus is inside the game, arrow keys move the character and W / L / U select actions. Escape closes the computer and restores focus. Reduced-motion preferences are respected. Sound starts only after an explicit click and uses an original synthesized ambient chord; no album audio is included.
+Nortel (`#nortel`) contains OME racks, a circuit sheet, spare fibre, a configuration console, and an exit. Inspect the sheet, pick up the fibre, and use the racks to patch **OME A / shelf 2 / port 3** to **OME B / shelf 1 / port 2**. Then use the configuration console and leave for the chapter map. This is an illustrative puzzle, not a reconstruction of actual OME hardware or a real lab incident. Nortel's year is intentionally omitted until the owner supplies it.
+
+Both rooms are directly accessible from the chapter map. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site; these developer instructions do not appear in the game. A quiet **Restart** control resets only the current chapter. Each chapter saves independently, with the original McGill save format preserved. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Day Of The Tentacle face supplies the command lettering; speech remains Comic Neue.
+
+Tab reaches the controls and objects. While focus is inside the game, arrow keys move the character and W / L / U select actions. Escape closes the current puzzle and restores focus. Reduced-motion preferences are respected. Sound starts only after an explicit click and uses an original synthesized ambient chord; no album audio is included.
 
 **The short version** opens a factual career overview without requiring any play, with a direct link to Matt’s LinkedIn profile.
 
@@ -57,7 +61,7 @@ For a standard Playwright-managed browser, run `npx playwright install chromium`
 
 ## Architecture
 
-The entry point starts a small application coordinator. Pure game rules live in `src/game`, with McGill's puzzle and scene data in its room module. DOM views live in `src/ui`, browser services in `src/browser`, and biography content in `src/content`. Actions produce the next state and explicit effects; browser operations happen outside the reducer. The existing McGill save format is preserved.
+The entry point starts a small application coordinator. `src/chapters.ts` registers typed room definitions and puzzle views; `src/chapter.ts` runs one reducer session and performs its effects. Pure game rules live in `src/game`, with each chapter's puzzle and scene data in its own room module. DOM views live in `src/ui`, browser services in `src/browser`, and biography content in `src/content`. The existing McGill save format is preserved.
 
 See [the architecture guide](docs/architecture.md) for data flow, module boundaries, testing, and adding another chapter.
 
@@ -68,7 +72,7 @@ npm run build
 npm run preview
 ```
 
-`dist/` is the deployable site. Cloudflare Pages, Netlify, Vercel, or another static host can use `npm run build` with output directory `dist`. Hash navigation keeps the adventure, map, and CV working on static hosting without rewrite rules. The owner has tested the temporary Cloudflare URL; custom-domain activation is in progress.
+`dist/` is the deployable site. Cloudflare Pages, Netlify, Vercel, or another static host can use `npm run build` with output directory `dist`. Hash navigation keeps both rooms, map, and CV working on static hosting without rewrite rules. The owner has confirmed HTTPS works on the custom domain after enabling Cloudflare's HTTPS redirect.
 
 After selecting a host, connect `savagelyoptimized.co` through that host's custom-domain flow. Use the exact DNS records provided there; domain verification and DNS changes are a separate publishing step.
 

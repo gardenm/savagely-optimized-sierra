@@ -14,6 +14,7 @@ export type Progress = Readonly<{
   inventory: readonly string[];
   completed: boolean;
   position: Point;
+  flags?: Readonly<Record<string, boolean>>;
 }>;
 
 export type GameState<RoomState> = Readonly<{
@@ -39,7 +40,7 @@ export type Action<RoomAction> =
 export type Effect =
   | { type: 'persist' }
   | { type: 'walk'; from: Point; to: Point; duration: number; marker: boolean }
-  | { type: 'leave-room' }
+  | { type: 'leave-room'; nextRoom?: string }
   | { type: 'toggle-sound' };
 
 export type Transition<RoomState> = Readonly<{
@@ -67,7 +68,7 @@ export interface RoomDefinition<RoomState, RoomAction> {
   readonly bounds: Bounds;
   readonly props: readonly PropDefinition[];
   readonly items: readonly ItemDefinition[];
-  initialState(): RoomState;
+  initialState(progress: Progress): RoomState;
   interact(state: GameState<RoomState>, prop: string): Transition<RoomState>;
   update(state: GameState<RoomState>, action: RoomAction): Transition<RoomState>;
 }

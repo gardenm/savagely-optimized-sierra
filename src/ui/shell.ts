@@ -1,10 +1,8 @@
-import type { RoomDefinition } from '../game/model';
-import { renderAdventure } from './adventure';
 import { renderPages } from './pages';
 import { icon } from './icons';
 import { required, setText } from './dom';
 
-export function renderShell<S, A>(room: RoomDefinition<S, A>, puzzleMarkup: string): string {
+export function renderShell(chapterMarkup: string): string {
   return `
   <header class="site-header">
     <a class="wordmark" href="#adventure" aria-label="Savagely Optimized home">savagely<span>optimized<span class="wordmark-dot">.</span></span></a>
@@ -16,11 +14,11 @@ export function renderShell<S, A>(room: RoomDefinition<S, A>, puzzleMarkup: stri
     <button class="sound-toggle" data-sound aria-pressed="false" aria-label="Turn on ambient sound">${icon('muted')}<span>Sound off</span></button>
   </header>
   <main id="main" tabindex="-1">
-    ${renderAdventure(room)}
+    <div id="room-host" data-view="adventure">${chapterMarkup}</div>
     ${renderPages()}
+    <span class="sr-only" id="save-status" role="status"></span>
   </main>
   <footer class="site-footer"><button id="domain-joke" title="Examine the domain">savagelyoptimized.co ${icon('spark')}</button><button id="reset-progress" title="Restart the McGill chapter">Restart</button></footer>
-  ${puzzleMarkup}
   <div class="toast" id="toast" role="status" hidden></div>
   `;
 }
@@ -44,6 +42,7 @@ export function createShellView(root: HTMLElement, onSound: () => void, onRestar
   required(root, '#domain-joke').addEventListener('click', () => showToast('Originally .com. The M was deemed nonessential.'), options);
 
   return {
+    chapter(name: string) { required(root, '#reset-progress').setAttribute('title', `Restart the ${name} chapter`); },
     sound(enabled: boolean) {
       soundButtons.forEach(button => {
         button.innerHTML = `${icon(enabled ? 'sound' : 'muted')}<span>Sound ${enabled ? 'on' : 'off'}</span>`;

@@ -1,0 +1,118 @@
+import { test, expect } from '@playwright/test';
+import { mkdir } from 'node:fs/promises';
+
+test('Nortel restores a fibre path, configures PDH, and remembers both milestones', async ({ page }, testInfo) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#nortel');
+  await expect(page.getByRole('heading', { name: 'Nortel', exact: true })).toBeVisible();
+  await expect(page.locator('#dialogue-text')).toBeEmpty();
+  await expect(page.locator('#command-text')).toBeEmpty();
+  await page.evaluate(() => document.fonts.ready);
+  await mkdir('.impeccable/review', { recursive: true });
+  await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-nortel.png`, fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+
+  await page.getByRole('button', { name: 'Open', exact: true }).click();
+  await page.getByRole('button', { name: 'Door', exact: true }).click();
+  await expect(page).toHaveURL(/#nortel$/);
+  await expect(page.locator('#dialogue-text')).toContainText('alarm');
+  await page.getByRole('button', { name: 'Use', exact: true }).click();
+  await page.getByRole('button', { name: 'Configuration console', exact: true }).click();
+  await expect(page.locator('#dialogue-text')).toContainText('No carrier');
+  await page.getByRole('button', { name: 'Look at', exact: true }).click();
+  await page.getByRole('button', { name: 'Circuit sheet', exact: true }).click();
+  await expect(page.locator('#dialogue-text')).toContainText('shelf 2, port 3');
+  await page.getByRole('button', { name: 'OME A', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-patchbay.png` });
+  await page.getByRole('button', { name: 'OME A shelf 2 port 3', exact: true }).click();
+  await expect(page.locator('#patchbay-feedback')).toHaveText('No patch lead.');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'OME A', exact: true })).toBeFocused();
+  await page.getByRole('button', { name: 'Pick up', exact: true }).click();
+  await page.getByRole('button', { name: 'Spare fibre', exact: true }).click();
+  await page.getByRole('button', { name: 'Fibre patch lead', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Use', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'OME A', exact: true }).click();
+  await page.getByRole('button', { name: 'OME A shelf 2 port 1', exact: true }).click();
+  await page.getByRole('button', { name: 'OME B shelf 1 port 1', exact: true }).click();
+  await expect(page.locator('#patchbay-feedback')).toHaveText('No carrier.');
+  await page.getByRole('button', { name: 'OME A shelf 2 port 3', exact: true }).click();
+  await page.getByRole('button', { name: 'OME B shelf 1 port 2', exact: true }).click();
+  await expect(page.locator('#patchbay-feedback')).toHaveText('Carrier restored.');
+  await expect(page.locator('.patch-cable path')).toHaveAttribute('d', /^M /);
+  await expect(page.getByRole('button', { name: 'OME A shelf 2 port 3', exact: true })).toBeDisabled();
+  await page.screenshot({ path: `.impeccable/review/${testInfo.project.name}-patchbay-connected.png` });
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Fibre patch lead', exact: true })).toBeHidden();
+
+  await page.reload();
+  await page.getByRole('button', { name: 'Open', exact: true }).click();
+  await page.getByRole('button', { name: 'Door', exact: true }).click();
+  await expect(page.locator('#dialogue-text')).toContainText('service isn’t');
+  await page.getByRole('button', { name: 'Use', exact: true }).click();
+  await page.getByRole('button', { name: 'Configuration console', exact: true }).click();
+  await expect(page.locator('#dialogue-text')).toContainText('PDH configuration applied');
+  await page.getByRole('button', { name: 'Door', exact: true }).click();
+  await expect(page).toHaveURL(/#chapters$/);
+  await expect(page.getByRole('link', { name: 'Enter Nortel' })).toBeVisible();
+  await page.getByRole('link', { name: 'Enter Nortel' }).click();
+  await expect(page.locator('#room-host')).not.toHaveAttribute('aria-busy', 'true');
+  await page.getByRole('button', { name: 'Look at', exact: true }).click();
+  await page.getByRole('button', { name: 'OME B', exact: true }).click();
+  await expect(page.locator('#carrier-status')).toHaveText('Carrier restored');
+  await page.keyboard.press('Escape');
+  await page.reload();
+  await page.getByRole('button', { name: 'Look at', exact: true }).click();
+  await page.getByRole('button', { name: 'OME B', exact: true }).click();
+  await expect(page.locator('#carrier-status')).toHaveText('Carrier restored');
+  await expect(page.getByRole('button', { name: 'OME B shelf 1 port 2', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  expect(errors).toEqual([]);
+});
+
+test('reading pages resume the current room and restart affects only that chapter', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('savagely-optimized:mcgill:v1', JSON.stringify({ ticket: true, completed: true, x: 65, y: 90 }));
+    localStorage.setItem('savagely-optimized:nortel:v1', JSON.stringify({ version: 1, linkRestored: true, configured: true, completed: true, x: 60, y: 85 }));
+  });
+  await page.goto('/#nortel');
+  await page.getByRole('link', { name: 'The short version' }).click();
+  await expect(page.getByRole('link', { name: 'The adventure', exact: true })).toHaveAttribute('href', /#nortel$/);
+  await page.getByRole('link', { name: 'The adventure', exact: true }).click();
+  page.once('dialog', dialog => dialog.accept());
+  await page.getByRole('button', { name: 'Restart', exact: true }).click();
+  await expect(page).toHaveURL(/#nortel$/);
+  await expect(page.locator('#dialogue-text')).toBeEmpty();
+  await page.getByRole('button', { name: 'Look at', exact: true }).click();
+  await page.getByRole('button', { name: 'OME A', exact: true }).click();
+  await expect(page.locator('#carrier-status')).toHaveText('No carrier');
+  await page.keyboard.press('Escape');
+  const mcgill = await page.evaluate(() => JSON.parse(localStorage.getItem('savagely-optimized:mcgill:v1')!));
+  expect(mcgill).toMatchObject({ ticket: true, completed: true });
+  await page.getByRole('link', { name: 'Chapter map' }).click();
+  await page.getByRole('link', { name: 'Enter the lab' }).click();
+  await expect(page.locator('#ticket')).toBeVisible();
+  await page.getByRole('link', { name: 'Chapter map' }).click();
+  await page.getByRole('link', { name: 'Enter Nortel' }).click();
+  await expect(page.getByRole('group', { name: 'Playable Nortel room' })).toBeVisible();
+  await page.getByRole('group', { name: 'Playable Nortel room' }).focus();
+  const before = await page.locator('#character').evaluate(element => parseFloat(element.style.left));
+  await page.keyboard.press('ArrowRight');
+  expect(await page.locator('#character').evaluate(element => parseFloat(element.style.left))).toBe(before + 3);
+  await expect(page.locator('[data-mode]')).toHaveCount(9);
+});
+
+test('navigating away during the McGill exit cancels its delayed scene change', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('savagely-optimized:mcgill:v1', JSON.stringify({ ticket: true, completed: true, x: 57, y: 86 }));
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Open', exact: true }).click();
+  await page.getByRole('button', { name: 'Door', exact: true }).click();
+  await page.getByRole('link', { name: 'The short version' }).click();
+  await expect(page.locator('#room-host')).not.toHaveAttribute('aria-busy', 'true');
+  await expect(page).toHaveURL(/#cv$/);
+  await expect(page.getByRole('heading', { name: 'Matt Garden' })).toBeVisible();
+});

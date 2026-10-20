@@ -1,6 +1,6 @@
-# First-room direction
+# Room direction
 
-Status: the owner explicitly replaced the initial painterly, slightly pixelated direction with a chunkier, caricatured, slightly goofy Day of the Tentacle-inspired cartoon world. The room is owner-approved. The character has now been rebuilt using four inspected uploaded reference photographs and the owner's appearance corrections; the owner has approved it and requested only a larger display scale.
+Status: the owner explicitly replaced the initial painterly, slightly pixelated direction with a chunkier, caricatured, slightly goofy Day of the Tentacle-inspired cartoon world. The McGill room is owner-approved. The character has now been rebuilt using four inspected uploaded reference photographs and the owner's appearance corrections; the owner has approved it and requested only a larger display scale. Nortel extends this world with an original optical lab.
 
 The owner rejected the old description-only character as too naturalistic and insufficiently similar. The replacement uses the real higher hairline, broader frames, longer tapered beard, natural slim/fit build, sage shirt, and tattoo references, with a larger head, simpler angular cel shading, and bolder contours. Both directional poses preserve the sleeve's anatomical side. The approved room file is byte-for-byte unchanged. Private attachments now supply the needed references despite the unresolved external-link proxy failure. The owner has approved the new character. Preserve the sprite artwork and room; increase only the display scale, from 20%/36% to 30%/54% of scene width/height.
 
@@ -14,14 +14,28 @@ The character brief is in character.md: short swept brown hair with receding tem
 
 The game and scene label are centred at a maximum width of 1000px and fill smaller containers. There is no reflection sidebar or placeholder text; the owner may supply reflections later. Verbs and inventory stay side by side. There is no task journal, objective checklist, hint, walkthrough or duplicate object list. The film puzzle has a protected-focus terminal dialog. Other reading happens through hash routes, not modals.
 
+## Nortel extension
+
+McGill's ticket puzzle now leads through its doorway into the Nortel room at `#nortel`. Both chapters are directly accessible from the chapter map, save independently, and restart only the current room. The exit waits for the character's walk, becomes immediate for reduced motion, and is cancelled if the visitor navigates away. The legacy McGill save key and schema are preserved.
+
+Nortel is an ordinary extension of the established visual world: an original imagined optical equipment lab with multiple leaning teal OME racks, cream card shelves, yellow and orange fibre loops, a spare-fibre bench, configuration console, circuit sheet and crooked purple door. The approved McGill room supplied the style reference. Thick plum outlines, exaggerated proportions, cel shading and a clear walking floor continue the same world. The original McGill artwork and both directional sprites remain untouched; character display remains 30% of scene width and 54% of scene height. The shared centred shell, nine verbs, empty entry action sentence, empty entry speech and pictorial inventory remain. The understated scene label is “Nortel”, with no invented year, hints, objectives or sidebar.
+
+The room's fictional puzzle lets the visitor inspect the circuit sheet, collect fibre, connect OME A shelf 2 port 3 to OME B shelf 1 port 2, then use the configuration console before leaving for the chapter map. The owner's factual work was PDH configuration on OME metro equipment; the room, patch endpoints, dialogue and successful connection are illustrative framing, not a reported employer incident or achievement.
+
+The patch-bay closeup uses the incumbent plum terminal frame, Lilita One heading and Comic Neue hardware labels. Two teal shelf panels remain side by side on phone and desktop, with four numbered cream ports in each. Custard fill and a gold border identify selected ports. An SVG cable follows the selected sockets, appearing dashed before connection and solid gold after carrier restoration; green sockets and explicit status text communicate success. Keyboard focus and Escape handling use the native dialog, with focus returned on close. This closeup shows hardware and status without adding coaching to the room.
+
 ## Visual evidence
 
 - `public/art/mcgill-lab.webp`: original generated chunky cartoon room artwork.
 - `public/art/adventurer-right.webp` and `adventurer-left.webp`: original generated directional character studies with native alpha.
 - `.impeccable/review/desktop.png` and `mobile.png`: final full-page captures.
 - `.impeccable/review/desktop-computer.png` and `mobile-computer.png`: final terminal viewport captures.
+- `public/art/nortel-lab.webp`: original generated optical lab, with the approved McGill room as style reference.
+- `.impeccable/review/desktop-nortel.png` and `mobile-nortel.png`: Nortel entry captures with the unchanged shared shell and controls.
+- `.impeccable/review/desktop-patchbay.png` and `mobile-patchbay.png`: unconnected optical-shelf closeup captures.
+- `.impeccable/review/desktop-patchbay-connected.png` and `mobile-patchbay-connected.png`: connected closeup captures with cable and carrier status.
 
-Exact generation prompts are preserved in `docs/art-provenance.json` and embedded as XMP metadata in the shipped WebP files. The room is an imagined setting, not a verified reconstruction of the actual McGill lab.
+Exact generation prompts and sources are preserved in `docs/art-provenance.json` and embedded as XMP metadata in the shipped WebP files. Both rooms are imagined settings, not verified reconstructions of actual employer or university labs.
 
 ## Tooling limits
 

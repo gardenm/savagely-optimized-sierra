@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Implementation: plain TypeScript, HTML, and CSS, built with Vite. A pure reducer handles shared adventure state, room modules own puzzle rules and scene data, DOM views render state, and browser services perform effects. The result is a static site with no backend. Unit tests run with Vitest and browser tests with Playwright; GitHub Actions checks pull requests and pushes to main. See docs/architecture.md. The owner has tested the site on its temporary Cloudflare URL. Custom-domain activation is still in progress.
+Implementation: plain TypeScript, HTML, and CSS, built with Vite. A pure reducer handles shared adventure state, room modules own puzzle rules and scene data, DOM views render state, and browser services perform effects. The result is a static site with no backend. Unit tests run with Vitest and browser tests with Playwright; GitHub Actions checks pull requests and pushes to main. See docs/architecture.md. The owner has confirmed the custom domain works over HTTPS after enabling Cloudflare's HTTPS redirect.
 
 ## Product Purpose
 
@@ -20,7 +20,7 @@ Each career stage becomes a room and a small puzzle inspired by the actual work.
 
 ## Capabilities and Constraints
 
-The first prototype is a complete McGill room: move, examine props, use Recommendz, obtain a symbolic ticket, and leave for a map of planned chapters. Future chapters cover Nortel, SMART Technologies, Lightspeed, and Shopify, plus an optional Timney Lab prologue. Shopify includes retail POS and learning agentic engineering, which occupies a lot of the owner's time. Mentoring, art, and music are recurring threads.
+Two chapters are playable. McGill supports movement, prop inspection, Recommendz, a symbolic ticket, and a doorway transition into Nortel. The Nortel room contains multiple OME racks, fibre, a circuit sheet, a patch bay and a configuration console. Its fictional puzzle restores an optical path, then applies PDH configuration before leaving for the chapter map. Both rooms can also be entered directly from the map, save progress independently, and support restarting only the current chapter. The owner specified the Nortel lab setting and actual PDH/OME work; the patch endpoints and lab layout are illustrative, with no invented career date. Future chapters cover SMART Technologies, Lightspeed, and Shopify, plus an optional Timney Lab prologue. Shopify includes retail POS and learning agentic engineering, which occupies a lot of the owner's time. Mentoring, art, and music are recurring threads.
 
 The owner wants minimal exposition and a UI much closer to Day of the Tentacle. Keep the wordmark and direct short-version link. The scene label is “McGill University, 2006”, supplied by the owner. Remove the career headline, scene slogan, initial instruction, objectives, task checklist, hints, walkthrough, duplicate object list, and introductory dialogue. The game uses nine plain verbs, a contextual action sentence, pictorial inventory, and dialogue only after interactions. Walking is the default action. The placeholder reflection sidebar is removed. The game and scene label are centred at a maximum width of 1000px, filling narrower screens. Reflections may return when the owner supplies real text. Commands use the self-hosted Day Of The Tentacle cartoon face; speech stays Comic Neue. Understanding or completing the game is optional.
 

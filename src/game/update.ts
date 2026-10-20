@@ -7,7 +7,7 @@ import {
 export function createInitialState<S, A>(room: RoomDefinition<S, A>, progress = freshProgress(room.spawn)): GameState<S> {
   return {
     progress, mode: 'walk', activeProp: null, selectedItem: null,
-    dialogue: { text: '' }, room: room.initialState(),
+    dialogue: { text: '' }, room: room.initialState(progress),
   };
 }
 

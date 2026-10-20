@@ -27,7 +27,9 @@ test('the recommendation puzzle gates the exit, awards a usable ticket, and reme
   await expect(page.locator('#ticket')).toBeVisible();
   await expect(page.locator('#ticket')).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page).toHaveURL(/#chapters$/);
+  await expect(page).toHaveURL(/#nortel$/);
+  await expect(page.getByRole('heading', { name: 'Nortel', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Chapter map' }).click();
   await expect(page.getByRole('heading', { name: 'A little more agency.' })).toBeVisible();
   await expect(page.locator('.chapter-row').last()).toContainText('learning agentic engineering');
   await expect(page.locator('.chapter-row').last()).toContainText('Planned');
@@ -36,7 +38,7 @@ test('the recommendation puzzle gates the exit, awards a usable ticket, and reme
   await expect(page.locator('#ticket')).toBeVisible();
   await page.getByRole('button', { name: 'Open', exact: true }).click();
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page).toHaveURL(/#chapters$/);
+  await expect(page).toHaveURL(/#nortel$/);
   expect(errors).toEqual([]);
 });
 
@@ -151,7 +153,7 @@ test('classic verbs give feedback and inventory selection survives switching bet
   await page.locator('#ticket').click();
   await expect(page.getByRole('button', { name: 'Use', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Door', exact: true }).click();
-  await expect(page).toHaveURL(/#chapters$/);
+  await expect(page).toHaveURL(/#nortel$/);
 });
 
 test('inspecting research papers reveals a clickable PDF link and other interactions clear it', async ({ page }, testInfo) => {
