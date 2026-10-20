@@ -51,6 +51,10 @@ export function update<S, A>(state: GameState<S>, action: Action<A>, room: RoomD
     }
     case 'select-item': {
       if (!state.progress.inventory.includes(action.item)) return { state, effects: [] };
+      if (state.mode === 'use') {
+        const result = room.useInventoryItem?.(state, action.item);
+        if (result) return result;
+      }
       const selectedItem = state.selectedItem === action.item ? null : action.item;
       return {
         state: { ...state, selectedItem, mode: selectedItem && state.mode !== 'give' ? 'use' : state.mode },

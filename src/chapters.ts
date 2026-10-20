@@ -4,7 +4,7 @@ import type { Dispatch, RoomDefinition } from './game/model';
 import { mcgill, mcgillSave } from './game/rooms/mcgill';
 import { nortel, nortelSave } from './game/rooms/nortel';
 import { renderAdventure } from './ui/adventure';
-import { createPatchbayView, renderPatchbay } from './ui/patchbay';
+import { createNortelView, renderNortel } from './ui/nortel';
 import { createRecommendzView, renderRecommendz } from './ui/recommendz';
 
 export interface PlayableChapter {
@@ -25,7 +25,7 @@ function chapter<S, A>(name: string, room: RoomDefinition<S, A>, codec: SaveCode
 
 export const playableChapters = {
   mcgill: chapter('McGill', mcgill, mcgillSave, renderRecommendz, createRecommendzView),
-  nortel: chapter('Nortel', nortel, nortelSave, renderPatchbay, createPatchbayView),
+  nortel: chapter('Nortel', nortel, nortelSave, renderNortel, createNortelView),
 };
 export type ChapterId = keyof typeof playableChapters;
 export const isChapterId = (id: string): id is ChapterId => Object.hasOwn(playableChapters, id);

@@ -22,9 +22,9 @@ flowchart LR
 - `src/game/model.ts` defines readonly state, typed actions and effects, and the room contract.
 - `src/game/update.ts` handles movement, verbs, inventory selection, contextual action sentences, and restart. Room-specific actions and prop interactions are delegated to the supplied room.
 - `src/game/rooms/mcgill.ts` owns the lab artwork metadata, hotspot geometry, destinations, dialogue, paper link, ticket, Recommendz rules, and save codec.
-- `src/game/rooms/nortel.ts` owns the optical lab, patch endpoints, carrier and PDH configuration rules, dialogue, and its independent save codec.
+- `src/game/rooms/nortel.ts` owns the optical lab, grounded-strap requirement, recoverable static fault, cable reconnection, dialogue, and its independent save codec.
 
-The shared reducer is parameterized by a room's state and actions. McGill uses that extension for the computer's open state and recommendation result. Future rooms can have different puzzles without adding their cases to the shared reducer. Unit tests exercise a separate workshop fixture to check this boundary.
+The shared reducer is parameterized by a room's state and actions. An optional `useInventoryItem` room hook runs after ownership validation when Use is selected; Nortel uses it to wear a collected strap. Rooms without the hook retain normal item selection. McGill uses that extension for the computer's open state and recommendation result. Future rooms can have different puzzles without adding their cases to the shared reducer. Unit tests exercise a separate workshop fixture to check this boundary.
 
 Browser input produces an action, for example `dispatch({ type: 'interact', prop: 'papers' })`. The application evaluates `update(state, action, mcgill)`, receiving `{ state, effects }`.
 
@@ -34,11 +34,11 @@ The build checks `src/game` separately with the ES2022 library and no DOM or Nod
 
 ## Progress and temporary state
 
-Only `Progress` is persisted: inventory, chapter completion, character position and optional room milestone flags. Selected verbs/items, hovered props, dialogue and open puzzle state are temporary and reset on reload. The room's initial-state factory receives validated progress so it can restore a completed patch diagram without reopening the dialog. Restart creates fresh progress for only the current room.
+Only `Progress` is persisted: inventory, chapter completion, character position and optional room milestone flags. Selected verbs/items, hovered props, dialogue and open puzzle state are temporary and reset on reload. The room's initial-state factory receives validated progress; views derive persistent visual changes from it without restoring transient faults or reopening dialogs. Restart creates fresh progress for only the current room.
 
 The McGill save adapter retains the existing `savagely-optimized:mcgill:v1` key and `{ ticket, completed, x, y }` payload. Its codec translates that wire format into the internal model. Existing visitors need no migration. Decoding validates booleans, bounds coordinates, and prevents completion without the ticket. A new save format should use an explicit version and compatibility strategy.
 
-Nortel uses `savagely-optimized:nortel:v1`, with an explicit version, collected fibre, restored link, configured service, completion and position. Its decoder prevents service configuration without a link and completion without configuration. Solving the patch consumes the lead. No inventory is transferred between chapters.
+Nortel keeps the storage key `savagely-optimized:nortel:v1` and writes payload version 2: collected strap, worn/grounded strap, restored link, completion and position. The decoder enforces ownership before grounding and grounding before link/completion. Version 1 linked saves migrate to a worn strap and restored link, preserving existing completion. The obsolete fibre/configuration fields are no longer required. Unlinked legacy saves start the simpler puzzle. No inventory is transferred between chapters, and transient faults never persist.
 
 `src/browser/saves.ts` catches malformed JSON, denied storage access, and quota errors. Loading falls back to fresh progress; saving reports failure so the shell can announce it. It never clears unrelated browser storage.
 
@@ -46,7 +46,7 @@ Nortel uses `savagely-optimized:nortel:v1`, with an explicit version, collected 
 
 - `src/ui/adventure.ts` mounts the generic room, translates input into actions, patches controls and dialogue, and animates movement.
 - `src/ui/recommendz.ts` owns the McGill computer's markup, checkbox input, native dialog, and focus handling. The reducer validates the puzzle and authorizes ticket awards. Checkbox selection stays local to the form until submitted.
-- `src/ui/patchbay.ts` owns Nortel's optical-shelf closeup, native dialog focus, port controls and cable diagram. Port selection and successful connection are reducer decisions; SVG path geometry comes from the mounted port positions.
+- `src/ui/nortel.ts` owns the scene's transparent strap/cable props, worn inventory marker, static-shock feedback and 1.8-second recovery timer. Recovery dispatches a room action; the reducer decides the reset. Manual reset, restart and disposal cancel timers. Reduced motion suppresses the jolt while retaining the still spark.
 - `src/ui/pages.ts` renders the career overview and chapter map from `src/content/career.ts`.
 - `src/ui/shell.ts` renders the site shell and handles sound indicators, toasts, and save announcements. Puzzle markup is supplied by the composition root.
 - `src/browser/navigation.ts` handles hash routes, titles, active links, scrolling, and navigation focus.

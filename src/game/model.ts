@@ -70,6 +70,7 @@ export interface RoomDefinition<RoomState, RoomAction> {
   readonly items: readonly ItemDefinition[];
   initialState(progress: Progress): RoomState;
   interact(state: GameState<RoomState>, prop: string): Transition<RoomState>;
+  useInventoryItem?(state: GameState<RoomState>, item: string): Transition<RoomState> | undefined;
   update(state: GameState<RoomState>, action: RoomAction): Transition<RoomState>;
 }
 

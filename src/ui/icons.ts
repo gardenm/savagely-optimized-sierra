@@ -6,7 +6,9 @@ const icons = {
   ticket: '<path d="M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Zm12 0v3m0 3v2m0 2v2"/>',
   close: '<path d="m6 6 12 12M6 18 18 6"/>',
   spark: '<path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z"/>',
-  fibre: '<path d="M7 6C1 6 2 20 12 20S23 6 17 6C10 6 7 15 12 16s8-9 4-12M7 6V3H4v5h3m9-4V1h3v5h-3"/>',
+  strap: '<path d="M4 9c0-5 16-5 16 0v5c0 5-16 5-16 0Zm0 0c0 5 16 5 16 0M9 12h6v6H9Zm3 6v3h8"/>',
+  check: '<path d="m5 12 4 4L19 6"/>',
+
 };
 export function icon(name: keyof typeof icons, cls = '') {
   return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;

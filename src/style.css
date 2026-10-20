@@ -91,13 +91,11 @@ h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; }
 .ticket-item { display: grid; place-items: center; width: 76px; height: 76px; border: 2px solid transparent; color: #ffd36b; }
 .ticket-item[aria-pressed=true] { border-color: var(--verb-text); }
 .ticket-item .icon { width: 62px; height: 62px; fill: #e5bd78; stroke: #39213e; }
-.ticket-item[data-item=fibre] .icon { fill: none; stroke: #ffd36b; }
 .is-leaving .game-window { pointer-events: none; }
 .room-entering .stage { animation: room-arrival .4s ease-out; }
 @keyframes room-arrival { from { opacity: .75; filter: saturate(.7); } to { opacity: 1; filter: saturate(1); } }
 .nortel-link-lamp { position: absolute; left: 65.5%; top: 45%; width: .8%; aspect-ratio: 1; min-width: 6px; border-radius: 50%; background: #d79a43; border: 1px solid #30213e; pointer-events: none; }
 .nortel-link-lamp.is-connected { background: #a4dc82; }
-.nortel-link-lamp.is-configured { background: #d8ff9a; }
 .site-footer { display: flex; justify-content: space-between; gap: 24px; align-items: center; margin-top: 24px; padding-top: 16px; padding-bottom: 24px; font-size: 11px; color: var(--muted); position: relative; }
 .site-footer::before { content: ''; height: 1px; background: var(--line); position: absolute; top: 0; left: 44px; right: 44px; }
 .site-footer > button { padding: 8px 0; min-height: 44px; }
@@ -158,27 +156,6 @@ fieldset label:hover span { border-color: #ffde8a; }
 .printed-ticket .icon { width: 38px; height: 38px; }
 .printed-ticket > div { font-size: 9px; letter-spacing: .09em; }
 .printed-ticket span { display: block; font: 700 26px var(--game-font); letter-spacing: 0; margin-top: 4px; }
-.patchbay-dialog { max-width: min(680px, 100vw); }
-.patchbay-shelves { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 28px; padding-bottom: 36px; }
-.optical-shelf { min-width: 0; background: #314c50; border: 2px solid #9d94a5; padding: 16px; }
-.optical-shelf h3 { color: #fff2d3; font: 700 24px/1.2 var(--game-font); margin-bottom: 18px; }
-.optical-shelf h3 span { display: block; margin-top: 4px; font-size: 15px; color: #c9ded3; }
-.optical-ports { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.optical-port { display: grid; place-items: center; gap: 5px; padding: 12px 4px 7px; min-width: 44px; min-height: 66px; color: #30213e; background: #d7cda5; border: 2px solid transparent; font: 700 16px/1 var(--game-font); }
-.optical-port:hover, .optical-port[aria-pressed=true] { background: #fff2d3; border-color: #ffd36b; }
-.optical-port:disabled { opacity: 1; }
-.optical-port:focus-visible { outline-color: #fff2d3; outline-offset: 3px; }
-.port-socket { width: 20px; height: 16px; background: #172b32; border: 3px solid #30213e; }
-.has-carrier .optical-port[aria-pressed=true] .port-socket { background: #a4dc82; }
-.patch-cable { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.patch-cable path { fill: none; stroke: #e0b36c; stroke-width: 5px; stroke-linecap: round; stroke-dasharray: 7 5; filter: drop-shadow(1px 2px 1px #21122e); }
-.has-carrier .patch-cable path { stroke: #ffd36b; stroke-dasharray: none; }
-.patchbay-status { display: flex; align-items: center; gap: 9px; margin-top: 8px; color: #efd4a7; font: 700 17px/1.4 var(--game-font); }
-.carrier-light { width: 10px; height: 10px; background: #e0aa5c; border-radius: 50%; }
-.has-carrier .carrier-light { background: #a4dc82; }
-.has-carrier .patchbay-status { color: #c7eeb6; }
-.service-status { margin-left: auto; color: #e5cbe9; }
-#patchbay-feedback { min-height: 24px; margin-top: 14px; color: #ffd36b; font: 700 16px/1.5 var(--game-font); }
 @media (min-width: 1550px) { .site-header, main, .site-footer { max-width: 1480px; } }
 @media (max-width: 1100px) {
   .site-header, main, .site-footer { padding-left: 28px; padding-right: 28px; }
@@ -235,11 +212,6 @@ fieldset label:hover span { border-color: #ffde8a; }
   fieldset { gap: 8px; }
   fieldset label span { font-size: 18px; padding-left: 3px; padding-right: 3px; }
   .terminal-button { font-size: 20px; gap: 9px; }
-  .patchbay-window .terminal-body { padding-inline: 16px; }
-  .patchbay-shelves { gap: 16px; margin-top: 22px; }
-  .optical-shelf { padding: 12px 8px; }
-  .optical-shelf h3 { font-size: 21px; }
-  .optical-ports { gap: 8px; }
 }
 @media (max-width: 360px) {
   .game-controls { grid-template-columns: minmax(0, 1fr) 56px; }
@@ -266,3 +238,24 @@ fieldset label:hover span { border-color: #ffde8a; }
   .bio-timeline article + article { margin-top: 16px; padding-top: 16px; }
   .bio-timeline h2 { font-size: 22px; }
 }
+
+/* Nortel props sit inside the scene; the original room and character stay intact. */
+.nortel-props { position: absolute; inset: 0; pointer-events: none; }
+.nortel-strap { position: absolute; left: 6%; top: 53%; width: 13%; height: 13%; object-fit: contain; }
+.nortel-cable { position: absolute; left: 43%; top: 25%; width: 12%; height: 34%; object-fit: contain; }
+.is-tripped .room-art, .is-tripped .nortel-props { filter: saturate(.25) brightness(.65); }
+.ticket-item[data-item=strap] { position: relative; }
+.ticket-item[data-item=strap] > .icon { fill: none; stroke: #82dbe6; }
+.worn-marker { position: absolute; right: 3px; bottom: 3px; color: #c7eeb6; }
+.worn-marker .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 3; }
+.static-spark { position: absolute; left: 58%; top: 52%; color: #ffe798; }
+.static-spark .icon { width: clamp(20px, 3vw, 40px); height: clamp(20px, 3vw, 40px); fill: #ffe798; stroke: #39213e; stroke-width: 2; }
+.character.is-shocked > img { animation: static-jolt .45s ease-out; }
+@keyframes static-jolt {
+  15% { transform: translate(-3%, -3%) rotate(-5deg); }
+  35% { transform: translate(3%, -5%) rotate(5deg); }
+  60% { transform: translate(-2%, -2%) rotate(-3deg); }
+  80% { transform: translate(1%, -1%) rotate(2deg); }
+  100% { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .character.is-shocked > img { animation: none; } }

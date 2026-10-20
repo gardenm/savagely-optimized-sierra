@@ -1,103 +1,84 @@
 import { assertNever, clampPoint, freshProgress, say, type GameState, type Progress, type RoomDefinition, type Transition } from '../model';
 
-export const ports = [1, 2, 3, 4] as const;
-export type Port = typeof ports[number];
-export type NortelState = Readonly<{
-  patchbayOpen: boolean;
-  a: Port | null;
-  b: Port | null;
-  feedback: string;
-}>;
-export type NortelAction =
-  | { type: 'close-patchbay' }
-  | { type: 'patch-port'; rack: 'a' | 'b'; port: Port };
-
-const sourcePort: Port = 3;
-const destinationPort: Port = 2;
-export const circuit = { service: 'PDH', sourceShelf: 2, sourcePort, destinationShelf: 1, destinationPort } as const;
+export type NortelState = Readonly<{ tripped: boolean }>;
+export type NortelAction = { type: 'reset-equipment' };
 export const linkRestored = (progress: Progress) => progress.flags?.linkRestored === true;
-export const configured = (progress: Progress) => linkRestored(progress) && progress.flags?.configured === true;
+export const strapWorn = (progress: Progress) => progress.inventory.includes('strap') && progress.flags?.strapWorn === true;
+const tripLine = '“Pop. Ah. Static electricity. It’s running a self-test…”';
 type State = GameState<NortelState>;
 
-function openPatchbay(state: State): Transition<NortelState> {
-  return { state: { ...state, room: { ...state.room, patchbayOpen: true, feedback: '' } }, effects: [] };
+function wearStrap(state: State): Transition<NortelState> {
+  if (strapWorn(state.progress)) return say(state, '“Already strapped in and grounded.”');
+  return {
+    state: {
+      ...state, selectedItem: null,
+      progress: { ...state.progress, inventory: ['strap'], flags: { ...state.progress.flags, strapWorn: true } },
+      dialogue: { text: '“Strapped in. Grounded. Fashionable.”' },
+    },
+    effects: [{ type: 'persist' }],
+  };
+}
+
+function resetEquipment(state: State): Transition<NortelState> {
+  if (!state.room.tripped) return { state, effects: [] };
+  return {
+    state: { ...state, room: { tripped: false }, dialogue: state.dialogue.text === tripLine ? { text: '“Self-test passed. Nothing permanently fried.”' } : state.dialogue },
+    effects: [],
+  };
 }
 
 function interact(state: State, prop: string): Transition<NortelState> {
   const { mode } = state;
-  if (state.selectedItem === 'fibre' && (mode === 'use' || mode === 'give')) {
-    if ((prop === 'ome-a' || prop === 'ome-b') && mode === 'use') return openPatchbay(state);
-    return say(state, '“Fibre has its uses. That isn’t one of them.”');
+  if (prop === 'strap') {
+    if (mode === 'use') return wearStrap(state);
+    if (mode === 'pickup') {
+      if (state.progress.inventory.includes('strap')) return say(state, '“I’ve got it.”');
+      return {
+        state: { ...state, progress: { ...state.progress, inventory: ['strap'] }, dialogue: { text: '“An anti-static wrist strap.”' } },
+        effects: [{ type: 'persist' }],
+      };
+    }
+    return say(state, '“An anti-static wrist strap, complete with grounding lead.”');
   }
-  if (mode === 'pickup') {
-    if (prop !== 'fibre') return say(state, '“I’d rather not carry a whole rack.”');
-    if (linkRestored(state.progress)) return say(state, '“The patch lead is already earning its keep.”');
-    if (state.progress.inventory.includes('fibre')) return say(state, '“One patch lead is plenty.”');
-    return {
-      state: { ...state, progress: { ...state.progress, inventory: [...state.progress.inventory, 'fibre'] }, dialogue: { text: '“A spare fibre. Positively luxurious.”' } },
-      effects: [{ type: 'persist' }],
-    };
+  if (prop === 'console' && (mode === 'use' || mode === 'push' || mode === 'open')) {
+    if (state.room.tripped) {
+      const reset = resetEquipment(state);
+      return { ...reset, state: { ...reset.state, dialogue: { text: '“Reset. Fans spinning. Crisis downgraded.”' } } };
+    }
+    return say(state, linkRestored(state.progress) ? '“No alarms. A beautiful sight.”' : '“Loss of signal. Somewhere, a connection is missing.”');
   }
-  if (mode === 'push' || mode === 'pull') return say(state, '“Gentle curves. This stuff is not garden hose.”');
-  if (mode === 'talk') return say(state, '“The fans are doing most of the talking.”');
-  if (mode === 'give') return say(state, '“A generous offer. No takers.”');
-  if (mode === 'close') return say(state, '“Some things are best left connected.”');
-
+  const electronics = prop === 'ome-a' || prop === 'ome-b' || prop === 'cable';
+  const touching = mode === 'use' || mode === 'open' || mode === 'close' || mode === 'pickup' || mode === 'push' || mode === 'pull';
+  if (electronics && touching) {
+    if (state.selectedItem === 'strap' && mode === 'use') return wearStrap(state);
+    if (state.room.tripped) return say(state, '“Still running its self-test.”');
+    if (!strapWorn(state.progress)) return { state: { ...state, selectedItem: null, room: { tripped: true }, dialogue: { text: tripLine } }, effects: [] };
+    if (prop === 'cable' && (mode === 'use' || mode === 'push')) {
+      if (linkRestored(state.progress)) return say(state, '“Already snug.”');
+      return {
+        state: { ...state, selectedItem: null, progress: { ...state.progress, flags: { ...state.progress.flags, linkRestored: true } }, dialogue: { text: '“Click. There’s the light.”' } },
+        effects: [{ type: 'persist' }],
+      };
+    }
+    return say(state, prop === 'cable' ? '“The other end is already connected.”' : '“Cards seated. Best leave them there.”');
+  }
   if (prop === 'door' && (mode === 'open' || mode === 'use')) {
-    if (!configured(state.progress)) return say(state, linkRestored(state.progress) ? '“The link is up. The service isn’t.”' : '“Still an alarm behind me. That would bother me.”');
+    if (state.room.tripped) return say(state, '“I’ll let the self-test finish.”');
+    if (!linkRestored(state.progress)) return say(state, '“Still an alarm behind me. That would bother me.”');
     return {
       state: { ...state, progress: { ...state.progress, completed: true }, selectedItem: null, dialogue: { text: '“Connected. On to the next thing.”' } },
       effects: [{ type: 'persist' }, { type: 'leave-room' }],
     };
   }
-  if (prop === 'console' && (mode === 'use' || mode === 'open')) {
-    if (!linkRestored(state.progress)) return say(state, '“No carrier. Even software needs something to work with.”');
-    return {
-      state: {
-        ...state, progress: { ...state.progress, flags: { ...state.progress.flags, configured: true } },
-        dialogue: { text: '“PDH configuration applied. A very satisfying absence of alarms.”' },
-      },
-      effects: [{ type: 'persist' }],
-    };
-  }
-  if (prop === 'ome-a' || prop === 'ome-b') return openPatchbay(state);
-  if (mode === 'open') return say(state, '“Nothing to open.”');
+  if (mode === 'talk') return say(state, '“The fans are doing most of the talking.”');
+  if (mode === 'give') return say(state, '“A generous offer. No takers.”');
   switch (prop) {
-    case 'circuit':
-      return say(state, '“PDH circuit: OME A, shelf 2, port 3 → OME B, shelf 1, port 2.”');
-    case 'fibre':
-      return say(state, '“Yellow patch leads. More spare length than strictly necessary.”');
-    case 'console':
-      return say(state, '“The PDH configuration console. All the glamour of metro networking.”');
-    case 'door':
-      return say(state, '“There’s always another connection to make.”');
-    default:
-      return { state, effects: [] };
-  }
-}
-
-function update(state: State, action: NortelAction): Transition<NortelState> {
-  switch (action.type) {
-    case 'close-patchbay':
-      return { state: { ...state, room: { ...state.room, patchbayOpen: false } }, effects: [] };
-    case 'patch-port': {
-      if (!state.room.patchbayOpen || linkRestored(state.progress) || !ports.includes(action.port)) return { state, effects: [] };
-      if (!state.progress.inventory.includes('fibre')) return { state: { ...state, room: { ...state.room, feedback: 'No patch lead.' } }, effects: [] };
-      const selected = { ...state.room, [action.rack]: state.room[action.rack] === action.port ? null : action.port, feedback: '' };
-      if (selected.a === null || selected.b === null) return { state: { ...state, room: selected }, effects: [] };
-      if (selected.a !== sourcePort || selected.b !== destinationPort) return { state: { ...state, room: { ...selected, feedback: 'No carrier.' } }, effects: [] };
-      return {
-        state: {
-          ...state, selectedItem: null,
-          progress: { ...state.progress, inventory: state.progress.inventory.filter(item => item !== 'fibre'), flags: { ...state.progress.flags, linkRestored: true } },
-          room: { ...selected, feedback: 'Carrier restored.' },
-          dialogue: { text: '“There’s the light.”' },
-        },
-        effects: [{ type: 'persist' }],
-      };
-    }
-    default:
-      return assertNever(action);
+    case 'ome-a': case 'ome-b': return say(state, state.room.tripped ? '“A temporarily very expensive paperweight.”' : linkRestored(state.progress) ? '“Steady green lights. Lovely.”' : '“An OME rack. One rather insistent alarm.”');
+    case 'cable': return say(state, linkRestored(state.progress) ? '“Connected.”' : '“A loose fibre connector. That would explain it.”');
+    case 'circuit': return say(state, '“A circuit diagram. Somehow there are always more cables than lines.”');
+    case 'console': return say(state, '“The lab console. Complete with reset button.”');
+    case 'door': return say(state, '“There’s always another connection to make.”');
+    default: return { state, effects: [] };
   }
 }
 
@@ -109,32 +90,43 @@ export const nortel: RoomDefinition<NortelState, NortelAction> = {
   },
   spawn: { x: 57, y: 87 }, bounds: { left: 38, right: 85, top: 73, bottom: 95 },
   props: [
-    { id: 'ome-a', name: 'OME A', label: 'OME A', area: { left: 30, top: 12, width: 17, height: 44 }, destination: { x: 43, y: 78 } },
-    { id: 'ome-b', name: 'OME B', label: 'OME B', area: { left: 52, top: 15, width: 17, height: 44 }, destination: { x: 62, y: 78 } },
-    { id: 'fibre', name: 'spare fibre', label: 'Spare fibre', area: { left: 19, top: 49, width: 16, height: 13 }, destination: { x: 39, y: 86 } },
-    { id: 'console', name: 'configuration console', label: 'Configuration console', area: { left: 6, top: 38, width: 16, height: 13 }, destination: { x: 38, y: 82 } },
+    { id: 'ome-a', name: 'OME A', label: 'OME A', area: { left: 30, top: 12, width: 14, height: 44 }, destination: { x: 43, y: 78 } },
+    { id: 'ome-b', name: 'OME B', label: 'OME B', area: { left: 56, top: 15, width: 13, height: 44 }, destination: { x: 62, y: 78 } },
+    { id: 'strap', name: 'anti-static strap', label: 'Anti-static strap', area: { left: 6, top: 53, width: 13, height: 12 }, destination: { x: 39, y: 86 } },
+    { id: 'cable', name: 'loose cable', label: 'Loose cable', area: { left: 44, top: 44, width: 10, height: 15 }, destination: { x: 49, y: 79 } },
+    { id: 'console', name: 'lab console', label: 'Lab console', area: { left: 6, top: 38, width: 16, height: 13 }, destination: { x: 38, y: 82 } },
     { id: 'circuit', name: 'circuit sheet', label: 'Circuit sheet', area: { left: 73, top: 15, width: 12, height: 28 }, destination: { x: 76, y: 78 } },
     { id: 'door', name: 'door', label: 'Door', area: { left: 86, top: 10, width: 14, height: 57 }, destination: { x: 84, y: 77 } },
   ],
-  items: [{ id: 'fibre', name: 'fibre', label: 'Fibre patch lead', icon: 'fibre' }],
-  initialState: progress => ({ patchbayOpen: false, a: linkRestored(progress) ? sourcePort : null, b: linkRestored(progress) ? destinationPort : null, feedback: '' }),
-  interact, update,
+  items: [{ id: 'strap', name: 'anti-static strap', label: 'Anti-static strap in inventory', icon: 'strap' }],
+  initialState: () => ({ tripped: false }),
+  interact,
+  useInventoryItem: (state, item) => item === 'strap' ? wearStrap(state) : undefined,
+  update(state, action) {
+    switch (action.type) {
+      case 'reset-equipment': return resetEquipment(state);
+      default: return assertNever(action.type);
+    }
+  },
 };
 
 export const nortelSave = {
+  // Keep the original storage location; the payload version handles migration.
   key: 'savagely-optimized:nortel:v1',
   decode(value: unknown): Progress {
-    if (!value || typeof value !== 'object' || !('version' in value) || value.version !== 1) return freshProgress(nortel.spawn);
-    const linked = 'linkRestored' in value && value.linkRestored === true;
-    const service = linked && 'configured' in value && value.configured === true;
+    if (!value || typeof value !== 'object' || !('version' in value) || (value.version !== 1 && value.version !== 2)) return freshProgress(nortel.spawn);
+    const oldLinked = value.version === 1 && 'linkRestored' in value && value.linkRestored === true;
+    const strap = oldLinked || ('strap' in value && value.strap === true);
+    const worn = strap && (oldLinked || ('strapWorn' in value && value.strapWorn === true));
+    const linked = worn && 'linkRestored' in value && value.linkRestored === true;
     return {
-      inventory: !linked && 'fibre' in value && value.fibre === true ? ['fibre'] : [],
-      completed: service && 'completed' in value && value.completed === true,
+      inventory: strap ? ['strap'] : [],
+      completed: linked && 'completed' in value && value.completed === true,
       position: clampPoint({ x: 'x' in value && typeof value.x === 'number' ? value.x : NaN, y: 'y' in value && typeof value.y === 'number' ? value.y : NaN }, nortel.bounds, nortel.spawn),
-      flags: { linkRestored: linked, configured: service },
+      flags: { strapWorn: worn, linkRestored: linked },
     };
   },
   encode(progress: Progress) {
-    return { version: 1, fibre: progress.inventory.includes('fibre'), linkRestored: linkRestored(progress), configured: configured(progress), completed: progress.completed, x: progress.position.x, y: progress.position.y };
+    return { version: 2, strap: progress.inventory.includes('strap'), strapWorn: strapWorn(progress), linkRestored: linkRestored(progress), completed: progress.completed, x: progress.position.x, y: progress.position.y };
   },
 };
