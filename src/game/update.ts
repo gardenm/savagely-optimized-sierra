@@ -61,6 +61,11 @@ export function update<S, A>(state: GameState<S>, action: Action<A>, room: RoomD
         effects: [],
       };
     }
+    case 'use-item': {
+      if (!state.progress.inventory.includes(action.item)
+        || (action.target !== undefined && !state.progress.inventory.includes(action.target))) return { state, effects: [] };
+      return room.useInventoryItem?.(state, action.item, action.target) ?? { state, effects: [] };
+    }
     case 'room':
       return room.update(state, action.action);
     case 'restart':

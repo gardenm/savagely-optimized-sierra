@@ -25,7 +25,7 @@ flowchart LR
 
 ## Game rules
 
-- `src/game/model.ts` defines readonly room state, typed actions/effects and the room contract. Inventory metadata can declare a worn-state flag and label, rendered consistently in every room.
+- `src/game/model.ts` defines readonly room state, typed actions/effects and the room contract. The explicit `use-item` action checks ownership of both operands before delegating a recipe, without movement. The optional persistent `agent` field carries candidate-bound evidence for the connected rules; the deployed v1 puzzles do not populate it. Inventory metadata can declare a worn-state flag and label, rendered consistently in every room.
 - `src/game/update.ts` handles movement, verbs, inventory selection, contextual action sentences and pure reset transitions. Room-specific interactions remain delegated to the supplied room.
 - `src/game/rooms/mcgill.ts` owns Recommendz, the cinema ticket, contextual dialogue and the research-paper link. The ticket remains a collectible during the transition to the full puzzle web; it no longer locks the exit.
 - `src/game/rooms/nortel.ts` owns grounding, the cable, recoverable static fault and contextual dialogue. Collecting/wearing the strap preserves other inventory. Foreign items receive feedback without accidentally reconnecting a cable or opening McGill's computer.
@@ -61,15 +61,25 @@ Open dialogs, selected verbs/items, hover, dialogue, walk timers and temporary e
 
 The exit waits for its walking effect, skips that delay under reduced motion, and cancels if the visitor leaves for a reading route. Animation and all listeners/timers are disposed when a room is replaced. The approved art, scale, fonts and stable action-sentence space remain unchanged.
 
+## Connected puzzle rules
+
+`src/game/story` implements [the five-room puzzle web](puzzle-web.md), independently of scene geometry and DOM views. It is not imported by the public chapter registry yet. Each room has a small rule module; `rules.ts` handles common free exits, ownership checks and room-scoped events. `inventory.ts` handles unary transformations, the commutative gum/clip recipe and inspectable receipts. `progress.ts` owns immutable collection/replacement helpers. There is no recipe DSL, script interpreter or second browser application.
+
+The rules use the existing `GameState`, `Transition`, `RoomDefinition` hooks and reducer. Test-only fixtures supply artificial geometry and item pictograms to exercise real interactions, actions and effects without presenting unfinished rooms on the site. Timers and terminal visibility remain transient; the future Nortel view can observe the same tripped-state contract. Movement and navigation stay with the established room/adventure coordinator.
+
+Source flags distinguish an object that remains available from one that has been transformed or installed. Replacement checks every consumed ingredient before creating outputs. Reusable tools and copied references stay in inventory. The recommendation/plane family has one carried form, and the printer stops minting planes after the stylus is down. Wrong uses and failed ungrounded repairs retain ingredients.
+
+Agent context, delegation, independent testing and review are distinct transitions. The candidate has a stable identity; repeated delegation does not invalidate it. Nortel's link gates running the candidate at Lightspeed, not preparing it. The till computes a different three-item sale and records its result against the candidate actually tested. Review requires that exact candidate and test arithmetic. A stale or unsuitable receipt is retained until a new test replaces it. This is deterministic fictional puzzle logic with no AI service or claimed employer implementation.
+
+`story/save.ts` validates the future v2 persistent slice and converts validated prototype progress without taking away earned outcomes. It rejects inconsistent source/forms and invalid completion evidence. Its payload excludes positions, which remain the adventure owner's responsibility. These helpers are tested but are not connected to `adventure-saves.ts`: the browser continues writing the current v1 format until all scene destinations work.
+
 ## Next implementation
 
-[The puzzle web](puzzle-web.md) defines the remaining interlocking story. The shared-state foundation is implemented; item transformations, the power-lead/gum/plane graph and SMART/Lightspeed/Shopify scenes are next.
-
-Add new items to the shared catalogue and validation, define their lifecycle and explicit reducer actions, and implement room rules against shared progress. Evolve the versioned save contract and migration when introducing the full graph. Preserve the pure functions and typed composition instead of adding independent inventories or save keys. Publish the full story when all its required item destinations exist.
+Build SMART, Lightspeed and Shopify scenes, their inventory illustrations and the new film-rating view, then register their geometry and typed rules. Wire pointer/keyboard/touch inventory targeting to `use-item`, project the connected progress and evidence through the adventure owner, and activate the v2 world-save migration. Keep current puzzles working until that complete graph can ship. Preserve the pure rules and typed composition instead of introducing independent inventories or save keys.
 
 ## Validation and delivery
 
-`npm run test:unit` covers immutable reducers, cross-room progress, item preservation, foreign-item rejection, codec validation, legacy import, protected saves, storage failures and reset semantics. Reducer tests run under Node with no DOM environment.
+`npm run test:unit` covers immutable reducers, cross-room progress, item preservation, foreign-item rejection, codec validation, legacy import, protected saves, storage failures and reset semantics. The connected-rule suite adds three complete exploration orders, all film ratings, atomic recipes, source exhaustion, safe retries, stale receipt recovery and migration through every existing puzzle stage. It traverses the actual reducer's reachable milestone graph and checks both save validity and the ability to reach completion from each prefix. This is exhaustive for those milestone transitions, not every possible UI input. Reducer tests run under Node with no DOM environment.
 
 `npm run test:e2e` runs desktop/mobile journeys for free exits, shared inventory/worn markers, independent positions, reload/root resume, legacy migration, whole-adventure reset, protected saves, unavailable storage and fault recovery during a cancelled exit. Existing browser checks still cover Recommendz, keyboard/focus boundaries, audio failure, links, artwork/layout and stable verb positions. Screenshots are inspection evidence rather than pixel snapshot assertions. External PDF navigation is intercepted; the test checks the outgoing link, not remote PDF availability.
 

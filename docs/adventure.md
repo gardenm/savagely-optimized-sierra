@@ -4,7 +4,7 @@ A personal career adventure for savagelyoptimized.co, inspired by the point-and-
 
 ## Planned connected adventure
 
-[The five-room puzzle web](puzzle-web.md) defines the next design: one shared inventory, freely accessible rooms, overlapping paths and a final plan/delegate/test/review sequence across Shopify and Lightspeed. It supersedes independent chapter-completion gates for the future implementation. Shared inventory, whole-adventure saving/restart and free exits are implemented for McGill and Nortel. The other rooms and cross-room item puzzles are not yet implemented; the local puzzles below remain available during the transition.
+[The five-room puzzle web](puzzle-web.md) defines the connected design: one shared inventory, freely accessible rooms, overlapping paths and a final plan/delegate/test/review sequence across Shopify and Lightspeed. Shared inventory, whole-adventure saving/restart and free exits are implemented for McGill and Nortel. The full puzzle rules are implemented and tested through fixtures, including item transformations, retries and candidate-bound receipts. The other scenes and public integration are not yet implemented; the local puzzles below remain available during the transition.
 
 ## First playable chapter
 

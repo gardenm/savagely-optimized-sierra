@@ -4,7 +4,7 @@ A personal point-and-click career adventure for **savagelyoptimized.co**. Two pl
 
 ## Connected adventure blueprint
 
-The next design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. Shared inventory and saving now underpin the two existing rooms; the full item web and other three scenes remain planned. The current playable puzzles are described below.
+The connected design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. Shared inventory and saving underpin the two existing rooms. The full puzzle rules are implemented in `src/game/story` and tested through scene fixtures; the three new scenes and public integration remain next. The current playable puzzles are described below.
 
 ## Run locally
 

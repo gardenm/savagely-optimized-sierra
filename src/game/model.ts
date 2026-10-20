@@ -1,3 +1,5 @@
+import type { AgentEvidence } from './story/model';
+
 export const verbs = {
   give: 'Give', pickup: 'Pick up', use: 'Use', open: 'Open', look: 'Look at',
   push: 'Push', close: 'Close', talk: 'Talk to', pull: 'Pull',
@@ -15,6 +17,7 @@ export type Progress = Readonly<{
   completed: boolean;
   position: Point;
   flags?: Readonly<Record<string, boolean>>;
+  agent?: AgentEvidence;
 }>;
 
 export type GameState<RoomState> = Readonly<{
@@ -33,6 +36,7 @@ export type Action<RoomAction> =
   | { type: 'move'; by: Point }
   | { type: 'interact'; prop: string }
   | { type: 'select-item'; item: string }
+  | { type: 'use-item'; item: string; target?: string }
   | { type: 'room'; action: RoomAction }
   | { type: 'restart' };
 
@@ -73,7 +77,7 @@ export interface RoomDefinition<RoomState, RoomAction> {
   readonly items: readonly ItemDefinition[];
   initialState(progress: Progress): RoomState;
   interact(state: GameState<RoomState>, prop: string): Transition<RoomState>;
-  useInventoryItem?(state: GameState<RoomState>, item: string): Transition<RoomState> | undefined;
+  useInventoryItem?(state: GameState<RoomState>, item: string, target?: string): Transition<RoomState> | undefined;
   update(state: GameState<RoomState>, action: RoomAction): Transition<RoomState>;
 }
 

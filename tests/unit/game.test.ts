@@ -90,6 +90,22 @@ describe('shared game reducer', () => {
     expect(commandText({ ...carrying, mode: 'use' }, workshop)).toBe('Use key with lamp');
   });
 
+  it('validates both item-use operands and delegates a valid atomic recipe without moving', () => {
+    const room: RoomDefinition<WorkshopState, WorkshopAction> = {
+      ...workshop,
+      useInventoryItem: (state, item, target) => ({
+        state: { ...state, dialogue: { text: `${item} with ${target}` } }, effects: [],
+      }),
+    };
+    const carrying = { ...initial(), progress: { ...initial().progress, inventory: ['key', 'lock'] } };
+    expect(update(carrying, { type: 'use-item', item: 'missing', target: 'lock' }, room)).toEqual({ state: carrying, effects: [] });
+    expect(update(carrying, { type: 'use-item', item: 'key', target: 'missing' }, room)).toEqual({ state: carrying, effects: [] });
+    const used = update(carrying, { type: 'use-item', item: 'key', target: 'lock' }, room);
+    expect(used.state.dialogue.text).toBe('key with lock');
+    expect(used.state.progress).toBe(carrying.progress);
+    expect(used.effects).toEqual([]);
+  });
+
   it('restarts both room progress and temporary state without sharing previous references', () => {
     const state = { ...initial(), room: { lightOn: true }, progress: { inventory: ['key'], completed: true, position: { x: 50, y: 50 } } };
     const result = step(state, { type: 'restart' });

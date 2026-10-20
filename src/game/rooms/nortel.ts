@@ -100,7 +100,7 @@ export const nortel: RoomDefinition<NortelState, NortelAction> = {
   items: [{ id: 'strap', name: 'anti-static strap', label: 'Anti-static strap in inventory', icon: 'strap', worn: { flag: 'strapWorn', label: 'Anti-static strap, worn and grounded' } }],
   initialState: () => ({ tripped: false }),
   interact,
-  useInventoryItem: (state, item) => item === 'strap' ? wearStrap(state) : undefined,
+  useInventoryItem: (state, item, target) => item === 'strap' && target === undefined ? wearStrap(state) : undefined,
   update(state, action) {
     switch (action.type) {
       case 'reset-equipment': return resetEquipment(state);
