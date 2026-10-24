@@ -1,12 +1,12 @@
 import { required } from '../ui/dom';
 
-export type RoomRoute = 'adventure' | 'nortel' | 'smart';
+export type RoomRoute = 'adventure' | 'nortel' | 'smart' | 'lightspeed';
 export type Route = RoomRoute | 'chapters' | 'cv';
 export const isRoomRoute = (route: Route): route is RoomRoute => route !== 'chapters' && route !== 'cv';
 
 export function parseRoute(hash: string): Route {
   const requested = hash.replace(/^#/, '');
-  return requested === 'nortel' || requested === 'smart' || requested === 'chapters' || requested === 'cv' ? requested : 'adventure';
+  return requested === 'nortel' || requested === 'smart' || requested === 'lightspeed' || requested === 'chapters' || requested === 'cv' ? requested : 'adventure';
 }
 
 export function createNavigation(root: HTMLElement, titles: Record<Route, string>, onChange: (route: Route) => void = () => undefined) {

@@ -25,7 +25,10 @@ export function interactLightspeed(state: State, prop: string): Transition<Story
       // Re-running the till produces the current candidate's result, replacing stale evidence.
       return changed(state, { inventory: [...new Set([...state.progress.inventory, 'test-receipt'])], agent: { ...agent, receipt } }, '“New sale. Three coffees. Total: $9.00.”');
     }
-    if (!owns(state.progress, 'faulty-receipt')) return collect(state, 'faulty-receipt');
+    if (!owns(state.progress, 'faulty-receipt')) {
+      const result = collect(state, 'faulty-receipt');
+      return { ...result, state: { ...result.state, dialogue: { text: '“Two coffees at $3 each. Total: $3.00. That can’t be right.”' } } };
+    }
     return say(state, agent.candidate ? '“The candidate is queued. The test network is offline.”' : '“Two coffees. Total: $3.00. That can’t be right.”');
   }
   return inspectLightspeed(state, prop);

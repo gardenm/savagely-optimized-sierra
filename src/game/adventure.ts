@@ -2,12 +2,14 @@ import { clampPoint, type Progress, type Point, type ItemDefinition } from './mo
 import { mcgill, mcgillSave } from './rooms/mcgill';
 import { nortel, nortelSave } from './rooms/nortel';
 import { smart } from './rooms/smart';
+import { lightspeed } from './rooms/lightspeed';
 
-export const inventoryItems: readonly ItemDefinition[] = [...mcgill.items, ...nortel.items, ...smart.items];
+export const inventoryItems: readonly ItemDefinition[] = [...mcgill.items, ...nortel.items, ...smart.items, ...lightspeed.items];
 export const adventureRooms = {
   mcgill: { ...mcgill, items: inventoryItems },
   nortel: { ...nortel, items: inventoryItems },
   smart: { ...smart, items: inventoryItems },
+  lightspeed: { ...lightspeed, items: inventoryItems },
 };
 export type RoomId = keyof typeof adventureRooms;
 export const isRoomId = (id: unknown): id is RoomId => typeof id === 'string' && Object.hasOwn(adventureRooms, id);
@@ -23,7 +25,7 @@ export type AdventureProgress = Readonly<{
 export function freshAdventure(currentRoom: RoomId = 'mcgill'): AdventureProgress {
   return {
     currentRoom, inventory: [], completed: false,
-    positions: { mcgill: { ...mcgill.spawn }, nortel: { ...nortel.spawn }, smart: { ...smart.spawn } },
+    positions: { mcgill: { ...mcgill.spawn }, nortel: { ...nortel.spawn }, smart: { ...smart.spawn }, lightspeed: { ...lightspeed.spawn } },
     flags: { strapWorn: false, linkRestored: false },
   };
 }
@@ -65,24 +67,29 @@ export const adventureSave = {
   // Keep the deployed key; a newer payload protects progress from an older cached client.
   key: 'savagely-optimized:adventure:v1',
   decode(value: unknown): AdventureProgress | null {
-    if (!object(value) || (value.version !== 1 && value.version !== 2) || !isRoomId(value.currentRoom)
+    if (!object(value) || ![1, 2, 3].includes(value.version as number) || !isRoomId(value.currentRoom)
       || !Array.isArray(value.inventory) || !value.inventory.every(item => typeof item === 'string' && inventoryItems.some(known => known.id === item))
       || !object(value.positions) || !object(value.flags) || typeof value.completed !== 'boolean') return null;
     const inventory = [...new Set(value.inventory)];
     if (value.version === 1 && (value.currentRoom === 'smart' || inventory.some(item => item !== 'ticket' && item !== 'strap'))) return null;
+    if (value.version !== 3 && (value.currentRoom === 'lightspeed' || inventory.some(item => item === 'guitar-pick' || item === 'retaining-clip'))) return null;
     const smartFlags = ['stylusDown', 'exampleOnBoard'] as const;
-    if (value.version === 2 && Object.entries(value.flags).some(([key, flag]) => !['strapWorn', 'linkRestored', ...smartFlags].includes(key) || typeof flag !== 'boolean')) return null;
-    const stylusDown = value.version === 2 && value.flags.stylusDown === true;
-    const exampleOnBoard = value.version === 2 && value.flags.exampleOnBoard === true;
+    const lightspeedFlags = value.version === 3 ? ['drawerOpen', 'clipTaken'] : [];
+    if (value.version !== 1 && Object.entries(value.flags).some(([key, flag]) => !['strapWorn', 'linkRestored', ...smartFlags, ...lightspeedFlags].includes(key) || typeof flag !== 'boolean')) return null;
+    const stylusDown = value.version !== 1 && value.flags.stylusDown === true;
+    const exampleOnBoard = value.version !== 1 && value.flags.exampleOnBoard === true;
+    const drawerOpen = value.version === 3 && value.flags.drawerOpen === true;
+    const clipTaken = value.version === 3 && value.flags.clipTaken === true;
     if ((inventory.includes('stylus') && !stylusDown) || (stylusDown && inventory.includes('paper-plane'))
       || (exampleOnBoard && !inventory.includes('faulty-receipt'))
       || (inventory.includes('checkout-plan') && (!inventory.includes('stylus') || !exampleOnBoard))) return null;
+    if ((clipTaken && (!drawerOpen || !inventory.includes('retaining-clip'))) || (inventory.includes('retaining-clip') && !clipTaken)) return null;
     const strapWorn = inventory.includes('strap') && value.flags.strapWorn === true;
     return {
       currentRoom: value.currentRoom, inventory, completed: value.completed,
-      positions: { mcgill: position(value.positions.mcgill, 'mcgill'), nortel: position(value.positions.nortel, 'nortel'), smart: position(value.positions.smart, 'smart') },
-      flags: { strapWorn, linkRestored: strapWorn && value.flags.linkRestored === true, ...(stylusDown ? { stylusDown: true } : {}), ...(exampleOnBoard ? { exampleOnBoard: true } : {}) },
+      positions: { mcgill: position(value.positions.mcgill, 'mcgill'), nortel: position(value.positions.nortel, 'nortel'), smart: position(value.positions.smart, 'smart'), lightspeed: position(value.positions.lightspeed, 'lightspeed') },
+      flags: { strapWorn, linkRestored: strapWorn && value.flags.linkRestored === true, ...(stylusDown ? { stylusDown: true } : {}), ...(exampleOnBoard ? { exampleOnBoard: true } : {}), ...(drawerOpen ? { drawerOpen: true } : {}), ...(clipTaken ? { clipTaken: true } : {}) },
     };
   },
-  encode(progress: AdventureProgress) { return { version: 2, ...progress }; },
+  encode(progress: AdventureProgress) { return { version: 3, ...progress }; },
 };

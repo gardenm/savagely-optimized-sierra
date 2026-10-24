@@ -5,6 +5,7 @@ import { renderAdventure } from './ui/adventure';
 import { createNortelView, renderNortel } from './ui/nortel';
 import { createRecommendzView, renderRecommendz } from './ui/recommendz';
 import { createSmartView, renderSmart } from './ui/smart';
+import { createLightspeedView, renderLightspeed } from './ui/lightspeed';
 
 export interface PlayableChapter {
   readonly title: string;
@@ -26,6 +27,7 @@ export const playableChapters = {
   mcgill: chapter('McGill', adventureRooms.mcgill, renderRecommendz, createRecommendzView),
   nortel: chapter('Nortel', adventureRooms.nortel, renderNortel, createNortelView),
   smart: chapter('SMART', adventureRooms.smart, renderSmart, createSmartView),
+  lightspeed: chapter('Lightspeed', adventureRooms.lightspeed, renderLightspeed, createLightspeedView),
 };
 export type ChapterId = keyof typeof playableChapters;
 export const isChapterId = (id: string): id is ChapterId => Object.hasOwn(playableChapters, id);

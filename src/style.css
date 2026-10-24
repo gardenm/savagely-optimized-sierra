@@ -242,6 +242,14 @@ fieldset label:hover span { border-color: #ffde8a; }
 /* Nortel props sit inside the scene; the original room and character stay intact. */
 .nortel-props { position: absolute; inset: 0; pointer-events: none; }
 .smart-props { position: absolute; inset: 0; pointer-events: none; }
+.lightspeed-props { position: absolute; inset: 0; pointer-events: none; }
+.lightspeed-drawer { position: absolute; left: 9%; top: 54%; width: 28%; height: 26%; object-fit: contain; }
+.lightspeed-clip { position: absolute; left: 23%; top: 60.5%; width: 7%; height: 7%; object-fit: contain; }
+.lightspeed-receipt { position: absolute; left: 33.3%; top: 45.7%; width: 5.4%; min-height: 10%; display: flex; flex-direction: column; justify-content: space-between; padding: 1% .3%; background: #fff2d3; color: #30213e; border: 1px solid #30213e; transform: rotate(-3deg); font: 700 clamp(3px, .6vw, 8px)/1.4 'Comic Neue', cursive; }
+.lightspeed-receipt strong { border-top: 1px solid #6c5678; padding-top: 10%; }
+.receipt-printing { animation: receipt-print .25s ease-out; }
+@keyframes receipt-print { from { transform: translateY(-20%) rotate(-3deg); } to { transform: translateY(0) rotate(-3deg); } }
+@media (prefers-reduced-motion: reduce) { .receipt-printing { animation: none; } }
 .smart-stylus { position: absolute; left: 67%; top: 11%; width: 12%; height: auto; transform: rotate(10deg); }
 .stylus-down .smart-stylus { left: 68%; top: 77%; transform: rotate(22deg); }
 .stylus-falling .smart-stylus { transition: left .5s ease-out, top .5s cubic-bezier(.55,0,.85,.4), transform .5s ease-out; }

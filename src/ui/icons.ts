@@ -12,6 +12,8 @@ const icons = {
   stylus: '<path d="m4 17 12-13 4 4L7 20l-5 2Zm10-11 4 4M4 17l3 3"/>',
   receipt: '<path d="M5 2h14v20l-3-2-4 2-4-2-3 2Zm3 5h8M8 11h8m-8 4h4"/>',
   sketch: '<path d="M4 2h12l4 4v16H4Zm12 0v5h4M7 10h4v4H7Zm6 4h4v4h-4Zm-2-2h4v2"/>',
+  pick: '<path d="M3 6c0-5 18-5 18 0 0 6-7 16-9 16S3 12 3 6Z"/>',
+  clip: '<path d="M5 3h14v7h-4V7H9v10h6v-3h4v7H5Z"/>',
 
 };
 export function icon(name: keyof typeof icons, cls = '') {

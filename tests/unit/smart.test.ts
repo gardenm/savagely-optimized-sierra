@@ -56,14 +56,14 @@ describe('SMART scene integration', () => {
     expect(restored.positions.smart).toEqual(room.spawn);
     expect(restored.positions.mcgill).toEqual(old.positions.mcgill);
     expect(restored.inventory).toEqual(old.inventory);
-    expect(adventureSave.encode(restored).version).toBe(2);
+    expect(adventureSave.encode(restored).version).toBe(3);
     expect(adventureSave.key).toBe('savagely-optimized:adventure:v1');
   });
 
   it('protects future payloads and inconsistent SMART states without dropping items', () => {
     const saved = adventureSave.encode(freshAdventure('smart'));
     for (const invalid of [
-      { ...saved, version: 3 },
+      { ...saved, version: 4 },
       { ...saved, inventory: ['stylus'] },
       { ...saved, inventory: ['paper-plane'], flags: { ...saved.flags, stylusDown: true } },
       { ...saved, inventory: ['checkout-plan'] },

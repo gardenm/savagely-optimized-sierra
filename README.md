@@ -1,10 +1,10 @@
 # Savagely Optimized
 
-A personal point-and-click career adventure for **savagelyoptimized.co**. Three explorable rooms share inventory and a save: imagined McGill / CIM and Nortel labs, and a SMART Technologies cubicle office, drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
+A personal point-and-click career adventure for **savagelyoptimized.co**. Four explorable rooms share inventory and a save: imagined McGill / CIM and Nortel labs, a SMART Technologies cubicle office, and a Castle-inspired Lightspeed office, drawn in a chunky, goofy cartoon style inspired by Day of the Tentacle. The remaining career rooms appear on a map and are clearly marked as planned.
 
 ## Connected adventure blueprint
 
-The connected design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. The full puzzle rules are implemented in `src/game/story` and tested through scene fixtures. SMART now has a real scene using those rules; Lightspeed, Shopify and the full story cutover remain next. The current playable puzzles are described below.
+The connected design spans all five main career rooms with shared inventory, free travel, overlapping item paths and a Shopify task verified at Lightspeed. See [the puzzle web](docs/puzzle-web.md) for the room map, dependencies, item lifecycles and implementation sequence. The full puzzle rules are implemented in `src/game/story` and tested through scene fixtures. SMART and Lightspeed have real scenes using those rules; Shopify and the full story cutover remain next. The current playable puzzles are described below.
 
 ## Run locally
 
@@ -33,7 +33,9 @@ Nortel (`#nortel`) contains OME racks, an anti-static strap, a loose cable, a la
 
 SMART (`#smart`) is a traditional fabric-partitioned cubicle office with a SMART Board, silver/black iMac and black PC workstation, using the owner's circa 2009–2013 hardware reference. The room label has no inferred employment dates. Explore its computers, printer and high ledge. Its real scene supports the planned plane → fallen stylus → copied receipt → checkout sketch rules, without adding temporary sources for items from unfinished rooms. Browser tests supply those future items as fixtures; normal play currently offers exploration while the full cross-room story is built.
 
-All three rooms are directly accessible from the chapter map. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site; these developer instructions do not appear in the game. A quiet **Restart** control resets the whole adventure after confirmation and stays in the current room. One adventure save holds shared inventory, milestones and all three positions. The existing storage key remains, with payload version 2 accepting/upgrading two-room version 1 saves. Old McGill/Nortel chapter saves are imported once without modifying their keys. Corrupt, future-version, unknown-item or inconsistent SMART saves are preserved until an explicit Restart. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Day Of The Tentacle face supplies the command lettering; speech remains Comic Neue.
+Lightspeed (`#lightspeed`) borrows brickwork, exposed beams and arches from the Montréal headquarters at Gare Viger, at the owner's request. The biographical job location remains Ottawa. Use the iPad POS to print a faulty receipt, then look at the receipt printer to read it. Carry it to SMART and use it on the board to copy the example. The drawer requires Shopify's future guitar pick and reveals a collectible retaining clip. Tests supply the pick as a fixture; normal play has no substitute source. The candidate/test-sale path awaits Shopify and the full story cutover. See [the scene brief and photo sources](docs/lightspeed-room.md).
+
+All four rooms are directly accessible from the chapter map. The owner explicitly requested removing objectives, hints, walkthroughs, and repeated guidance from the site; these developer instructions do not appear in the game. A quiet **Restart** control resets the whole adventure after confirmation and stays in the current room. One adventure save holds shared inventory, milestones and all four positions. The existing storage key remains, with payload version 3 accepting/upgrading previous world versions 1 and 2. Old McGill/Nortel chapter saves are imported once without modifying their keys. Corrupt, future-version, unknown-item or inconsistent SMART/drawer saves are preserved until an explicit Restart. The reflection sidebar is removed; the game is centred at a maximum width of 1000px with no placeholder text. The self-hosted Day Of The Tentacle face supplies the command lettering; speech remains Comic Neue.
 
 Tab reaches the controls and objects. While focus is inside the game, arrow keys move the character and W / L / U select actions. Escape closes the current puzzle and restores focus. Reduced-motion preferences are respected. Sound starts only after an explicit click and uses an original synthesized ambient chord; no album audio is included.
 
@@ -78,7 +80,7 @@ npm run build
 npm run preview
 ```
 
-`dist/` is the deployable site. Cloudflare Pages, Netlify, Vercel, or another static host can use `npm run build` with output directory `dist`. Hash navigation keeps both rooms, map, and CV working on static hosting without rewrite rules. The owner has confirmed HTTPS works on the custom domain after enabling Cloudflare's HTTPS redirect.
+`dist/` is the deployable site. Cloudflare Pages, Netlify, Vercel, or another static host can use `npm run build` with output directory `dist`. Hash navigation keeps all rooms, map, and CV working on static hosting without rewrite rules. The owner has confirmed HTTPS works on the custom domain after enabling Cloudflare's HTTPS redirect.
 
 After selecting a host, connect `savagelyoptimized.co` through that host's custom-domain flow. Use the exact DNS records provided there; domain verification and DNS changes are a separate publishing step.
 

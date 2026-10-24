@@ -79,7 +79,7 @@ for (const stored of ['{"version":99,"privateFutureData":"keep"}', '{malformed']
     await expect(page.locator('#ticket')).toBeHidden();
     await expect(page.locator('#save-status')).toBeEmpty();
     const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), key);
-    expect(saved).toMatchObject({ version: 2, inventory: [], flags: { strapWorn: false, linkRestored: false } });
+    expect(saved).toMatchObject({ version: 3, inventory: [], flags: { strapWorn: false, linkRestored: false } });
   });
 }
 
