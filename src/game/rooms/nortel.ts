@@ -84,7 +84,7 @@ function interact(state: State, prop: string): Transition<NortelState> {
 export const nortel: RoomDefinition<NortelState, NortelAction> = {
   id: 'nortel', title: 'Nortel', label: 'Nortel optical equipment lab', gameLabel: 'Playable Nortel room',
   art: {
-    src: '/art/nortel-lab.webp', width: 1536, height: 1024,
+    src: '/art/nortel-lab-dott.png', width: 1536, height: 1024,
     alt: 'A crooked cartoon telecom lab with teal OME racks, cream optical shelves, loops of yellow fibre, a patch bench, a circuit sheet, and a purple exit door.',
   },
   spawn: { x: 57, y: 87 }, bounds: { left: 38, right: 85, top: 73, bottom: 95 },

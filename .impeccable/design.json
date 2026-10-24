@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-20T00:22:48.595062Z",
+  "generatedAt": "2026-10-24T18:02:09Z",
   "title": "Design System: Savagely Optimized",
   "extensions": {
     "colorMeta": {
@@ -354,6 +354,56 @@
       ],
       "layout": "Game and scene label centred at maximum 1000px, filling narrower containers."
     },
+    "roomArtwork": {
+      "scope": "Owner-requested four-room redraw after approval of the DoTT backyard; incumbent shell and tokens retained.",
+      "direction": "Bowed and tapered silhouettes, rubbery curves against angular planes, skewed perspective, broad painted colour groups and economical surface marks.",
+      "assets": [
+        {
+          "room": "smart",
+          "file": "public/art/smart-office-dott.png",
+          "previous": "public/art/smart-office-ottawa.webp"
+        },
+        {
+          "room": "nortel",
+          "file": "public/art/nortel-lab-dott.png",
+          "previous": "public/art/nortel-lab.webp"
+        },
+        {
+          "room": "shopify",
+          "file": "public/art/shopify-office-dott.png",
+          "previous": "public/art/shopify-office-painted.png"
+        },
+        {
+          "room": "lightspeed",
+          "file": "public/art/lightspeed-office-dott.png",
+          "previous": "public/art/lightspeed-office.webp"
+        }
+      ],
+      "references": [
+        "Official DoTT screenshots 003 and 012: visual grammar",
+        "Owner-approved backyard: continuity",
+        "Previous rooms: composition and prop authority"
+      ],
+      "promptContract": "docs/dott-room-image-prompts.md",
+      "provenance": "docs/art-provenance.json",
+      "nortelLamp": {
+        "artworkCenter": [
+          1008,
+          257
+        ],
+        "left": "65.625%",
+        "top": "25.098%",
+        "transform": "translate(-50%, -50%)",
+        "states": [
+          "amber",
+          "green"
+        ]
+      },
+      "invariants": "McGill/backyard art, directional character art/scale/anatomy, personal props, dynamic items, Lightspeed drawer projection, shell, type, game rules and saves preserved.",
+      "validation": "Build,135 unit tests and72 production browser tests passed; after the lamp fix,build and all10 Nortel browser tests passed. Twenty desktop/mobile captures inspected.",
+      "review": "Initial full review requested one lamp registration fix. Follow-up SHIP scores that sole finding resolved across six Nortel recaptures.",
+      "limits": "No owner approval or deployment of four new backgrounds. Earlier records remain historical; no new page comp or token system."
+    },
     "commandFont": {
       "family": "Day Of The Tentacle",
       "creator": "Jenny Barck, 1997 \u00a9",
@@ -408,7 +458,7 @@
   ],
   "narrative": {
     "northStar": "The room leads.",
-    "overview": "**Creative North Star: The room leads.**\n\nAn original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world: leaning lilac architecture, bold outlines and exaggerated proportions. McGill's orange floorboards extend into Nortel's crooked raised-floor tiles, teal OME racks and looping yellow fibre. The owner-approved McGill room is the style authority for the original Nortel artwork and its transparent scene props. Preserve both room backgrounds, both photo-guided character sprites and both anatomical tattoo orientations. Character display remains 30% of scene width and 54% of scene height, with feet anchored to the floor in both rooms.\n\nThe owner explicitly wants less exposition and accepts that some visitors may not figure out the game. The wordmark, navigation and short-version link remain. Each scene has one understated label: **McGill University, 2006** or **Nortel**. No Nortel year has been supplied. There is no marketing headline, scene slogan, opening instruction, objective checklist, hint, walkthrough, duplicate object list, or initial dialogue. The reflection sidebar and placeholder text are removed; the game is centred.\n\n",
+    "overview": "An original chunky, slightly goofy **Day of the Tentacle-inspired** cartoon world. The owner's approval of the redrawn backyard established the current continuity reference; their subsequent request extends that drawing language to SMART, Nortel, Shopify and Lightspeed. Official DoTT screenshots supply visual grammar only, and each previous room supplies its original composition and props. Bowed and tapered silhouettes, rubbery curves against angular planes, skewed perspective, economical contours and broad painted colour groups matter more than simply adding purple or thicker outlines. McGill remains intact. Both photo-guided character sprites and anatomical tattoo orientations remain intact; display stays 30% of scene width and 54% of scene height, with feet anchored to the floor.",
     "keyCharacteristics": [
       "Owner-approved McGill room and enlarged character; original Nortel extension.",
       "Understated scene labels; only McGill has a supplied year.",

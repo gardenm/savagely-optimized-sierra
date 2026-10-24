@@ -2,6 +2,7 @@ import { verbs, type Dispatch, type Effect, type GameState, type Mode, type Room
 import { commandText } from '../game/update';
 import { escapeHtml, required, setText } from './dom';
 import { icon } from './icons';
+import { createCharacterWalk } from './character-walk';
 
 export function renderAdventure<S, A>(room: RoomDefinition<S, A>): string {
   return `
@@ -35,6 +36,7 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
   const game = required<HTMLElement>(root, '.game-window');
   const stage = required<HTMLElement>(root, '#stage');
   const character = required<HTMLElement>(root, '#character');
+  const walking = createCharacterWalk(character, events.signal);
   const marker = required<HTMLElement>(root, '#floor-marker');
   const command = required(root, '#command-text');
   const speech = required(root, '#dialogue-text');
@@ -98,11 +100,18 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
       character.style.top = `${state.progress.position.y}%`;
     },
     walk(effect: Extract<Effect, { type: 'walk' }>) {
-      character.classList.toggle('facing-left', effect.to.x < effect.from.x);
+      if (effect.to.x !== effect.from.x) character.classList.toggle('facing-left', effect.to.x < effect.from.x);
       character.style.setProperty('--walk-duration', `${effect.duration}s`);
-      character.classList.add('walking');
       clearTimeout(motionTimer);
-      motionTimer = setTimeout(() => character.classList.remove('walking'), effect.duration * 1000);
+      const moving = Math.hypot(effect.to.x - effect.from.x, effect.to.y - effect.from.y) > .01;
+      character.classList.toggle('walking', moving);
+      if (moving) {
+        walking.start(character.classList.contains('facing-left'));
+        motionTimer = setTimeout(() => {
+          character.classList.remove('walking');
+          walking.stop();
+        }, effect.duration * 1000);
+      } else walking.stop();
       if (effect.marker) {
         marker.style.left = `${effect.to.x}%`;
         marker.style.top = `${effect.to.y}%`;
@@ -113,6 +122,7 @@ export function createAdventureView<S, A>(root: HTMLElement, room: RoomDefinitio
     },
     reset() {
       clearTimeout(motionTimer);
+      walking.stop();
       character.classList.remove('walking');
       character.style.setProperty('--walk-duration', '0s');
       marker.classList.remove('visible');

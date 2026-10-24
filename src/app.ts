@@ -7,11 +7,14 @@ import { applyRoomProgress, enterRoom, freshAdventure, roomProgress } from './ga
 import { profile } from './content/career';
 import { required } from './ui/dom';
 import { createShellView, renderShell } from './ui/shell';
+import { isBackyardRequest } from './browser/secret-scene';
+import { startBackyard } from './ui/backyard';
 
 const roomRoute = (room: ChapterId) => room === 'mcgill' ? 'adventure' : room;
 
 /** One adventure owns progress; mounted room sessions only project it into their views. */
 export function startApp(root: HTMLElement): () => void {
+  if (isBackyardRequest(location.search)) return startBackyard(root);
   const saves = createAdventureSaveStore();
   const loaded = saves.load();
   let progress = loaded.progress;

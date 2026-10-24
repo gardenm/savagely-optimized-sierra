@@ -7,7 +7,7 @@ import { interactStory, updateStoryRoom } from '../story/rules';
 export const shopify: RoomDefinition<StoryRoomState, StoryAction> = {
   id: 'shopify', title: 'Shopify', label: 'Shopify home office', gameLabel: 'Playable Shopify room',
   art: {
-    src: '/art/shopify-office-painted.png', width: 1536, height: 1024,
+    src: '/art/shopify-office-dott.png', width: 1536, height: 1024,
     alt: 'A crooked cartoon home office with a white standing desk and green Shopify shopping-bag statue, bamboo and bonsai hexagon wallpaper, three portraits of family and a black-and-white sheepadoodle, a walnut cabinet and shelves, a Birch Green Jazzmaster on a stand, and a vintage Sears Silvertone stereo console.',
   },
   spawn: { x: 52, y: 89 }, bounds: { left: 37, right: 90, top: 74, bottom: 96 },

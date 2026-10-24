@@ -38,3 +38,13 @@ Use the inspected private photographs for future corrections. The new pass refer
 The sage short-sleeved V-neck reveals the left sleeve and a little chest tattoo. The artwork has native alpha transparency. Tattoos remain simplified Japanese-style illustrated motifs suited to game scale, not a claim of a precise reproduction of every ink line.
 
 Preserve anatomical tattoo placement when changing direction. Do not mirror the right-facing sprite to fake a left-facing one; use separate directional art so the left-arm sleeve does not migrate to the right arm.
+
+## Current walking motion
+
+The owner requested another restrained Day of the Tentacle-inspired walk attempt after rejecting earlier frames whose head size changed. Keep the hands in the pockets and preserve the approved head, torso, tattoos, proportions and display scale. The owner liked the new leg motion and reported an intermittent disappearance at the beginning of movement.
+
+`src/ui/character-walk.ts` derives eight poses from the original directional rasters without editing either asset or generating new character art. Only the lower trousers and shoes deform, in a 720ms stepped cycle. The shoes translate rigidly while the trouser legs bend slightly. There is no whole-body walking bounce, rotation or scaling. The original upper body stays visibly mounted throughout; the lower canvas and upper image meet below both pockets. The existing Nortel electrical-shock jolt is a separate intentional effect.
+
+The renderer waits for the requested directional sprite to decode before using it. While a left-facing sprite is unavailable, the ready right-facing idle sprite remains visible. Canvas frames are prepared before replacing the idle legs, and each replacement is one draw rather than a clear followed by a draw. Idle artwork is the fallback if frame preparation fails. Retargeting preserves the cycle phase, arrival restores the full idle image, hidden tabs stop frame work, and reduced motion uses the full idle image with immediate travel. Disposal cancels animation and releases the frame cache. No game framework or new dependency is required.
+
+Browser regression coverage includes a delayed first left-facing sprite, repeated starts and direction reversal, stationary targets, navigation, reduced motion, nonempty frames, and pixel equality of the upper body across all eight poses. Captures are saved under `.impeccable/review/` as `desktop-walk-0.png` through `desktop-walk-7.png` and their mobile equivalents.

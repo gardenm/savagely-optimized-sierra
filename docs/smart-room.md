@@ -10,7 +10,7 @@ Location: Ottawa, Ontario, as with all career stages after McGill. The window sh
 
 THESIS: a thoroughly ordinary cubicle farm drawn with the game's extraordinary crooked perspective; the interactive whiteboard anchors the room.
 
-OWN-WORLD: inherit the approved McGill/Nortel cartoon, plum ink, teal/lilac architecture, custard highlights and exaggerated shapes. Preserve the shell, type, character art/scale and original walking jiggle.
+OWN-WORLD: the current redraw uses official DoTT screenshots for visual grammar, the owner-approved backyard for continuity, and the previous SMART room for composition and prop authority. Favor bowed/tapered silhouettes, skewed planes, economical ink and broad plum/teal/lilac/custard colour groups. Preserve the shell, type, character art/scale and current lower-body walking cycle.
 
 STORY: explore the period computers and SMART Notebook whiteboard; notice the inaccessible stylus. Reuse the tested SMART rules for its future cross-room plane/receipt/sketch path. Keep the other two local puzzles working while Lightspeed and Shopify are built; add no temporary item sources or replacement puzzle.
 
@@ -20,6 +20,14 @@ FORM: precise extension of the incumbent adventure surface. No concept roll or i
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
-## Delivery boundary
+## Current artwork and registration (2026-10-24)
+
+`public/art/smart-office-dott.png` is the active opaque 1536×1024 background, generated with built-in OpenAI image generation and copied without pixel edits. `public/art/smart-office-ottawa.webp` remains preserved as the previous version. Official screenshots [003](https://assets.doublefine.com/images/screenshots/DOTT/dott-remastered-003.jpg) and [012](https://assets.doublefine.com/images/screenshots/DOTT/dott-remastered-012.jpg) supply style only; no DoTT scene or character is reproduced. Exact prompts are in `docs/dott-room-image-prompts.md`, `docs/art-provenance.json` and the PNG's `impeccable:prompt` text metadata.
+
+Uneven cubicle profiles, skewed ceiling planes, exaggerated monitor housings and broad carpet regions replace the more regular office construction. The iMac/PC distinction, Ottawa Peace Tower, blank usable board area, high ledge, separate stylus, printer, exit and clear walking aisle keep their interaction roles. Board marks, the ledge/fallen stylus and all hotspots remain runtime overlays aligned to the new art. No stylus is baked into the background.
+
+The production build, 135 unit tests and all 72 production-browser tests passed with the four-room redraw. Desktop and phone entry, stylus-down and sketch captures were inspected, including the board overlay fit. The initial independent 20-capture review found only Nortel lamp registration; after that fix, the follow-up review returned **SHIP** at the lamp-fix scope with no visible regression. The owner approved the backyard and requested this SMART redraw; approval of the new SMART image and deployment are not established.
+
+## Original delivery boundary (historical)
 
 SMART becomes explorable from the map. Its cross-room rules must retain their real prerequisites; the other scenes and full story cutover remain future work. The existing McGill/Nortel save data must survive adding this room.

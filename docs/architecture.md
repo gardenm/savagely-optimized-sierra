@@ -52,7 +52,8 @@ The original room codecs remain in their room modules as legacy wire-format comp
 ## Views, navigation and effects
 
 - `src/main.ts` imports fonts/styles and starts/disposes the app for HMR.
-- `src/ui/adventure.ts` mounts scenery, labelled hotspots, shared inventory and the nine verbs. It translates input to actions and patches existing nodes, preserving focus and the original walking jiggle.
+- `src/ui/adventure.ts` mounts scenery, labelled hotspots, shared inventory and the nine verbs. It translates input to actions and patches existing nodes, preserving focus and coordinating movement with `src/ui/character-walk.ts`.
+- `src/ui/character-walk.ts` keeps the original upper-body raster visibly fixed and caches eight restrained lower-body poses per decoded direction. Only legs and shoes change; no new character artwork or engine dependency is introduced. The idle sprite remains the fallback until the requested direction and a valid frame are ready. Animation stops on arrival, reset, hidden tabs, reduced motion and disposal. See `docs/character.md` for the motion contract and first-step regression.
 - `src/ui/recommendz.ts` owns the protected-focus McGill terminal. Cancellation updates state before native focus restoration; reset clears form selections.
 - `src/ui/nortel.ts` owns scene overlays, shock/spark feedback and the 1.8-second self-test timer. Recovery dispatches a room action. Timed room actions may finish while a delayed exit is pending, so cancelling an exit cannot strand the fault. Restart and disposal cancel timers. The worn inventory marker is now part of the shared inventory view.
 - `src/ui/smart.ts` projects the high/fallen/collected stylus and the copied transaction/sketch onto the original office artwork. Only a fresh hit animates the fall; restored state is placed immediately and reduced motion removes the transition. The view owns no persistent puzzle rules or timers.
