@@ -243,6 +243,9 @@ fieldset label:hover span { border-color: #ffde8a; }
 .nortel-props { position: absolute; inset: 0; pointer-events: none; }
 .smart-props { position: absolute; inset: 0; pointer-events: none; }
 .lightspeed-props { position: absolute; inset: 0; pointer-events: none; }
+.shopify-props { position: absolute; inset: 0; pointer-events: none; }
+.shopify-pick { position: absolute; left: 64%; top: 70.5%; width: 3.5%; height: 5%; transform: rotate(-18deg); }
+.shopify-screen { position: absolute; left: 17%; top: 39%; width: 8%; height: 8%; display: flex; flex-direction: column; justify-content: center; gap: 15%; color: #fff2d3; font: 700 clamp(3px, .7vw, 9px)/1.2 'Comic Neue', cursive; }
 .lightspeed-drawer { position: absolute; left: 9%; top: 54%; width: 28%; height: 26%; object-fit: contain; }
 .lightspeed-clip { position: absolute; left: 23%; top: 60.5%; width: 7%; height: 7%; object-fit: contain; }
 .lightspeed-receipt { position: absolute; left: 33.3%; top: 45.7%; width: 5.4%; min-height: 10%; display: flex; flex-direction: column; justify-content: space-between; padding: 1% .3%; background: #fff2d3; color: #30213e; border: 1px solid #30213e; transform: rotate(-3deg); font: 700 clamp(3px, .6vw, 8px)/1.4 'Comic Neue', cursive; }

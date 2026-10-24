@@ -34,7 +34,7 @@ test('the recommendation puzzle awards a shared ticket and remembers it across f
   await page.getByRole('link', { name: 'Chapter map' }).click();
   await expect(page.getByRole('heading', { name: 'A little more agency.' })).toBeVisible();
   await expect(page.locator('.chapter-row').last()).toContainText('learning agentic engineering');
-  await expect(page.locator('.chapter-row').last()).toContainText('Planned');
+  await expect(page.locator('.chapter-row').last().getByRole('link', { name: 'Enter Shopify' })).toHaveAttribute('href', '#shopify');
   await page.reload();
   await page.getByRole('link', { name: 'Enter the lab' }).click();
   await expect(page.locator('#ticket')).toBeVisible();
@@ -44,7 +44,7 @@ test('the recommendation puzzle awards a shared ticket and remembers it across f
   expect(errors).toEqual([]);
 });
 
-test('the career overview is available without playing and includes only planned future chapters', async ({ page }) => {
+test('the career overview is available without playing', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'The short version' }).click();
   await expect(page.locator('[data-view=cv]')).toBeVisible();

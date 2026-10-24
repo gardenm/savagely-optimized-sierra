@@ -63,11 +63,11 @@ test('the Castle-inspired room prints a faulty receipt that can be carried to SM
   await touch(page, 'Arched passage', 'Open');
   await expect(page).toHaveURL(/#chapters$/);
   await expect(page.getByText('Lightspeed · Ottawa', { exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Enter Shopify' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Enter Shopify' })).toHaveCount(1);
 });
 
-test('a future-source pick opens the drawer, and the clip stays collected across travel, reload and reset', async ({ page }, info) => {
-  // Shopify's real source is still to come. Never add a substitute pickup to this scene.
+test('a carried pick opens the drawer, and the clip stays collected across travel, reload and reset', async ({ page }, info) => {
+  // Keep this deployed v3 fixture to exercise backward compatibility.
   await page.addInitScript(key => {
     if (localStorage.getItem(key) === null) localStorage.setItem(key, JSON.stringify({
       version: 3, currentRoom: 'lightspeed', inventory: ['ticket', 'guitar-pick'], completed: false,
@@ -102,10 +102,10 @@ test('a future-source pick opens the drawer, and the clip stays collected across
   await expect(page.locator('#dialogue-text')).toBeEmpty();
   await page.reload();
   const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), key);
-  expect(saved.version).toBe(3);
+  expect(saved.version).toBe(4);
   expect(saved.currentRoom).toBe('lightspeed');
   expect(saved.inventory).toEqual([]);
-  expect(Object.keys(saved.positions)).toHaveLength(4);
+  expect(Object.keys(saved.positions)).toHaveLength(5);
 });
 
 for (const version of [1, 2]) test(`a deployed v${version} world retains its progress when Lightspeed is added`, async ({ page }) => {
@@ -121,7 +121,7 @@ for (const version of [1, 2]) test(`a deployed v${version} world retains its pro
   await expect(page.getByRole('button', { name: 'Anti-static strap, worn and grounded' })).toBeVisible();
   await page.reload();
   const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), key);
-  expect(saved).toMatchObject({ version: 3, currentRoom: 'lightspeed', inventory: ['ticket', 'strap'],
+  expect(saved).toMatchObject({ version: 4, currentRoom: 'lightspeed', inventory: ['ticket', 'strap'],
     flags: { strapWorn: true, linkRestored: true },
     positions: { mcgill: { x: 65, y: 90 }, nortel: { x: 60, y: 85 }, smart: { x: 62, y: 86 }, lightspeed: { x: 58, y: 89 } } });
 });

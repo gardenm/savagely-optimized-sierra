@@ -10,6 +10,15 @@ function memory(values = new Map<string, string>()) {
 }
 
 describe('whole-adventure storage', () => {
+  it('protects malformed v4 agent evidence until an explicit restart', () => {
+    const stored = JSON.stringify({ ...adventureSave.encode(freshAdventure()), agent: { candidate: { id: -1 }, receipt: null } });
+    const { saves, values } = memory(new Map([[adventureSave.key, stored]]));
+    expect(saves.load().status).toBe('protected');
+    expect(saves.save(freshAdventure())).toBe(false);
+    expect(values.get(adventureSave.key)).toBe(stored);
+    expect(saves.restart(freshAdventure())).toBe(true);
+    expect(saves.load()).toEqual({ status: 'ready', progress: freshAdventure() });
+  });
   it('imports legacy keys once, preserves their bytes and leaves unrelated storage alone', () => {
     const old = JSON.stringify({ ticket: true, completed: true, x: 65, y: 90 });
     const { values, saves } = memory(new Map([[mcgillKey, old], ['unrelated', 'keep me']]));

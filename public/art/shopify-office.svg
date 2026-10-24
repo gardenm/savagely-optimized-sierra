@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+<title>Shopify home office</title><desc>Original hand-drawn cartoon interpretation of the owner's office and planned furnishings, based on private photo references.</desc>
+<defs>
+ <linearGradient id="wall" x2="0.8" y2="1"><stop stop-color="#b2a5bd"/><stop offset="1" stop-color="#74677f"/></linearGradient>
+ <linearGradient id="floor" x2="0.4" y2="1"><stop stop-color="#d79867"/><stop offset="1" stop-color="#edb777"/></linearGradient>
+ <linearGradient id="wood" x2="0.8" y2="1"><stop stop-color="#b97e4e"/><stop offset="1" stop-color="#825132"/></linearGradient>
+ <!-- Bamboo and branching bonsai alternate, as in the office's hexagon paper. -->
+ <pattern id="botanical" width="270" height="150" patternUnits="userSpaceOnUse">
+  <path d="M35 7 98 7 129 72 99 139 34 139 4 73ZM170 7h63l31 65-30 67h-65l-30-66Z" fill="none" stroke="#a6aa9d" stroke-width="3"/>
+  <g fill="none" stroke="#c3c4ac" stroke-width="4" stroke-linecap="round"><path d="m58 119 8-83m11 79-4-73M58 75l10 1m-8-19 8 1m7 34 8 1m-9-36 8 1M38 55l29-15 26 13"/><path d="m204 119-12-22 6-26-15-17m12 40 28-19m-25-4 20-20m-28 35-16-8"/></g>
+  <g fill="#c3c4ac" stroke="none"><path d="m65 42-21 2-17 24 16-8Zm-1 6-13 39 15-17Zm5-6 21 11 11 24-18-15Zm5 13 4 39 9-25Zm-17 23-20 9-10 23 22-17Zm2 6-1 37 10-25Zm19 4 21 18 5 16-22-19Z"/><path d="M166 55q-8-11 5-14-2-12 11-9 5-12 14-4l5 14q13 0 7 12-20 11-42 1Zm42-2q-3-12 8-15 1-13 12-8 9-8 15 1 15 2 9 14-12 10-44 8Zm-43 32q-13-6-6-16 6-7 14-3 9-10 17 1 9 10-2 16Zm47-2q-4-11 9-14 3-12 13-6 11-6 16 5 11 10-1 16Zm-29 37q18-9 35 0l-7 5h-21Z"/></g>
+ </pattern>
+ <pattern id="grille" width="8" height="10" patternUnits="userSpaceOnUse"><path d="M2 0v10" stroke="#c29f66" stroke-width="3"/><path d="M6 0v10" stroke="#765b42" stroke-width="2"/></pattern>
+ <clipPath id="window"><path d="M18 89 177 76 172 287 15 303Z"/></clipPath>
+</defs>
+<g stroke="#30213e" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+<!-- Quiet, crooked architecture and warm floor. -->
+<path d="M0 0H1536V691L625 721 0 638Z" fill="url(#wall)"/>
+<path d="M634 0H1536V691L625 721Z" fill="#454652"/>
+<path d="M634 0H1536V691L625 721Z" fill="url(#botanical)" stroke="none"/>
+<path d="M0 638 625 706 1536 675V1024H0Z" fill="url(#floor)"/>
+<path d="M0 630 627 692 1536 662 1536 688 625 720 0 657Z" fill="#d4c5b9"/>
+<g fill="none" stroke="#ae7359" stroke-width="4"><path d="m625 720-106 304m251-309 59 309m102-314 260 314M1076 705l460 264M440 703 90 1024m184-338L0 819M0 781l1536-15M0 913l1536-12"/><path d="m341 770-32 45m770-44 36 50M578 901l-15 58m846-63 90 68"/></g>
+<path d="M167 766 764 736 1127 918 213 978Z" fill="#536275" stroke="#41475f"/>
+<g stroke="#73818a" stroke-width="3" opacity=".45"><path d="m218 800 579-19m-548 45 606-17m-571 44 629-19m-585 46 649-21m-612 49 658-23"/></g>
+<!-- Actual office window, greenery only. -->
+<path d="M2 66 194 55 190 304 0 324Z" fill="#e8e1d3"/>
+<path d="M18 89 177 76 172 287 15 303Z" fill="#bddbd0"/>
+<g clip-path="url(#window)" fill="#6a9278" stroke="#4e7668" stroke-width="4"><path d="M-20 240Q30 130 62 190Q107 103 150 179Q192 119 216 239V321H-20Z"/><path d="M-13 280q70-100 115-39 41-42 98-30v120H-13" fill="#93ac80"/></g>
+<path d="m96 84-4 214M18 181l157-12" fill="none" stroke="#e8e1d3" stroke-width="11"/>
+<!-- Three individually drawn family portraits above the computer. -->
+<g transform="translate(229 142) rotate(-4)" stroke-width="3.5">
+ <path d="M0 0h109v157H0Z" fill="#bc884f" stroke-width="6"/><path d="M11 11h87v133H11Z" fill="#b2c7b2"/>
+ <path d="M24 105Q13 88 22 56q-3-32 28-32 36-4 37 33l7 43-15 10Z" fill="#654535"/>
+ <path d="M19 142v-21q7-16 24-19h23q20 4 25 20v20" fill="#557d97"/>
+ <path d="m44 95-1 14 11 20 14-20-4-14" fill="#ecb99d"/>
+ <path d="M29 65q7-21 26-26 5 11 24 17l1 22q-1 23-25 29-24-4-26-29Z" fill="#f0c3a4"/>
+ <path d="M29 64q-5-22 18-31m12-3q23 3 24 28" fill="none" stroke="#916b4c" stroke-width="3"/>
+ <path d="m35 67 10-2m19 0 10 2" fill="none"/><path d="m40 73 1 0m27 0 1 0" stroke-width="4"/>
+ <path d="m54 75-3 9 7 1" fill="none" stroke="#b67c67" stroke-width="2"/>
+ <path d="M40 88q15 7 30-1-7 19-20 13Z" fill="#fff1d5" stroke-width="2.5"/>
+ <path d="m41 109-10 9 13 5-6 11m30-25 10 9-12 7 5 14M29 128l-1 14m51-14 2 14" fill="none" stroke="#9db6bd" stroke-width="2.5"/>
+ <path d="m49 129 5 13 9-13" fill="#cb7296" stroke="none"/><path d="m52 136 7 1" stroke="#dcc36f" stroke-width="3"/>
+ <path d="m31 27 3-8 17 1 2 9m4 0 3-9 17 2 1 11m-25-9h7" fill="none" stroke="#4c4c46" stroke-width="2.5"/>
+</g>
+<g transform="translate(369 128) rotate(3)" stroke-width="3.5">
+ <path d="M0 0h109v157H0Z" fill="#bc884f" stroke-width="6"/><path d="M11 11h87v133H11Z" fill="#c3b9d1"/>
+ <path d="M18 142v-24q11-16 28-17h20q18 3 25 18v23" fill="#30323b"/>
+ <path d="m46 94-1 15 10 10 13-11-4-16" fill="#e6b998"/>
+ <path d="M30 63q-12-5-8 9l9 8m48-17q12-4 8 9l-9 7" fill="#e6b998"/>
+ <path d="M30 53q6-24 28-22 25 3 23 28l-3 28q-5 18-23 20-20-4-24-23Z" fill="#edc3a1"/>
+ <path d="M27 64q-5-14-3-24l-5-2 13-9-2-6 18 1q13-14 24-2l10-1 2 10q11 11 0 35l-5-20-10-4q-11 15-34 11Z" fill="#9a7c58"/>
+ <path d="m35 39 17-6 15 2m-25 9 19-5" fill="none" stroke="#b49a72" stroke-width="2.5"/>
+ <path d="m37 66 10-1m17 0 10 2" fill="none" stroke="#6f5143" stroke-width="2.5"/>
+ <path d="m42 72 1 0m25 0 1 0" stroke-width="4"/><path d="m56 73-2 12 6 1" fill="none" stroke="#b37d62" stroke-width="2"/>
+ <path d="m46 94q11 5 20-1" fill="none" stroke-width="2.5"/>
+ <path d="m44 106 11 13-10 6-8-14m30-5-12 13 12 6 9-14" fill="#43434b" stroke-width="2.5"/>
+ <path d="m52 117 8 1-1 7 5 18H49l5-18Z" fill="#22262c" stroke-width="2.5"/><path d="m51 136h11" stroke="#b9b9ad" stroke-width="2"/>
+</g>
+<g transform="translate(507 143) rotate(-2)" stroke-width="3.5">
+ <path d="M0 0h109v157H0Z" fill="#bc884f" stroke-width="6"/><path d="M11 11h87v133H11Z" fill="#a5c5bf"/>
+ <path d="M22 142q-1-32 20-36h29q20 11 19 36" fill="#f8efdd"/>
+ <path d="M70 114q21 7 20 28H75Z" fill="#36373e" stroke="none"/>
+ <g transform="rotate(8 55 80)">
+  <path d="M28 42Q6 36 14 81l9 20q11 1 15-21m38-36q24-4 22 36l-6 22q-11 2-17-22" fill="#303139"/>
+  <path d="M27 58q-7-13 4-20l8-2q3-14 13-8 9-11 15 0 13-4 17 9l-2 44q8 21-18 34-27 5-38-17Z" fill="#f6efdf"/>
+  <path d="M29 50q13-13 20 1l-4 27-17 9q-8-15 1-37Zm41 4q15-15 15 9l-4 28-18-9Z" fill="#36373e" stroke-width="2.5"/>
+  <ellipse cx="38" cy="64" rx="5.5" ry="7" fill="#a28261" stroke-width="2"/><ellipse cx="75" cy="71" rx="5.5" ry="7" fill="#a28261" stroke-width="2"/>
+  <path d="m39 64 0 2m36 5v2" stroke="#272730" stroke-width="4"/><path d="m36 62 1-1m36 8 1-1" stroke="#fff2d3" stroke-width="2.5"/>
+  <path d="M44 78q-14-3-15 15l-5 2 5 11-2 5 13 8q20 8 34-10l-1-9q6-18-15-16Z" fill="#fff4df" stroke-width="2.5"/>
+  <path d="M39 94q12-10 23 1l-4 12q-13 5-19-7Z" fill="#303139" stroke-width="2.5"/><path d="m43 94 7-1" stroke="#8c9391" stroke-width="2"/>
+  <path d="m51 108-1 7m-7 1q7 5 15 0" fill="none" stroke-width="2"/>
+ </g>
+ <path d="M35 118q20 12 44-1l-1 8q-22 9-42-1Z" fill="#b94c43" stroke-width="2.5"/>
+ <circle cx="56" cy="131" r="6" fill="#d5b96e" stroke-width="2"/><path d="m35 133 1 9m8-7v7" stroke="#d7d4c1" stroke-width="2"/>
+</g>
+<!-- Palmo: rounded posts, three shelves, two-door walnut base. -->
+<path d="M680 520 950 513 960 687 690 702Z" fill="url(#wood)"/>
+<path d="m690 701 24 0-3 28-19-2m225-39 23-1-1 30-19 1" fill="#704531"/>
+<path d="m700 542 113-4 1 137-112 8Zm127-5 110-4 5 134-114 7Z" fill="#ab744c" stroke-width="5"/>
+<circle cx="798" cy="602" r="8" fill="#dba05e" stroke-width="4"/><circle cx="844" cy="600" r="8" fill="#dba05e" stroke-width="4"/>
+<path d="M681 145q0-18 16-18t17 18v389l-33 1ZM922 139q0-18 16-18t17 18v385l-33 2Z" fill="#a77247"/>
+<g fill="#bc8757"><path d="m673 163 288-8 1 22-288 9Z"/><path d="m675 299 287-9 1 22-288 10Z"/><path d="m678 437 285-11 1 23-285 12Z"/><path d="m673 518 296-12 1 25-296 15Z"/></g>
+<g stroke-width="4"><path d="m728 293-7-81 19-2 7 82m9 0-2-97 22-1 1 96m12 0 10-72 21 2-10 69" fill="#809caf"/><path d="m728 429 3-74 21 1-2 72m10 0 10-86 18 3-7 82" fill="#a08eac"/>
+<!-- Small lucky cat and seated statue from the original cabinet. -->
+<path d="M841 286q-17-24-1-37l-4-19 15 8 14-2 14-12-1 25q19 18 0 36Z" fill="#e8b44f"/><path d="m844 257 2 0m21-1 2 0m-11 9 2 4m17-9q23-25 10-30" fill="none"/>
+<path d="M851 419q-36-1-26-18l16-22q-11-24 9-28 24-3 14 27l21 22q13 18-34 19Z" fill="#697173"/><path d="m835 401 17 8 20-12" fill="none"/></g>
+<!-- White standing desk, monitor, MacBook, speaker and printer. -->
+<path d="m55 575 33 1 10 191-33 2Zm468 9 29 0-4 145-28 2Z" fill="#dce0db"/><path d="m40 768 83-3 0 18-84 2m457-50 78-2v18l-80 3" fill="#c1cccd"/>
+<path d="M222 615q-36 28-15 60t-11 43m46-105q-21 29-3 48t-5 61" fill="none" stroke="#44424d" stroke-width="4"/>
+<path d="M16 535 528 532 597 594 40 615Z" fill="#f7eddd"/><path d="m40 615 557-21-2 19-553 22Z" fill="#c5cecc"/>
+<path d="m168 359 250 5-6 154-245-1Z" fill="#353343"/><path d="m181 373 223 4-3 123-218 1Z" fill="#6e9aab" stroke-width="4"/>
+<path d="m270 351 39 1-1 12-39-1Z" fill="#34333e" stroke-width="4"/><circle cx="290" cy="357" r="3" fill="#8da3a3" stroke-width="1.5"/>
+<g stroke="none"><path d="m192 389 56 1v98h-54Z" fill="#46566d"/><path d="m262 392 128 2v14H262Zm0 28 102 1v8H262Zm0 19 115 1v8H262Zm0 19 73 1v8H262Z" fill="#c3d7c1"/><path d="m372 462 17 0v25h-17Z" fill="#90b579"/></g>
+<path d="m276 518 41 0-1 28 37 7-100 1 27-9Z" fill="#9eabb1" stroke-width="5"/>
+<path d="m447 421 107 10-4 111-106-8Z" fill="#b9c4c4" stroke-width="5"/><path d="m456 431 89 9-4 91-88-5Z" fill="#587a73" stroke-width="4"/><path d="m454 499 29-38 24 31 32-17v53l-85-4Z" fill="#839e81" stroke="none"/><path d="m442 536 111 8 27 21-134-2Z" fill="#d6dad5" stroke-width="5"/>
+<path d="m489 563-1 15-28 7 86-3-29-8-1-11" fill="#bac5c5" stroke-width="4"/>
+<path d="m184 570 163-1 25 20-180 3Z" fill="#53515f" stroke-width="4"/><path d="m201 577 139-1m-120 8 104-2" fill="none" stroke="#97929b" stroke-width="3"/>
+<ellipse cx="402" cy="582" rx="14" ry="9" fill="#42404b" stroke-width="4"/>
+<path d="m59 489 46-1 2 62-47 4Z" fill="#393943" stroke-width="5"/><ellipse cx="82" cy="489" rx="23" ry="8" fill="#55545f" stroke-width="4"/>
+<path d="m115 521 44 0 8 37-56 0Z" fill="#d9dcd1" stroke-width="4"/><path d="m122 520 29 0-1 13-28 0Z" fill="#5d6b70" stroke-width="3"/>
+<path d="m130 520 1-18 22 1-1 18" fill="#f8efdd" stroke-width="3"/><circle cx="156" cy="545" r="3" fill="#8bc2c5" stroke="none"/>
+<!-- Owner-requested Shopify shopping-bag desk statue, with a solid plinth and side. -->
+<g stroke-width="3">
+ <path d="m65 598 44-2 7 8-49 3Z" fill="#626c56"/>
+ <path d="m74 564 28-3 6 37-40 3Z" fill="#96bf48"/>
+ <path d="m102 561 9 7 5 26-8 4Z" fill="#638c35"/>
+ <path d="m80 565q-2-25 8-25 11 0 10 22m-11-1q0-15 7-19" fill="none" stroke="#b7d37c" stroke-width="3"/>
+ <path d="M96 573q-15-5-16 4-1 4 8 5 8 1 4 7-4 5-14 1" fill="none" stroke="#fff8e6" stroke-width="4"/>
+</g>
+<path d="m158 566 17-3 3 10-17 3Zm25-4 16-1 2 10-17 2Zm-5 6 6-1m15-2 9-8" fill="none" stroke-width="2.5"/>
+<path d="m554 501 23 0 3 43-28-1Z" fill="#5f6b76" stroke-width="4"/><path d="m556 492 18 0v10h-18Z" fill="#343442" stroke-width="3"/>
+<!-- Tucked blue mesh chair. -->
+<path d="m303 617 20 137 106-3 13-133q-65-32-139-1Z" fill="#536a87"/><path d="m320 636 105-2m-102 19 101-2m-98 20 96-2m-93 21 90-3m-87 21 84-2" fill="none" stroke="#8396a5" stroke-width="3"/>
+<path d="m307 624 16 119m114-119-12 119" fill="none" stroke="#d5ddcf" stroke-width="7"/>
+<path d="m315 740 113-3 13 34-122 10Z" fill="#8fa8b6"/><path d="m302 706-22 0 0 46m153-47 25-2v43" fill="none" stroke="#d7dddb" stroke-width="12"/><path d="m378 780 0 46m-51 17 51-17 59 11m-62-10-8 29" fill="none" stroke="#a0b1b6" stroke-width="10"/><g fill="#383444" stroke-width="3"><ellipse cx="326" cy="845" rx="10" ry="7"/><ellipse cx="437" cy="839" rx="10" ry="7"/><ellipse cx="367" cy="856" rx="10" ry="7"/></g>
+<!-- Integrated Sears Silvertone stereo, not a modern component stack. -->
+<path d="m1063 539 252-9 12 130-264 17Z" fill="url(#wood)"/>
+<path d="m1063 539 252-9-23-34-227 8Z" fill="#34343c"/>
+<path d="m1080 549 44-2 1 108-44 3Zm133-5 83-2 5 108-85 5Z" fill="#423c3c" stroke-width="5"/>
+<path d="m1085 554 34-1 1 97-35 3Zm137-5 69-2 5 98-71 4Z" fill="url(#grille)" stroke="none"/>
+<!-- Broad walnut centre and a dark glass tuner above it, as in the family photo. -->
+<path d="m1134 548 69-2 3 110-71 3Z" fill="#916443" stroke-width="4"/>
+<path d="m1137 550 63-2v20l-62 3Z" fill="#2f353c" stroke-width="3"/>
+<path d="m1143 558 36-1m-10-3v7" stroke="#bcb89d" stroke-width="2"/><circle cx="1191" cy="557" r="3.5" fill="#d2c7ae" stroke-width="1.5"/>
+<path d="m1143 585q15-9 47-4m-47 13q27-13 50-6m-48 18q22-8 45-4m-44 18q18-10 45-6m-44 18q25-9 46-4m-44 13 43-5" fill="none" stroke="#b9885b" stroke-width="2.5"/>
+<path d="m1143 646 17-1" stroke="#c1c3bb" stroke-width="3"/>
+<path d="m1082 675-8 32 25-11 5-22m184-11 2 32 25-4-11-30" fill="#9ca2a1" stroke-width="4"/>
+<!-- Open centre lid, platter and tonearm; the side speakers keep their black tops. -->
+<path d="m1125 503 127-4-7-42-118 6Z" fill="#885b3d" stroke-width="5"/>
+<path d="m1134 490 105-4-4-19-99 4Z" fill="#a77950" stroke="none"/>
+<path d="m1129 508 120-3 15 24-133 4Z" fill="#c1b18b" stroke-width="3"/>
+<ellipse cx="1180" cy="518" rx="34" ry="10" fill="#30303b" stroke-width="3"/><ellipse cx="1180" cy="518" rx="9" ry="3" fill="#cfac69" stroke-width="2"/>
+<path d="m1237 511-8 2-13 12-12 0" fill="none" stroke="#d9d1b9" stroke-width="4"/>
+<!-- A green record sleeve on the console, translated from the photo into simple cover art. -->
+<g transform="translate(1076 467) rotate(-8)" stroke-width="3"><path d="M0 0h44v55H0Z" fill="#739164"/><path d="M5 6h26m-26 6h19" stroke="#e6c872" stroke-width="3"/><path d="m4 48 11-24 10 9 13-11 2 26Z" fill="#decda6" stroke="none"/><path d="m11 45 6-8 6 6 9-7" fill="none" stroke="#735947" stroke-width="4"/></g>
+<path d="m1280 476 26 0-3 24-19 0Z" fill="#e3be54" stroke-width="4"/><path d="m1293 477 0-25m0 8q-20-23-20-3 7 9 20 3m0-11q20-23 20-3-7 9-20 3" fill="#719b79" stroke-width="3"/>
+<!-- Offset-waist Birch Green Jazzmaster and black stand. -->
+<path d="m1018 697-27 34m27-34 33 24m-33-24-1-47" fill="none" stroke="#39343f" stroke-width="7"/>
+<g transform="rotate(8 1020 580)"><path d="m1004 473 26-1 4 108q38-8 33 29-4 15-18 22 26 42-12 59-18 9-40-1-31-15-5-49-34-6-27-36 5-22 35-14Z" fill="#acd0ae" stroke-width="6"/>
+<path d="m1007 574 25 0q18-1 13 23l-13 18 11 42-39 5-10-23 8-22Z" fill="#f1e8d0" stroke-width="4"/>
+<path d="m1008 568-1-147 21-1-2 148Z" fill="#c99452" stroke-width="4"/><path d="m1008 425-6-45q13-18 27-10l8 51Z" fill="#d9ab65" stroke-width="4"/>
+<path d="m1006 384-9 0m9 10-9 0m11 10-9 0m29-25 8 0m-6 10 8 0m-6 11 8 0" stroke="#d1d2c7" stroke-width="4"/>
+<path d="m1009 447 17-1m-17 19 17-1m-17 19 17-1m-17 19 17-1m-17 19 17-1m-17 19 17-1" stroke="#765f46" stroke-width="2"/>
+<path d="m1006 593 25 0v9h-25Zm-1 27 28 0v9h-28Z" fill="#fff3dc" stroke-width="3"/><path d="m1004 642 32 0m-29 13 22 0 0 13-22 0Z" fill="#afbbba" stroke-width="3"/><path d="m1021 647 24 20" stroke="#bac7c2" stroke-width="3"/><circle cx="1042" cy="638" r="5" fill="#e8dfcc" stroke-width="2"/>
+</g>
+<!-- Free chapter-map exit. -->
+<path d="m1353 126 181 3 2 574-181-15Z" fill="#6d9e9a"/>
+<path d="m1381 156 155 4v517l-151-11Z" fill="#3d384e"/>
+<path d="m1386 664 150 13v-74l-109-12Z" fill="#a98d9b" stroke-width="4"/>
+<path d="m1422 178 114 32v450l-110-32Z" fill="#6e938d"/><path d="m1442 216 74 19v163l-72-14Zm2 202 72 16v179l-70-21Z" fill="#60847f" stroke-width="4"/>
+<path d="m1434 430 20 3" stroke="#e7ba69" stroke-width="9"/>
+</g></svg>

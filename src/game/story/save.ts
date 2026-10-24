@@ -9,7 +9,7 @@ function sale(value: unknown): value is Sale {
     && typeof value.totalCents === 'number' && Number.isSafeInteger(value.totalCents) && value.totalCents >= 0;
 }
 
-function evidence(value: unknown): AgentEvidence | null {
+export function decodeAgentEvidence(value: unknown): AgentEvidence | null {
   if (!object(value)) return null;
   if (value.candidate !== null && (!object(value.candidate) || !positiveInteger(value.candidate.id))) return null;
   if (value.receipt !== null && (!object(value.receipt) || !positiveInteger(value.receipt.candidateId) || !sale(value.receipt.sale))) return null;
@@ -29,7 +29,7 @@ export function decodeStoryProgress(value: unknown): StoryProgress | null {
     || !object(value.flags) || Object.keys(value.flags).length !== storyFlags.length
     || !storyFlags.every(flag => typeof (value.flags as Record<string, unknown>)[flag] === 'boolean')
     || typeof value.completed !== 'boolean') return null;
-  const agent = evidence(value.agent);
+  const agent = decodeAgentEvidence(value.agent);
   if (!agent) return null;
   const inventory = [...new Set(value.inventory)] as StoryProgress['inventory'];
   const flags = Object.fromEntries(storyFlags.map(flag => [flag, (value.flags as Record<string, boolean>)[flag]])) as StoryProgress['flags'];

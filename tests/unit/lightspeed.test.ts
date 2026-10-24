@@ -62,14 +62,14 @@ describe('Lightspeed scene integration', () => {
     const restored = adventureSave.decode(before)!;
     expect(restored).toMatchObject({ inventory: before.inventory, flags: before.flags, positions: before.positions });
     expect(restored.positions.lightspeed).toEqual(room.spawn);
-    expect(adventureSave.encode(restored).version).toBe(3);
+    expect(adventureSave.encode(restored).version).toBe(4);
     expect(adventureSave.key).toBe('savagely-optimized:adventure:v1');
   });
 
   it('protects impossible drawer states and unsupported payloads instead of dropping items', () => {
     const saved = adventureSave.encode(freshAdventure('lightspeed'));
     for (const invalid of [
-      { ...saved, version: 4 },
+      { ...saved, version: 5 },
       { ...saved, version: 2 },
       { ...saved, inventory: ['retaining-clip'] },
       { ...saved, flags: { ...saved.flags, clipTaken: true, drawerOpen: true } },

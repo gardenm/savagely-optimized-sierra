@@ -7,7 +7,7 @@ export const profile = {
 } as const;
 
 type Chapter = Readonly<{ title: string; place: string; summary: string; note: string }> &
-  ({ playable: true; route: '#adventure' | '#nortel' | '#smart' | '#lightspeed'; linkLabel: string } | { playable: false });
+  ({ playable: true; route: '#adventure' | '#nortel' | '#smart' | '#lightspeed' | '#shopify'; linkLabel: string } | { playable: false });
 
 export const chapters: readonly Chapter[] = [
   { title: 'Timney Lab', place: 'Western University · London, ON', summary: 'A high-school co-op placement, followed by a first programming job while at university. Vision tests and Gabor patches.', note: 'Optional prologue', playable: false },
@@ -15,7 +15,7 @@ export const chapters: readonly Chapter[] = [
   { title: 'Making connections.', place: 'Nortel · Ottawa', summary: 'PDH configuration on OME metro equipment. Somewhere, a cable needs a home.', note: 'Chapter 02 · Playable', playable: true, route: '#nortel', linkLabel: 'Enter Nortel' },
   { title: 'A blank canvas.', place: 'SMART Technologies · Ottawa', summary: 'SMART Notebook for Mac. A whiteboard with a few ideas of its own.', note: 'Chapter 03 · Playable', playable: true, route: '#smart', linkLabel: 'Enter SMART' },
   { title: 'Open for business.', place: 'Lightspeed · Ottawa', summary: 'iOS point of sale. Building the software on the other side of the counter.', note: 'Chapter 04 · Playable', playable: true, route: '#lightspeed', linkLabel: 'Enter Lightspeed' },
-  { title: 'A little more agency.', place: 'Shopify · Ottawa', summary: 'Retail point of sale, learning agentic engineering, and figuring out how to direct the next generation of tools.', note: 'Chapter 05 · Planned', playable: false },
+  { title: 'A little more agency.', place: 'Shopify · Ottawa', summary: 'Retail point of sale, learning agentic engineering, and figuring out how to direct the next generation of tools.', note: 'Chapter 05 · Playable', playable: true, route: '#shopify', linkLabel: 'Enter Shopify' },
 ];
 
 export const career = [

@@ -53,7 +53,7 @@ test('SMART is an explorable period office, with silent entry, free exit and rem
   await expect(page).toHaveURL(/#chapters$/);
   await expect(page.getByRole('link', { name: 'Enter SMART', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Enter Lightspeed' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Enter Shopify' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Enter Shopify' })).toHaveCount(1);
 });
 
 test('the SMART scene reflects its cross-room rules, retains progress and resets the entire adventure', async ({ page }, info) => {
@@ -120,6 +120,6 @@ test('a deployed two-room save retains inventory, milestones and positions when 
   await page.reload();
   await expect(page.locator('#ticket')).toBeVisible();
   const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), key);
-  expect(saved).toMatchObject({ version: 3, currentRoom: 'smart', flags: { strapWorn: true, linkRestored: true },
+  expect(saved).toMatchObject({ version: 4, currentRoom: 'smart', flags: { strapWorn: true, linkRestored: true },
     positions: { mcgill: { x: 65, y: 90 }, nortel: { x: 60, y: 85 }, smart: { x: 57, y: 88 } } });
 });

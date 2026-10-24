@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { adventureRooms, adventureSave, applyRoomProgress, enterRoom, freshAdventure, importLegacy, roomProgress } from '../../src/game/adventure';
 import { createInitialState, update } from '../../src/game/update';
 import { strapWorn } from '../../src/game/rooms/nortel';
+import { parseRoute } from '../../src/browser/navigation';
+import { chapters } from '../../src/content/career';
 
 function freeze<T>(value: T): T {
   if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value); }
@@ -9,6 +11,21 @@ function freeze<T>(value: T): T {
 }
 
 describe('shared adventure progress', () => {
+  it('makes Shopify a navigable chapter with its own persisted position and no duplicate item owners', () => {
+    expect(parseRoute('#shopify')).toBe('shopify');
+    expect(chapters.find(chapter => chapter.place.startsWith('Shopify'))).toMatchObject({ playable: true, route: '#shopify', linkLabel: 'Enter Shopify' });
+    expect(Object.keys(freshAdventure().positions)).toEqual(['mcgill', 'nortel', 'smart', 'lightspeed', 'shopify']);
+    expect(adventureRooms.shopify.items.filter(item => item.id === 'guitar-pick')).toHaveLength(1);
+    const world = freshAdventure('shopify');
+    expect(adventureSave.decode(adventureSave.encode(world))).toEqual(world);
+  });
+  it('carries candidate evidence between rooms and writes the v4 shared payload', () => {
+    const agent = { candidate: { id: 1 }, receipt: null };
+    const world = applyRoomProgress(freshAdventure(), 'lightspeed', { ...roomProgress(freshAdventure(), 'lightspeed'), agent });
+    expect(roomProgress(world, 'mcgill').agent).toEqual(agent);
+    expect(adventureSave.encode(world)).toMatchObject({ version: 4, agent });
+    expect(freshAdventure()).toMatchObject({ agent: { candidate: null, receipt: null } });
+  });
   it('projects shared inventory and milestones with an independent position per room', () => {
     const before = freeze(freshAdventure());
     const lab = { ...roomProgress(before, 'mcgill'), inventory: ['ticket'], position: { x: 65, y: 90 } };
@@ -61,7 +78,7 @@ describe('shared adventure progress', () => {
     const world = { ...freshAdventure('nortel'), inventory: ['ticket', 'strap'], flags: { strapWorn: true, linkRestored: true }, positions: { ...freshAdventure().positions, mcgill: { x: 65, y: 90 }, nortel: { x: 60, y: 85 } } };
     const encoded = adventureSave.encode(world);
     expect(adventureSave.decode(encoded)).toEqual(world);
-    expect(Object.keys(encoded).sort()).toEqual(['completed', 'currentRoom', 'flags', 'inventory', 'positions', 'version']);
+    expect(Object.keys(encoded).sort()).toEqual(['agent', 'completed', 'currentRoom', 'flags', 'inventory', 'positions', 'version']);
   });
 
   it.each([1, 2])('imports both legacy rooms including Nortel payload version %s without completing the adventure', version => {
@@ -76,6 +93,44 @@ describe('shared adventure progress', () => {
 
   it('protects a save containing an unrecognized item rather than dropping it', () => {
     expect(adventureSave.decode({ ...adventureSave.encode(freshAdventure()), inventory: ['ticket', 'future-item'] })).toBeNull();
+  });
+
+  it.each([1, 2, 3])('reads deployed v%s with empty agent evidence and a Shopify spawn', version => {
+    const { agent: _agent, ...old } = adventureSave.encode(freshAdventure('nortel'));
+    expect(adventureSave.decode({ ...old, version, positions: { nortel: { x: 60, y: 85 } } })).toMatchObject({
+      currentRoom: 'nortel', agent: { candidate: null, receipt: null },
+      positions: { nortel: { x: 60, y: 85 }, shopify: adventureRooms.shopify.spawn },
+    });
+  });
+
+  it('round-trips reviewed evidence and an offline queued candidate without full story migration', () => {
+    const world = { ...freshAdventure('shopify'),
+      inventory: ['ticket', 'strap', 'faulty-receipt', 'stylus', 'checkout-plan', 'test-receipt'],
+      flags: { strapWorn: true, linkRestored: true, stylusDown: true, exampleOnBoard: true, agentHasPlan: true, agentHasExample: true, reviewComplete: true },
+      agent: { candidate: { id: 1 }, receipt: { candidateId: 1, sale: { quantity: 3, unitPriceCents: 300, totalCents: 900 } } }, completed: true };
+    expect(adventureSave.decode(adventureSave.encode(world))).toEqual(world);
+    const queued = { ...world, inventory: world.inventory.filter(item => item !== 'test-receipt'), completed: false,
+      flags: { ...world.flags, linkRestored: false, reviewComplete: false }, agent: { candidate: { id: 1 }, receipt: null } };
+    expect(adventureSave.decode(adventureSave.encode(queued))).toEqual(queued);
+    for (const agent of [
+      { ...world.agent, receipt: { ...world.agent.receipt, candidateId: 2 } },
+      { ...world.agent, receipt: { ...world.agent.receipt, sale: { quantity: 2, unitPriceCents: 300, totalCents: 600 } } },
+      { ...world.agent, receipt: { ...world.agent.receipt, sale: { quantity: 3, unitPriceCents: 300, totalCents: 300 } } },
+    ]) expect(adventureSave.decode(adventureSave.encode({ ...world, agent }))).toBeNull();
+  });
+
+  it('rejects malformed evidence and impossible Shopify prerequisites instead of losing progress', () => {
+    const saved = adventureSave.encode(freshAdventure());
+    for (const invalid of [
+      { ...saved, version: 5 }, { ...saved, agent: undefined }, { ...saved, agent: {} },
+      { ...saved, agent: { candidate: { id: 0 }, receipt: null } },
+      { ...saved, agent: { candidate: { id: 1 }, receipt: null } },
+      { ...saved, inventory: ['test-receipt'] },
+      { ...saved, flags: { agentHasPlan: true } }, { ...saved, flags: { agentHasExample: true } },
+      { ...saved, flags: { reviewComplete: true } },
+      { ...saved, agent: { candidate: null, receipt: { candidateId: 1, sale: { quantity: 3, unitPriceCents: 300, totalCents: 900 } } } },
+      { ...saved, agent: { candidate: null, receipt: { candidateId: 1, sale: { quantity: -3, unitPriceCents: 300, totalCents: 900 } } } },
+    ]) expect(adventureSave.decode(invalid)).toBeNull();
   });
 
   it.each([null, [], {}, { version: 2 }, { version: 1, inventory: [] }])('rejects invalid and unsupported world formats: %j', value => {

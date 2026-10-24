@@ -17,7 +17,7 @@ export function startApp(root: HTMLElement): () => void {
   let progress = loaded.progress;
   let protectedSave = loaded.status === 'protected';
   const requested = parseRoute(location.hash);
-  let currentId: ChapterId = requested === 'nortel' || requested === 'smart' || requested === 'lightspeed' ? requested
+  let currentId: ChapterId = requested === 'nortel' || requested === 'smart' || requested === 'lightspeed' || requested === 'shopify' ? requested
     : requested === 'adventure' && location.hash ? 'mcgill' : progress.currentRoom;
   if (!location.hash && currentId !== 'mcgill') history.replaceState(null, '', `#${roomRoute(currentId)}`);
   root.innerHTML = renderShell(playableChapters[currentId].render());
@@ -40,6 +40,7 @@ export function startApp(root: HTMLElement): () => void {
     adventure: playableChapters.mcgill.title, nortel: playableChapters.nortel.title,
     smart: playableChapters.smart.title,
     lightspeed: playableChapters.lightspeed.title,
+    shopify: playableChapters.shopify.title,
     chapters: 'Chapter map', cv: profile.name,
   }, changeRoute);
 
