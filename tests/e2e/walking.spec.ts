@@ -60,6 +60,26 @@ test('walking keeps the original upper body fixed and never presents an empty fr
   await expect(page.locator('#character')).not.toHaveClass(/walking|has-walk-frames/);
 });
 
+test('an animation timestamp before the walk starts keeps a valid sprite frame', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/#shopify');
+  await page.evaluate(async () => { await Promise.all([...document.images].map(image => image.decode())); });
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 60_000));
+  await page.evaluate(() => {
+    const requestFrame = window.requestAnimationFrame.bind(window);
+    // A queued frame can carry a timestamp from before the movement event.
+    window.requestAnimationFrame = callback => requestFrame(time => callback(time - 100));
+  });
+  const stage = page.locator('#stage'), box = (await stage.boundingBox())!;
+  await stage.click({ position: { x: box.width * .89, y: box.height * .93 } });
+  await page.clock.runFor(32);
+  expect(errors).toEqual([]);
+  await expect(page.locator('.character-walk')).toBeVisible();
+  await expect(page.locator('.character-walk')).toHaveAttribute('data-frame', /^[0-7]$/);
+});
+
 test('a first step with a delayed directional sprite keeps a visible idle character', async ({ page }) => {
   let release!: () => void;
   const gate = new Promise<void>(resolve => { release = resolve; });

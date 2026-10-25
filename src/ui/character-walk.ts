@@ -121,7 +121,8 @@ export function createCharacterWalk(character: HTMLElement, signal: AbortSignal)
         if (!frames) { hide(); return; } // Leave the real sprite visible if canvas preparation fails.
         cache.set(facing, frames);
       }
-      const frame = Math.floor((now - started) / FRAME_MS) % STRIDE.length;
+      // A queued animation timestamp may predate the input event that started this walk.
+      const frame = Math.floor(Math.max(0, now - started) / FRAME_MS) % STRIDE.length;
       if (frame !== lastFrame) {
         // Replace the frame in one draw; never expose a clear, empty canvas.
         ctx.globalCompositeOperation = 'copy';
