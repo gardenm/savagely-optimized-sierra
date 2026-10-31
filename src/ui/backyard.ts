@@ -1,5 +1,5 @@
-import type { Dispatch } from '../game/model';
-import { backyard, HOT_DOG_LINE, updateBackyard } from '../game/rooms/backyard';
+import type { Action } from '../game/model';
+import { backyard, HOT_DOG_LINE, updateBackyard, type BackyardAction } from '../game/rooms/backyard';
 import { createInitialState } from '../game/update';
 import { createAdventureView, renderAdventure } from './adventure';
 import { required } from './dom';
@@ -30,14 +30,14 @@ export function startBackyard(root: HTMLElement): () => void {
   required<HTMLElement>(root, '[data-sound]').hidden = true;
   const restart = required<HTMLButtonElement>(root, '#reset-progress');
   restart.title = 'Restart this scene';
-  restart.addEventListener('click', answer, options);
-  required(root, '#domain-joke').addEventListener('click', answer, options);
-  // Even clicks on empty scenery keep the same response, including the upper half of the yard.
-  required(root, '#stage').addEventListener('click', answer, options);
+  restart.addEventListener('click', () => dispatch({ type: 'restart' }), options);
+  required(root, '#domain-joke').addEventListener('click', () => dispatch({ type: 'room', action: { type: 'postpone' } }), options);
 
-  function answer() { dispatch({ type: 'restart' }); }
-  function dispatch(action: Parameters<Dispatch<never>>[0]) {
-    state = updateBackyard(state, action).state;
+  function dispatch(action: Action<BackyardAction>) {
+    const result = updateBackyard(state, action);
+    state = result.state;
+    if (action.type === 'restart') view.reset();
+    for (const effect of result.effects) if (effect.type === 'walk') view.walk(effect);
     view.render(state);
   }
   view.render(state);
